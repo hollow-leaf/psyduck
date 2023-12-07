@@ -8,14 +8,10 @@ import {
   RainbowKitProvider,
   Theme,
 } from "@rainbow-me/rainbowkit";
-import type { AppProps } from "next/app";
 import { configureChains, createConfig, sepolia, WagmiConfig } from "wagmi";
 import { goerli, mainnet, polygonMumbai } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { publicProvider } from "wagmi/providers/public";
-import Navbar from "../components/navbar";
-import Footer from "../components/footer";
-import NextHead from "next/head";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [goerli],
@@ -39,7 +35,6 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 10,
-      cacheTime: 1000 * 60 * 3,
     },
   },
 });
