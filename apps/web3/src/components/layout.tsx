@@ -2,15 +2,20 @@
 
 import React from "react";
 import { ThemeProvider } from "@material-tailwind/react";
-import "@rainbow-me/rainbowkit/styles.css";
+import '@rainbow-me/rainbowkit/styles.css';
 import {
   getDefaultWallets,
   RainbowKitProvider,
   Theme,
 } from "@rainbow-me/rainbowkit";
+import type { AppProps } from "next/app";
 import { configureChains, createConfig, sepolia, WagmiConfig } from "wagmi";
 import { goerli, mainnet, polygonMumbai } from "wagmi/chains";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { publicProvider } from "wagmi/providers/public";
+import Navbar from "../components/navbar";
+import Footer from "../components/footer";
+import NextHead from "next/head";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [goerli],
@@ -30,13 +35,23 @@ const wagmiConfig = createConfig({
   webSocketPublicClient,
 });
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 10,
+      cacheTime: 1000 * 60 * 3,
+    },
+  },
+});
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains} coolMode>
-        <ThemeProvider>{children}</ThemeProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <QueryClientProvider client={queryClient}>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider chains={chains} coolMode>
+          <ThemeProvider>{children}</ThemeProvider>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </QueryClientProvider>
   )
 }
 
