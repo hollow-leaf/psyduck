@@ -1,0 +1,65 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "_eventHolder",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "_weiAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "Withdrawn",
+				"type": "event"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"interfaces/IDonateNFT.sol": "IDonateNFT"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"interfaces/IDonateNFT.sol": {
+			"keccak256": "0xce43eb0b7e24ce4e3e00b02e3854acefaaa0bcb0592ac2df05601debc155f0f2",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://58aea192f37625dfb6cf19d8d1a5d7fd71e35ab33ce8db9c13ba42e63f3b4b7c",
+				"dweb:/ipfs/QmQSbcH6hLGHSNKGPe8n44ic7JmghQMq6PTMs5ZegHhNW1"
+			]
+		}
+	},
+	"version": 1
+}
