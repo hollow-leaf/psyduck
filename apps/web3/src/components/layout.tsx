@@ -8,19 +8,21 @@ import {
   RainbowKitProvider,
   Theme,
 } from "@rainbow-me/rainbowkit";
-import { configureChains, createConfig, sepolia, WagmiConfig } from "wagmi";
-import { goerli, mainnet, polygonMumbai } from "wagmi/chains";
+import { configureChains, createConfig, WagmiConfig } from "wagmi";
+import { opBNB, opBNBTestnet } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { publicProvider } from "wagmi/providers/public";
+import Navbar from "./navbar";
+import Footer from "./footer";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [goerli],
+  [opBNBTestnet],
   [publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "Cathay Co2 App",
-  projectId: "aee029c7cbcb082fb760081017c3dec5",
+  appName: "Psyduck",
+  projectId: "966691db73928f3c8a904ea62261b457",
   chains,
 });
 
@@ -43,7 +45,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider chains={chains} coolMode>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <Navbar/>
+            {children}
+            <Footer/>
+          </ThemeProvider>
         </RainbowKitProvider>
       </WagmiConfig>
     </QueryClientProvider>
