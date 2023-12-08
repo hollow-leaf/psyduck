@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.20;
+// SPDX-License-Identifier: Apache License 2.0
+pragma solidity ^0.8.20;
 
 import {DonateNFT} from "./DonateNFT.sol";
 import {IDonateNFTFactory} from "./interfaces/IDonateNFTFactory.sol";
