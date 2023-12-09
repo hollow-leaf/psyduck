@@ -5,7 +5,6 @@ html
 }
 
 .App {
-    color: white;
     text-align: center;
 }
 
@@ -15,18 +14,6 @@ html
     width: 100%;
     padding: 3%;
 }
-
-button {
-    background-color: #04AA6D; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-  
 
 
 .top{
@@ -38,20 +25,6 @@ button {
 .toptext{
     display:flex;
     align-items: center;
-}
-
-table {
-  border:1px solid #000;
-  font-family: 微軟正黑體;
-  font-size:16px;
-  width:200px;
-  border:1px solid #000;
-  text-align:center;
-  border-collapse:collapse;
-}
-td {
-  border:1px solid #000;
-  padding:15px;
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
@@ -699,7 +672,7 @@ details summary::-webkit-details-marker {
 	display: none
 }
 
-.button-13 {
+button {
   background-color: #fff;
   border: 1px solid #d5d9d9;
   border-radius: 8px;
@@ -722,11 +695,11 @@ details summary::-webkit-details-marker {
   width: 100px;
 }
 
-.button-13:hover {
+button:hover {
   background-color: #f7fafa;
 }
 
-.button-13:focus {
+button:focus {
   border-color: #008296;
   box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
   outline: 0;

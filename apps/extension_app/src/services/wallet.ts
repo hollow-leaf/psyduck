@@ -1,9 +1,8 @@
 import { Wallet, ethers } from "ethers";
 
-export async function wallet(){
+export async function wallet(sk:string){
     
-    //const wallet = new Wallet(sk)
-    const wallet = new Wallet("")
+    const wallet = new Wallet(sk)
 
     console.log(wallet.address)
     
@@ -11,11 +10,11 @@ export async function wallet(){
 
     const signer = wallet.connect(provider)
 
-    const tx = await signer.sendTransaction({
+    /* const tx = await signer.sendTransaction({
         to: '0x3bcAbD66522534657BB86a18d3E550f3166755Fa',
         value: ethers.parseUnits('0.001', 'ether'),
     });
     console.log(tx);
-    alert(tx.hash)
+    alert(tx.hash) */
 }
 
