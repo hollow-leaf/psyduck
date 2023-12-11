@@ -4,38 +4,38 @@ import React from "react";
 import { Typography } from "@material-tailwind/react";
 
 import {
-  CursorArrowRaysIcon,
-  HeartIcon,
-  LightBulbIcon,
-  LockClosedIcon,
+  GlobeAltIcon,
+  CurrencyDollarIcon,
+  ShieldCheckIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/solid";
 
 import FeatureCard from "../components/feature-card";
 
 const FEATURES = [
   {
-    icon: CursorArrowRaysIcon,
-    title: "Expert Instructors",
+    icon: GlobeAltIcon,
+    title: "Global Access",
     children:
-      "Learn from the best. Our instructors are industry experts, academics, and seasoned professionals dedicated to helping you.",
+      "Support your favorite creators from anywhere in the world. Our platform breaks down geographical barriers to connect you directly.",
   },
   {
-    icon: HeartIcon,
-    title: "Interactive Learning",
+    icon: CurrencyDollarIcon,
+    title: "Low Transaction Fees",
     children:
-      "Engage with interactive quizzes, hands-on exercises, and discussion forums to reinforce your understanding and connect.",
+      "Enjoy the benefits of blockchain technology with minimal transaction fees, ensuring that more of your support goes directly to the creators.",
   },
   {
-    icon: LockClosedIcon,
-    title: "Achievement Unlocked",
+    icon: ShieldCheckIcon,
+    title: "Secure Transactions",
     children:
-      "Earn certificates and badges as you complete courses, showcasing your newfound skills to the world.",
+      "Experience the peace of mind that comes with blockchain's secure and transparent transaction process for each donation.",
   },
   {
-    icon: LightBulbIcon,
-    title: "Personalized Progress Tracking",
+    icon: UserGroupIcon,
+    title: "Empower Creators",
     children:
-      "Stay on top of your learning journey with progress tracking and personalized recommendations to keep you motivated.",
+      "Directly impact the livelihood of content creators. Your support helps them continue to produce the content you love.",
   },
 ];
 
@@ -44,18 +44,18 @@ export function Features() {
     <section className="py-28 px-4">
       <div className="container mx-auto mb-20 text-center">
         <Typography color="blue-gray" className="mb-2 font-bold uppercase">
-          Your Learning App
+          Stream & Reward 
         </Typography>
         <Typography variant="h1" color="blue-gray" className="mb-4">
-          Diverse Learning Resources
+          Empower Live Streaming  
         </Typography>
         <Typography
           variant="lead"
           className="mx-auto w-full px-4 !text-gray-500 lg:w-11/12 lg:px-8 "
         >
-          Access your learning materials on the go. Whether you&apos;re
-          commuting, waiting for a friend, or just have a few minutes to spare,
-          our app fits seamlessly into your busy life.
+          Unlock the potential of livestreaming with our decentralized donation platform. 
+          Empower creators and participate in a new era of digital interaction, ensuring a secure, transparent
+          , and inclusive experience.
         </Typography>
       </div>
       <div className="container mx-auto grid max-w-6xl grid-cols-1 gap-4 gap-y-12 md:grid-cols-2">
