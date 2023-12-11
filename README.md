@@ -37,7 +37,7 @@ Our solution has the following features and advantages:
 
 ### Technical Architecture
 Psyduck Architecture
-![Psyduck Architecture]()
+![Psyduck Architecture](https://github.com/hollow-leaf/psyduck/blob/feat/readme/apps/extension_app/img/Architecture.png?raw=true)
 
 Psyduck workflow
 ```mermaid
@@ -83,7 +83,7 @@ nvm use 21
 ```
 npm install && npm run build
 ```
-![](image.png)
+![](https://github.com/hollow-leaf/psyduck/blob/feat/readme/apps/extension_app/img/import_screenshot.png?raw=true)
 
 ### Contributors
 
