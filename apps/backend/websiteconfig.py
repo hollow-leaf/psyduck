@@ -1,0 +1,26 @@
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+DBPASSWORD = os.getenv("DBPASSWORD")
+
+TESTING = True
+SECRET_KEY = "project_name in flask"
+DEBUG_TB_INTERCEPT_REDIRECTS = False
+TEMPLATES_AUTO_RELOAD = True  # html debug mode
+
+# flask-mysql setting
+MYSQL_DATABASE_HOST = 'localhost'  # default
+MYSQL_DATABASE_PORT = 8889  # default
+MYSQL_DATABASE_CHARSET = 'utf8'  # default
+MYSQL_DATABASE_USER = 'zhengmacbook16'
+MYSQL_DATABASE_PASSWORD = DBPASSWORD
+MYSQL_DATABASE_DB = 'opBnBHackthon'
+
+SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI
+SQLALCHEMY_BINDS = {
+    'backend': SQLALCHEMY_DATABASE_URI
+}
+SQLALCHEMY_TRACK_MODIFICATIONS = True
+SQLALCHEMY_COMMIT_TEARDOWN = True
