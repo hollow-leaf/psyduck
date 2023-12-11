@@ -1,6 +1,3 @@
-import { useSelector } from "react-redux";
-import { wallet } from "../services/wallet"
-import { store, login } from "../store";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useDisconnect } from "wagmi";
 

@@ -1,14 +1,21 @@
 import axios from "axios";
 
-export async function getAssets() {
+const HOST = "127.0.0.1:5000"
+
+export async function getNftsByAddress(address:string) {
     try {
         const res = await axios({
             method: 'get',
-            url: `https://testnet.tonapi.io/v2/nfts/collections/EQDW1G_c_xIb2Iyzof123IAzQlY942Pl3H6XEJ_jRB2ez-Pe/items?limit=1000&offset=0`,
+            url: HOST + '/nfts',
         })
         console.log(res)
+        if(res.data){
+            return res.data
+        }
     }
     catch (err) {
         console.log("error", err);
+        return []
     }
 }
+

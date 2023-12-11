@@ -1,10 +1,12 @@
-import "./App.css"
+import './App.css'
 import { Home } from "./home";
-import {Provider, useSelector} from "react-redux";
+import {Provider} from "react-redux";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { store } from "./store";
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 import { WagmiConfig } from 'wagmi'
 import { mainnet, goerli, opBNBTestnet } from 'viem/chains'
+import { Streamer } from './components/streamer';
 
 const projectId = '966691db73928f3c8a904ea62261b457'
 
@@ -20,17 +22,28 @@ const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
 
 createWeb3Modal({ wagmiConfig, projectId, chains })
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 10,
+      cacheTime: 1000 * 60 * 3,
+    },
+  },
+});
+
 function App() {
 
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <Provider store={store}>
-        <div className="App">
-          <Home />
-        </div>
-      </Provider>
-    </WagmiConfig>
-    
+    <QueryClientProvider client={queryClient}>
+      <WagmiConfig config={wagmiConfig}>
+        <Provider store={store}>
+          <div className="App">
+            <Home />
+            <Streamer />
+          </div>
+        </Provider>
+      </WagmiConfig>
+    </QueryClientProvider>
   );
 }
 
