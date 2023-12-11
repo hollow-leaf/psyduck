@@ -89,3 +89,8 @@ npm install && npm run build
 
 - Frontend + Algorand Contract: [SoloLin](https://github.com/LinXJ1204)
 - CI/CD + Frontend: [JakeKuo](https://github.com/crypto0627)
+
+
+### Psyduck Demo
+
+![Psyduck Demo](https://github.com/hollow-leaf/psyduck/blob/feat/readme/apps/extension_app/img/demo.jpg?raw=true)
