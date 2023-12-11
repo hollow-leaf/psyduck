@@ -1,6 +1,6 @@
-import "./App.css"
+import { styles } from "./App.css"
 import { Home } from "./home";
-import {Provider, useSelector} from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { store } from "./store";
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 import { WagmiConfig } from 'wagmi'
@@ -25,7 +25,7 @@ function App() {
   return (
     <WagmiConfig config={wagmiConfig}>
       <Provider store={store}>
-        <div className="App">
+        <div className={styles}>
           <Home />
         </div>
       </Provider>
