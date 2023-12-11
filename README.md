@@ -9,13 +9,13 @@
 
 ### Demo Page
 
-- WebPage: [https://yakitate.pages.dev/]()
-- Video: [https://youtu.be/KO6caCFEfK4?si=kjPYf8c6wgFMqF-6]()
-- Psyduck Contract(Testnet): [LX6KNW6ECLJ3S7LA7Q5GNIZD72JXJHQOAHNN7SSAR73GZ6N5KEIOLGED3Y]()
+- WebPage: []()
+- Video: []()
+- Psyduck Contract(Testnet): []()
 
 ### Abstract
 
-This project presents a Chrome extension enabling viewers to donate ERC-1155 tokens, a form of non-fungible tokens (NFTs), to live streamers. Designed to integrate seamlessly with streaming platforms, the extension offers a simple, secure interface for transactions. By incorporating opBNB blockchain technology, it ensures decentralized and transparent donations. This innovation not only provides an alternative revenue stream for content creators but also enhances audience engagement. The development, user interface design, and implications for the streaming industry are discussed briefly, highlighting the potential of blockchain in digital content creation and viewer interaction.
+This project presents a Chrome extension enabling viewers to donate ERC-1155 tokens, a form of non-fungible tokens (NFTs), to live streamers. Designed to integrate seamlessly with streaming platforms, the extension offers a simple, secure interface for transactions. By incorporating opBNB and Avalanche blockchain technology, it ensures decentralized and transparent donations. This innovation not only provides an alternative revenue stream for content creators but also enhances audience engagement. The development, user interface design, and implications for the streaming industry are discussed briefly, highlighting the potential of blockchain in digital content creation and viewer interaction.
 
 ### Introduction
 
@@ -30,14 +30,14 @@ Our solution has the following features and advantages:
 
 ### Method
 
-- Use [opBNB](https://opbnb.bnbchain.org/en) to store token donation metadata
+- Use [opBNB](https://opbnb.bnbchain.org/en) and [Avalanche](https://www.avax.network/) to store token donation metadata
 - Use [Chrome Extension](https://developer.chrome.com/docs/extensions) to build web connect plugin that interacts with opBNB blockchain
 - Use [Solidity](https://soliditylang.org/) to create smart contract by Solidity
 - Use [React.js](https://react.dev/) to build chrome extension frontend
 
 ### Technical Architecture
 Psyduck Architecture
-![Psyduck Architecture](https://github.com/hollow-leaf/psyduck/blob/feat/readme/apps/extension_app/img/architecture.png?raw=true)
+![Psyduck Architecture](https://github.com/hollow-leaf/psyduck/blob/feat/readme/apps/extension_app/img/Architecture.png?raw=true)
 
 Psyduck workflow
 ```mermaid
@@ -87,5 +87,8 @@ npm install && npm run build
 
 ### Contributors
 
-- Frontend + Algorand Contract: [SoloLin](https://github.com/LinXJ1204)
-- CI/CD + Frontend: [JakeKuo](https://github.com/crypto0627)
+- Extension Frontend + Backend: [SoloLin](https://github.com/LinXJ1204)
+- CI/CD + Documentation: [JakeKuo](https://github.com/crypto0627)
+- Smart Contract: [AlbertCheng](https://github.com/cheng-chun-yuan)
+- README.MD + PowerPoint: [Sophia](https://github.com/Showyuan)
+- Leader: [JohnnyLai](https://github.com/johnny30678)
