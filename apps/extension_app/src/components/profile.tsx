@@ -9,11 +9,13 @@ export function Profile(){
     const { open } = useWeb3Modal()
 
     return(
-        <section>
-            <p>Your Address: {address}</p>
-            <Balance />
+        <>
+            <section>
+                <p>Your Address: {address}</p>
+                <Balance />
+            </section>
             <DisconnectButton />
-            <button onClick={() => open({ view: 'Networks' })}>Network</button>
-        </section>
+            <button style={{marginLeft: "25px"}} onClick={() => open({ view: 'Networks' })}>Network</button>
+        </>
     )
 }

@@ -12,6 +12,7 @@ html
     width: 100%;
     padding: 3%;
 	background: linear-gradient(to left, #8360c3, #2ebf91);
+	min-height: 400px;
 }
 
 
