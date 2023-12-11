@@ -1,67 +1,49 @@
-// SPDX-License-Identifier: Apache License 2.0
-pragma solidity ^0.8.20;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.0;
 
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import {ERC1155} from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
+import {IERC20} from "@openzeppelin/contracts@v4.9.3/token/ERC20/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts@v4.9.3/token/ERC20/utils/SafeERC20.sol";
+import {ERC1155} from "@openzeppelin/contracts@v4.9.3/token/ERC1155/ERC1155.sol";
+import {Ownable} from "@openzeppelin/contracts@v4.9.3/access/Ownable.sol";
+import {Strings} from "@openzeppelin/contracts@v4.9.3/utils/Strings.sol";
 import {IDonateNFT} from "./interfaces/IDonateNFT.sol";
 
 contract DonateNFT is ERC1155, Ownable, IDonateNFT {
     IERC20 public asset; // the asset used to mint DonateNFTs
-    string[] public names; // string array of names
-    uint256[] public ids; // uint array of ids
-    uint256[] public mintPrices;
-    uint256[] public maxSupplys;
+    struct NFT {
+        uint256 mintPrice;
+        uint256 maxSupply;
+        string name;
+        string metadataURI;
+    }
+
+    NFT[] public nfts;
 
     address immutable EVENT_HOLDER; // the address of the event holder
-    string public baseMetadataURI; // the token metadata URI
-    string public name; // the token mame
-
+    string public contractName; // the token mame
+    uint256 number;
     mapping(string => uint256) public nameToId; // name to id mapping
-    mapping(uint256 => string) public idToName; // id to name mapping
-    mapping(uint256 => uint256) public idToPrice; // id to price mapping
     mapping(uint256 => uint256) public totalSupply; // id to supply mapping
 
-    bool public isEventOpen;
+    // Counter for the next token ID
 
     constructor(
         address _eventHolder,
         address _asset,
-        string memory _contractName,
-        string memory _baseURI,
-        uint256[] memory _mintPrices,
-        uint256[] memory _maxSupplys,
-        string[] memory _names,
-        uint256[] memory _ids
-    ) ERC1155(_baseURI) Ownable(msg.sender) {
+        string memory _contractName
+    ) ERC1155('') {
         require(_asset != address(0), "DonateNFT: asset is zero address");
         require(_eventHolder != address(0), "DonateNFT: event holder is zero address");
         EVENT_HOLDER = _eventHolder;
         asset = IERC20(_asset);
-        names = _names;
-        ids = _ids;
-        mintPrices = _mintPrices;
-        maxSupplys = _maxSupplys;
-        createMapping();
-        setURI(_baseURI);
-        baseMetadataURI = _baseURI;
-        name = _contractName;
-    }
-
-    /*
-    used to change metadata, only owner access
-    */
-    function setURI(string memory _newURI) public onlyOwner {
-        _setURI(_newURI);
+        contractName = _contractName;
     }
 
     /*
     set a mint fee. only used for mint, not batch.
     */
     function setPriceById(uint256 _id, uint256 _price) public onlyOwner {
-        idToPrice[_id] = _price;
+        nfts[_id].mintPrice = _price;
     }
 
     /*
@@ -76,10 +58,10 @@ contract DonateNFT is ERC1155, Ownable, IDonateNFT {
         onlyDonateNFTFactory
         returns (uint256)
     {
-        require(totalSupply[_id] + amount <= maxSupplys[_id], "DonateNFT: max supply exceeded");
+        require(totalSupply[_id] + amount <= nfts[_id].maxSupply, "DonateNFT: max supply exceeded");
         totalSupply[_id] += amount;
         // transfer asset to contract
-        SafeERC20.safeTransferFrom(asset, _receiver, address(this), idToPrice[_id] * amount);
+        SafeERC20.safeTransferFrom(asset, _receiver, address(this), nfts[_id].mintPrice * amount);
         _mint(_receiver, _id, amount, "");
         return _id;
     }
@@ -98,9 +80,9 @@ contract DonateNFT is ERC1155, Ownable, IDonateNFT {
     {
         uint256 totalPrice = 0;
         for (uint256 i = 0; i < _ids.length; ++i) {
-            require(totalSupply[_ids[i]] + amounts[i] <= maxSupplys[_ids[i]], "DonateNFT: max supply exceeded");
+            require(totalSupply[_ids[i]] + amounts[i] <= nfts[_ids[i]].maxSupply, "DonateNFT: max supply exceeded");
             totalSupply[_ids[i]] += amounts[i];
-            totalPrice += idToPrice[_ids[i]] * amounts[i];
+            totalPrice += nfts[_ids[i]].mintPrice * amounts[i];
         }
 
         SafeERC20.safeTransferFrom(asset, _receiver, address(this), totalPrice);
@@ -112,7 +94,7 @@ contract DonateNFT is ERC1155, Ownable, IDonateNFT {
         onlyDonateNFTFactory
         returns (uint256 refundAmount)
     {
-        refundAmount = idToPrice[_id];
+        refundAmount = nfts[_id].mintPrice;
         _burn(_burner, _id, _amount);
         // approve asset to DonateNFTFactory
         asset.approve(msg.sender, refundAmount);
@@ -126,7 +108,7 @@ contract DonateNFT is ERC1155, Ownable, IDonateNFT {
     {
         refundAmount = 0;
         for (uint256 i = 0; i < _ids.length; ++i) {
-            refundAmount += idToPrice[_ids[i]] * _amounts[i];
+            refundAmount += nfts[_ids[i]].mintPrice * _amounts[i];
         }
         _burnBatch(_burner, _ids, _amounts);
         // approve asset to DonateNFTFactory
@@ -138,17 +120,27 @@ contract DonateNFT is ERC1155, Ownable, IDonateNFT {
     function withdraw() public {
         require(msg.sender == EVENT_HOLDER, "DonateNFT: caller is not the event holder");
         // transfer asset to event holder
-        emit Withdrawn(EVENT_HOLDER, asset.balanceOf(address(this)));
+        emit Withdraw(EVENT_HOLDER, asset.balanceOf(address(this)));
         SafeERC20.safeTransfer(asset, EVENT_HOLDER, asset.balanceOf(address(this)));
     }
 
-    // sets our URI and makes the ERC1155 OpenSea compatible
-    function uri(uint256 _tokenid) public view override returns (string memory) {
-        return string(abi.encodePacked(baseMetadataURI, Strings.toString(_tokenid), ".json"));
+    function addNewNFT(address _minter ,uint256 _mintPrice, uint256 _maxSupply, string memory _name, string memory _metadataURI) public onlyDonateNFTFactory returns (uint256 id){
+        require(_minter == EVENT_HOLDER, "DonateNFT: caller is not the event holder");
+        NFT memory newNFT;
+        newNFT = NFT({
+                mintPrice: _mintPrice,
+                maxSupply: _maxSupply,
+                name: _name,
+                metadataURI: _metadataURI
+            });
+        nfts.push(newNFT);
+        id = nfts.length - 1;
+        nameToId[_name] = id;
     }
 
-    function getNames() public view returns (string[] memory) {
-        return names;
+    // sets our URI and makes the ERC1155 OpenSea compatible
+    function uri(uint256 _tokenId) public view override returns (string memory) {
+        return nfts[_tokenId].metadataURI;
     }
 
     //** Modifier
@@ -156,14 +148,5 @@ contract DonateNFT is ERC1155, Ownable, IDonateNFT {
     modifier onlyDonateNFTFactory() {
         require(msg.sender == owner(), "DonateNFT: caller is not the owner");
         _;
-    }
-
-    // creates a mapping of strings to ids (i.e ["one","two"], [1,2] - "one" maps to 1, vice versa.)
-    function createMapping() private {
-        for (uint256 id = 0; id < ids.length; id++) {
-            nameToId[names[id]] = ids[id];
-            idToName[ids[id]] = names[id];
-            idToPrice[ids[id]] = mintPrices[id];
-        }
     }
 }
