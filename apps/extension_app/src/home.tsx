@@ -5,16 +5,16 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 export function Home(){
     const { isDisconnected } = useAccount()
-    const { open } = useWeb3Modal()
     
-
     if (!isDisconnected) return (
-        <div>
+        <section>
             <Profile />
-            <DisconnectButton />
-            <button onClick={() => open({ view: 'Networks' })}>Network</button>
-        </div>
+        </section>
     )
 
-    return <ConnectButton />
+    return (
+        <section>
+            <ConnectButton />
+        </section>
+    )
 }
