@@ -1,29 +1,32 @@
 import { useQuery } from "@tanstack/react-query";
 import Loading from "./loading";
 import { StreamerType } from "../type"
-import { getNftsByAddress } from "../services/api";
-import { NftItem } from "./nftItem";
+import { getNftcsByUserId } from "../services/api";
+import { NftSaleItem } from "./nftSaleItem";
 
 export function Streamer(props:any){
 
     const { isLoading, error, data } = useQuery({
         queryKey: ["getStreamer"],
         queryFn: () =>
-          streamer().then(res=>{
+          streamer().then(async res=>{
             if(res.id==""){
                 return res
             }
+            
+            res.nftList = await getNftcsByUserId(res.id).then(rres=>{
+                var nfts: { nftId: any; creator: any; price: any; url: string; name: any; supply: any; }[] = []
+                console.log(rres)
 
-            //TODO
-            /* getNftsByAddress(res.address).then(r=>{
-                if(r){
-                    res.nftList = r
-                }
-                return res
-            }) */
-
-            //only for test
-            res.nftList = [{nftId:"a", creator:"0xsdasda", price:100, url:""},{nftId:"b", creator:"0xsdasda", price:500, url:""},{nftId:"c", creator:"0xsdasda", price:10, url:""}]
+                res.address = rres[0].creator
+                rres.map((item:any)=>{
+                    console.log(item)
+                    nfts.push({nftId: item.nftID, creator: item.creator, price: item.price , url:"", name: item.name, supply: item.Supply})
+                })
+                
+                return nfts
+            }).catch(e=>{return []})
+            
             return res
           })
     });
@@ -31,7 +34,7 @@ export function Streamer(props:any){
     if(isLoading||error) return <Loading/ >;
 
     if(data){
-        if(data.address==""||data.id==""){
+        if(data.id==""){
             return
         }else{
             return (
@@ -42,7 +45,7 @@ export function Streamer(props:any){
                         <>
                             {data.nftList.map((item:any)=>{
                                 return (
-                                    <NftItem nftId={item.nftId} creator={item.creator} price={item.price} url={item.url} />
+                                    <NftSaleItem nftId={item.nftId} creator={item.creator} price={item.price} url={item.url} name={item.name} supply={item.supply} />
                                 )
                             })}
                         </>
@@ -70,9 +73,6 @@ async function streamer():Promise<StreamerType>{
     }
     
     streamer.id = url2StreamerId(tabs[0].url)
-
-    //TODO: contract function
-    streamer.address = "0x"
 
     return streamer
 }

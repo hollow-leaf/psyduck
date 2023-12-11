@@ -1,16 +1,45 @@
 import axios from "axios";
 
-const HOST = "127.0.0.1:5000"
+const HOST = "http://127.0.0.1:5000"
 
-export async function getNftsByAddress(address:string) {
+export async function getNftcsByUserId(userId:string) {
     try {
-        const res = await axios({
-            method: 'get',
-            url: HOST + '/nfts',
-        })
-        console.log(res)
-        if(res.data){
-            return res.data
+
+        let form = new FormData()
+        form.append("userId", userId)
+
+        const res = await fetch(HOST + '/nftc', {
+            method: 'POST',
+            body: form
+          })
+        if(res){
+            const rres = await res.json()
+            return rres.data
+        }else{
+            return []
+        }
+    }
+    catch (err) {
+        console.log("error", err);
+        return []
+    }
+}
+
+export async function getNftosByAddress(address:string) {
+    try {
+
+        let form = new FormData()
+        form.append("address", address)
+
+        const res = await fetch(HOST + '/nfto', {
+            method: 'POST',
+            body: form
+          })
+        if(res){
+            const rres = await res.json()
+            return rres.data
+        }else{
+            return []
         }
     }
     catch (err) {

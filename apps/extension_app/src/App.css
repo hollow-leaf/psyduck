@@ -4,6 +4,10 @@ html
     height: 400px; /* max: 750px */
 }
 
+body{
+	background: linear-gradient(to left, #8360c3, #2ebf91);
+}
+
 .App {
     text-align: center;
 }
