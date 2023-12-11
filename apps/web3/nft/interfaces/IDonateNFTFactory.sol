@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.20;
+pragma solidity ^0.8.0;
 
 import {IDonateNFTFactoryEvent} from "./IDonateNFTFactoryEvent.sol";
 
@@ -30,13 +30,8 @@ interface IDonateNFTFactory is IDonateNFTFactoryEvent {
     function setGlobals(address _globals) external;
 
     function createEvent(
-        address _asset,
-        string memory _contractName,
-        string memory _baseURI,
-        uint256[] memory _mintAmounts,
-        uint256[] memory _mintPrices,
-        string[] memory _names,
-        uint256[] memory _ids
+        address _eventHolder,
+        string memory _contractName
     ) external returns (address _eventAddress, uint256 _eventId);
 
     function mintEventDonateNFT(uint256 _eventId, string memory _name, uint256 _amount) external;
@@ -55,11 +50,6 @@ interface IDonateNFTFactory is IDonateNFTFactoryEvent {
         external
         returns (uint256 refundAmount);
 
-    function refundBatchEventDonateNFT(uint256 _eventId, string[] memory _names, uint256[] memory _amounts)
-        external
-        returns (uint256 refundAmount);
+    function addNewERC1155(uint256 _eventId,uint256 _mintPrice, uint256 _maxSupply, string memory _name, string memory _metadataURI) external;
 
-    function refundBatchEventDonateNFT(uint256 _eventId, uint256[] memory _tokenIds, uint256[] memory _amounts)
-        external
-        returns (uint256 refundAmount);
 }

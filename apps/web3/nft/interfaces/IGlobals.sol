@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.20;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.0;
 
 interface IGlobals {
     //** events */
@@ -9,7 +9,7 @@ interface IGlobals {
 
     //** allow list function */
 
-    function setValidEventHolder(address _eventHolder, bool _isValid) external;
+    function setValidEventHolder(string memory _userId, bool _isValid) external;
 
     //** view function */
     function governor() external view returns (address);
@@ -18,4 +18,6 @@ interface IGlobals {
 
     //** Governor Transfer Functions */
     function transferGovernor(address _newGovernor) external;
+
+    function setDonateNFTFactory(address _donateNFTFactory) external;
 }
