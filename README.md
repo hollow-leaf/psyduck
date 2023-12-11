@@ -1,7 +1,7 @@
 <div align="center">
 <h1>Psyduck</h1>
 
-<img src="https://raw.githubusercontent.com/hollow-leaf/psyduck/apps/extension_app/img/psyduck_logo.svg" width="50%" height="50%"></img>
+<img src="https://raw.githubusercontent.com/hollow-leaf/psyduck/3784f3adc93620e32ab2c2a275b1bc2cfac30834/apps/extension_app/img/psyduck_logo.svg" width="50%" height="50%"></img>
 
 [![Frontend deploy](https://github.com/hollow-leaf/psyduck/actions/workflows/ghpage.yml/badge.svg?branch=main)](https://github.com/hollow-leaf/psyduck/actions/workflows/ghpage.yml)
 
