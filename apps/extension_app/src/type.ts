@@ -9,4 +9,6 @@ export type NftType = {
     price: number,
     url: string,
     creator: string
+    name: string
+    supply: number
 }

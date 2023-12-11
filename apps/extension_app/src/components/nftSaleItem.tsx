@@ -2,7 +2,7 @@ import { NftType } from "../type";
 import { formatAddress } from "../utils/stingify";
 
 
-export function NftItem(props:NftType){
+export function NftSaleItem(props:NftType){
 
     return (
         <div>
@@ -31,7 +31,7 @@ export function NftItem(props:NftType){
                     </svg>
                 </span>
                 <h4>ID: {props.nftId}</h4>
-                <h4>Name: {props.name}</h4>
+                <h4>Price: {props.price}</h4>
                 <h4>Creator: {formatAddress(props.creator)}</h4>
                 <div className="shine"></div>
                 <div className="background">

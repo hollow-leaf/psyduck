@@ -4,12 +4,10 @@ import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 export function Home(){
-    const { isDisconnected } = useAccount()
+    const { isDisconnected, address } = useAccount()
     
-    if (!isDisconnected) return (
-        <section>
-            <Profile />
-        </section>
+    if (!isDisconnected&&address) return (
+        <Profile address={address} />
     )
 
     return (

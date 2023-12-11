@@ -31,7 +31,7 @@ export async function buyNftByNftId(nftId:number, amount:number){
         address: DonateNFTADDRESS,
         abi: DonateNFTABI,
         functionName: 'mintEventDonateNFT',
-        args: [nftId, 0, amount],
+        args: [nftId, 0, 1],
     })
 
     return hash
