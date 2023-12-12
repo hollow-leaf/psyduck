@@ -5,10 +5,11 @@ export type StreamerType = {
 }
 
 export type NftType = {
-    nftId: string,
+    nftId: number,
     price: number,
     url: string,
     creator: string
     name: string
     supply: number
+    eventId: number
 }

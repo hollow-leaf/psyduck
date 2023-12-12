@@ -15,13 +15,13 @@ export function Streamer(props:any){
             }
             
             res.nftList = await getNftcsByUserId(res.id).then(rres=>{
-                var nfts: { nftId: any; creator: any; price: any; url: string; name: any; supply: any; }[] = []
+                var nfts: { nftId: any; creator: any; price: any; url: string; name: any; supply: any; eventId:any;}[] = []
                 console.log(rres)
 
                 res.address = rres[0].creator
                 rres.map((item:any)=>{
                     console.log(item)
-                    nfts.push({nftId: item.nftID, creator: item.creator, price: item.price , url:"", name: item.name, supply: item.Supply})
+                    nfts.push({eventId: item.eventId, nftId: item.nftID, creator: item.creator, price: item.price , url:"", name: item.name, supply: item.Supply})
                 })
                 
                 return nfts
@@ -45,7 +45,7 @@ export function Streamer(props:any){
                         <>
                             {data.nftList.map((item:any)=>{
                                 return (
-                                    <NftSaleItem nftId={item.nftId} creator={item.creator} price={item.price} url={item.url} name={item.name} supply={item.supply} />
+                                    <NftSaleItem eventId={item.eventId} nftId={item.nftId} creator={item.creator} price={item.price} url={item.url} name={item.name} supply={item.supply} />
                                 )
                             })}
                         </>

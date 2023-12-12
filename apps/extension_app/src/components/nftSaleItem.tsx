@@ -1,18 +1,19 @@
+import { buyNftByNftId } from "../services/contract";
 import { NftType } from "../type";
 import { formatAddress } from "../utils/stingify";
+import { useAccount } from "wagmi"
 
 
 export function NftSaleItem(props:NftType){
+    const { address, isConnected } = useAccount()
 
     return (
         <div>
             <div className="card" onClick={() => {
-                if (document) {
-                    (
-                    document.getElementById(
-                        `my_modal_${props.nftId}`
-                    ) as HTMLFormElement
-                    ).showModal();
+                if(isConnected){
+                    if(address){
+                        buyNftByNftId(address, props.eventId, props.nftId, 1, props.price)
+                    }
                 }
             }}>
                 <span className="icon">
