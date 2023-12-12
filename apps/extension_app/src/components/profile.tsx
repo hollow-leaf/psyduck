@@ -6,6 +6,7 @@ import { useWeb3Modal } from "@web3modal/wagmi/react"
 import { getNftosByAddress } from "../services/api"
 import Loading from "./loading"
 import { NftItem } from "./nftItem"
+import { ERC20Faucet } from "../services/contract"
 
 export function Profile(props:any){
 
@@ -51,6 +52,7 @@ export function Profile(props:any){
                         </section>
                         <DisconnectButton />
                         <button style={{marginLeft: "25px"}} onClick={() => open({ view: 'Networks' })}>Network</button>
+                        {address&&<button style={{marginLeft: "25px"}} onClick={() => ERC20Faucet(address?.toString(), 1000)}>Faucet</button>}
                     </section>
                     <section>
                         <h1>My NFT Collection</h1>
@@ -76,6 +78,7 @@ export function Profile(props:any){
                 </section>
                 <DisconnectButton />
                 <button style={{marginLeft: "25px"}} onClick={() => open({ view: 'Networks' })}>Network</button>
+                {address&&<button style={{marginLeft: "25px"}} onClick={() => ERC20Faucet(address?.toString(), 1000)}>Faucet</button>}
             </section>
         </> 
     )
