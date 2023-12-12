@@ -109,52 +109,54 @@ def update_opbnb():
     }
 
     try:
-        response = requests.post(URL, json=payload, headers=headers).json()['result'][0]
+        responses = requests.post(URL, json=payload, headers=headers).json()['result']
     except:
         blockHaveUpdated(nowBlock)
         return
 
-    receipt = getTxReceiptByHash(response['transactionHash'])
-    logs = receipt["logs"]
+    for response in responses:
 
-    for log in logs:
-        contract = web3.eth.contract("0x739a7eF123E3b716605099cbC9A79fcE695E504f", abi=factoryABI)
-        top0 = hexbytes.HexBytes(log["topics"][0])
-        receipt_event_signature_hex = Web3.toHex(top0)
-        abi_events = [abi for abi in contract.abi if abi["type"] == "event"]
+        receipt = getTxReceiptByHash(response['transactionHash'])
+        logs = receipt["logs"]
 
-        for event in abi_events:
-            # Get event signature components
-            name = event["name"]
-            inputs = [param["type"] for param in event["inputs"]]
-            inputs = ",".join(inputs)
-            # Hash event signature
-            event_signature_text = f"{name}({inputs})"
-            event_signature_hex = Web3.toHex(Web3.keccak(text=event_signature_text))
-            # Find match between log's event signature and ABI's event signature
-            if event_signature_hex == receipt_event_signature_hex:
-                # Decode matching log
-                try:
-                    decoded_logs = contract.events[event["name"]]().processReceipt(receipt)
-                    event_name = decoded_logs[0]['event']
-                    event_info = decoded_logs[0]['args']
-                    print(event_name, event_info)
-                    if (event_name == "ERC1155Created"):
-                        create_new_creator(event_info['_owner'], event_info['eventId'], 1, event_info['name'])
-                    if (event_name == "ERC1155AddNewNFT"):
-                        eventId = event_info['_eventId']
-                        tokenId = event_info['id']
-                        maxSupply = event_info['_maxSupply']
-                        price = event_info['_mintPrice']
-                        name = event_info['_name']
-                        create_nft(eventId, tokenId, price, name, maxSupply)
-                    if (event_name == "ERC1155Minted"):
-                        owner = event_info['_minter']
-                        id = event_info['_tokenId']
-                        eventId = event_info['_eventId']
-                        buy_new_nft(eventId, id, owner)
-                except:
-                    print()
+        for log in logs:
+            contract = web3.eth.contract("0x739a7eF123E3b716605099cbC9A79fcE695E504f", abi=factoryABI)
+            top0 = hexbytes.HexBytes(log["topics"][0])
+            receipt_event_signature_hex = Web3.toHex(top0)
+            abi_events = [abi for abi in contract.abi if abi["type"] == "event"]
+
+            for event in abi_events:
+                # Get event signature components
+                name = event["name"]
+                inputs = [param["type"] for param in event["inputs"]]
+                inputs = ",".join(inputs)
+                # Hash event signature
+                event_signature_text = f"{name}({inputs})"
+                event_signature_hex = Web3.toHex(Web3.keccak(text=event_signature_text))
+                # Find match between log's event signature and ABI's event signature
+                if event_signature_hex == receipt_event_signature_hex:
+                    # Decode matching log
+                    try:
+                        decoded_logs = contract.events[event["name"]]().processReceipt(receipt)
+                        event_name = decoded_logs[0]['event']
+                        event_info = decoded_logs[0]['args']
+                        print(event_name, event_info)
+                        if (event_name == "ERC1155Created"):
+                            create_new_creator(event_info['_owner'], event_info['eventId'], 1, event_info['name'])
+                        if (event_name == "ERC1155AddNewNFT"):
+                            eventId = event_info['_eventId']
+                            tokenId = event_info['id']
+                            maxSupply = event_info['_maxSupply']
+                            price = event_info['_mintPrice']
+                            name = event_info['_name']
+                            create_nft(eventId, tokenId, price, name, maxSupply)
+                        if (event_name == "ERC1155Minted"):
+                            owner = event_info['_minter']
+                            id = event_info['_tokenId']
+                            eventId = event_info['_eventId']
+                            buy_new_nft(eventId, id, owner)
+                    except:
+                        print()
     blockHaveUpdated(nowBlock)
 
 
