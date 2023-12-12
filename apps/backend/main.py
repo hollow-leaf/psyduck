@@ -1,7 +1,9 @@
+import os
 from flask import Flask, request
 from flask_cors import CORS
-from blockchain.blockchain import *
+from blockchain import *
 import axios
+from dotenv import load_dotenv
 
 load_dotenv()
 SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
