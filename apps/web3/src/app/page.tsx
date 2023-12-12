@@ -2,7 +2,7 @@
 import Hero from "./hero";
 import VideoIntro from "./video-intro";
 import Feature from "./feature";
-import MobileConvenience from "./mobile-convenience";
+import DecentralizedDonationAdvantages from "./decentralizedDonationAdvantages";
 import Testimonials from "./testimonials";
 import Faqs from "./faqs";
 
@@ -10,10 +10,10 @@ export default function Campaign() {
   return (
     <>
       <Hero />
-      <VideoIntro />
+      {/* <VideoIntro /> */}
       <Feature />
-      <MobileConvenience />
-      <Testimonials />
+      <DecentralizedDonationAdvantages />
+      {/* <Testimonials /> */}
       <Faqs />
     </>
   );
