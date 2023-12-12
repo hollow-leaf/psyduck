@@ -19,7 +19,20 @@ This project presents a Chrome extension enabling viewers to donate ERC-1155 tok
 
 ### Introduction
 
-This project envisions revolutionizing viewer-streamer interactions in live streaming platforms through a Chrome extension that enables donations using ERC-1155 tokens. By leveraging blockchain technology, it aims to enhance viewer engagement and provide content creators with a novel and transparent revenue stream.
+This project envisions revolutionizing viewer-streamer interactions in live streaming platforms through a Chrome extension that enables donations using ERC-1155 tokens. By leveraging blockchain technology, it aims to enhance viewer engagement and provide content creators with a novel and transparent revenue stream.Blockchain technology provide:
+
+- Increase Transparency: Blockchain's transparency allows audiences to clearly see how their donations, purchases, or participation are processed and utilized, enhancing trust and willingness to engage.
+
+- Create New Interactive Methods: Utilizing blockchain, unique digital assets (e.g., NFTs) can be created, serving as rewards for audience participation. These assets may include digital art, limited-edition content, or exclusive access to specific events.
+
+- Provide Unique Rewards and Incentives: Blockchain enables the design of unique reward mechanisms for audience participation, such as cryptocurrency rewards, ranking systems, or NFTs proving their engagement.
+
+- Ensure Transaction Security and Decentralization: Blockchain's security and decentralization ensure the safety of user data and transactions, increasing audience desire to use blockchain-based platforms.
+
+- Use of Smart Contracts: Smart contracts automate many interaction processes, such as donation execution, voting, or other forms of audience participation. This automation not only improves efficiency but also enhances the attractiveness of participation.
+
+- Enhance Community and Belonging: By creating a shared, decentralized community experience, blockchain helps audiences feel integral to the community, boosting their engagement and loyalty.
+
 
 Our solution has the following features and advantages:
 
@@ -32,12 +45,12 @@ Our solution has the following features and advantages:
 
 - Use [opBNB](https://opbnb.bnbchain.org/en) and [Avalanche](https://www.avax.network/) to store token donation metadata
 - Use [Chrome Extension](https://developer.chrome.com/docs/extensions) to build web connect plugin that interacts with opBNB blockchain
-- Use [Solidity](https://soliditylang.org/) to create smart contract by Solidity
+- Use [Solidity](https://soliditylang.org/) to create smart contract
 - Use [React.js](https://react.dev/) to build chrome extension frontend
 
 ### Technical Architecture
 Psyduck Architecture
-![Psyduck Architecture](https://github.com/hollow-leaf/psyduck/blob/feat/readme/apps/extension_app/img/Architecture.png?raw=true)
+![Psyduck Architecture](https://github.com/hollow-leaf/psyduck/blob/feat/readme/apps/extension_app/img/Architecture.jpg?raw=true)
 
 Psyduck workflow
 ```mermaid
