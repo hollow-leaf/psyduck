@@ -94,10 +94,11 @@ def blockHaveUpdated(block):
         newUser = User()
         newUser.address = "blockNow"
         newUser.isStreamer = 0
+        newUser.userId = "0xec7186"
         db.session.add(newUser)
         db.session.commit()
     adjust_user = user[0]
-    adjust_user.isStreamer = block
+    adjust_user.userId = block
     db.session.add(adjust_user)
     db.session.commit()
 
@@ -107,7 +108,8 @@ def block2Update():
         newUser = User()
         newUser.address = "blockNow"
         newUser.isStreamer = 0
+        newUser.userId = "0xec7186"
         db.session.add(newUser)
         db.session.commit()
-        return newUser.isStreamer
-    return user[0].isStreamer
+        return newUser.userId
+    return user[0].userId
