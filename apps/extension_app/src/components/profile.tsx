@@ -54,11 +54,13 @@ export function Profile(props:any){
                     </section>
                     <section>
                         <h1>My NFT Collection</h1>
+                        <div className="nftTable">
                         {data.map((item:any)=>{
                             return (
-                                <NftItem nftId={item.nftId} creator={item.creator} price={0} url={""} name={item.name} supply={0} />
+                                <NftItem eventId={0} nftId={item.nftId} creator={item.creator} price={0} url={""} name={item.name} supply={0} />
                             )
                         })}
+                        </div>
                     </section>
                 </>
                 
