@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Typography } from "@material-tailwind/react";
+import { register } from "@/service/contract";
+
 type NFT = {
     mintPrice: number,
     maxSupply: number,
@@ -22,6 +24,7 @@ export default function Donations() {
         e.preventDefault();
         let data = { name };
         console.log(data);
+        register(data.name)
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -59,13 +62,13 @@ export default function Donations() {
                 <div className="flex flex-wrap mx-4 ">
                     {/* Left Column: Create Contract */}
                     <div className="w-[80%] md:w-1/2 px-4 py-4 border border-blue-500 rounded-xl">
-                        <h2 className="text-2xl font-bold mb-4 text-center">Create Contract</h2>
+                        <h2 className="text-2xl font-bold mb-4 text-center">Streamer Register</h2>
                         <form onSubmit={handleSubmitName} className="text-left">
                             {/* Form elements for creating contract */}
                             <label>Get Started : </label><br />
                             <input
                                 type="text"
-                                placeholder="Donantion Name"
+                                placeholder="Your Stream Id"
                                 onChange={(e) => setName(e.target.value)}
                                 className="my-4 text-center"
                             />
@@ -75,7 +78,7 @@ export default function Donations() {
                                 type="submit"
                                 className="mt-4 bg-blue-500 text-white border border-blue-700 hover:bg-blue-600 px-4 py-2 rounded"
                             >
-                                Create Contract
+                                Streamer Register
                             </button>
                         </form>
                     </div>
