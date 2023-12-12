@@ -44,7 +44,7 @@ def getNftO():
 @app.route('/update')
 def updatedata():
 
-    update()
+    update_opbnb()
 
     return ""
 
