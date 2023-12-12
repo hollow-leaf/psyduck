@@ -1,9 +1,9 @@
 import { writeContract, readContract } from '@wagmi/core';
 import { FactoryABI, ERC20ABI, GlobalABI } from './contractAbi';
 
-const FactoryADDRESS = "0xb2d2108Fa30b0a001998474CA7cd1670c85F4f7D"
-const ERC20ADDRESS = "0x1E2DCCDfa8a3fc10669f81f2Ce6b7F425983cfE2"
-const GlobalADDRESS = "0x0191343b0e4C72B5F3539C5Ed4b3F36B3699bdb0"
+const FactoryADDRESS = '0x739a7eF123E3b716605099cbC9A79fcE695E504f';
+const ERC20ADDRESS = '0x0CBA6A073f8d2cf62d2FD47e219cc33b85559d3b'
+const GlobalADDRESS = '0xA176b79Eb74826AE9AE785399a04c689f812Dd46'
 
 export async function eventId2Address(eventId:number){
     

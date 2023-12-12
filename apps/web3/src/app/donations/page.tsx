@@ -1,8 +1,9 @@
 "use client";
+import { useAccount } from 'wagmi'
 import React, { useState } from "react";
 import { Typography } from "@material-tailwind/react";
 import { register } from "@/service/contract";
-
+import { useContractRead, useContractWrite } from "wagmi";
 type NFT = {
     mintPrice: number,
     maxSupply: number,
@@ -18,6 +19,7 @@ const nftTemplate: NFT = {
 };
 
 export default function Donations() {
+    const { address, isConnecting, isDisconnected } = useAccount()
     const [nft, setNft] = useState<NFT>(nftTemplate);
     const [name, setName] = useState<string>('');
     const handleSubmitName = async (e: React.FormEvent) => {
@@ -26,6 +28,7 @@ export default function Donations() {
         console.log(data);
         register(data.name)
     };
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
