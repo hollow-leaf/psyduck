@@ -3,6 +3,7 @@ import Loading from "./loading";
 import { StreamerType } from "../type"
 import { getNftcsByUserId } from "../services/api";
 import { NftSaleItem } from "./nftSaleItem";
+import { register } from "../services/contract";
 
 export function Streamer(props:any){
 
@@ -40,6 +41,7 @@ export function Streamer(props:any){
             return (
                 <section>
                     <h1>{data.id}</h1>
+                    <button onClick={() => register(data.id)}>Register</button>
                     <h1>NFT List</h1>
                     <div className="nftTable">
                         <>
