@@ -1,9 +1,9 @@
 import { writeContract, readContract } from '@wagmi/core';
 import { FactoryABI, ERC20ABI, GlobalABI } from './contractAbi';
 
-const FactoryADDRESS = "0xb2d2108Fa30b0a001998474CA7cd1670c85F4f7D"
-const ERC20ADDRESS = "0x1E2DCCDfa8a3fc10669f81f2Ce6b7F425983cfE2"
-const GlobalADDRESS = "0x0191343b0e4C72B5F3539C5Ed4b3F36B3699bdb0"
+const FactoryADDRESS = "0x5360d0Bb8Eb03C7C988b2D3B9162028e287b63A2"
+const ERC20ADDRESS = "0x92b9Ff2903F668B1C715cC8079e2ebC2D39ba4b7"
+const GlobalADDRESS = "0x18b91197D9FA2b39d6118D0dB5c8f1C049eCe350"
 
 export async function eventId2Address(eventId:number){
     
@@ -68,7 +68,7 @@ export async function register(userId:string){
     return hash
 }
 
-export async function createNewNft(name:string, eventId:number, supply:number, price:number){
+export async function createNewNft(eventId:number, price:number, supply:number, name:string ){
     alert("Approve transaction on your device!")
 
     const { hash } = await writeContract({

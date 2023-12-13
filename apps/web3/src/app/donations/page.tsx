@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { Typography } from "@material-tailwind/react";
-import { register } from "@/service/contract";
+import { register, createNewNft } from "@/service/contract";
 
 type NFT = {
+    eventId: number,
     mintPrice: number,
     maxSupply: number,
     metadataURI: string | null,
@@ -11,6 +12,7 @@ type NFT = {
 };
 
 const nftTemplate: NFT = {
+    eventId: 0,
     mintPrice: 0,
     maxSupply: 0,
     metadataURI: 'hahaha',
@@ -38,6 +40,7 @@ export default function Donations() {
             // Additional logic for handling file upload and other functionalities
         }
         console.log(data);
+        createNewNft(data.eventId, data.mintPrice, data.maxSupply, data.name);
     };
 
     return (
@@ -87,6 +90,13 @@ export default function Donations() {
                     <div className="w-[80%] md:w-1/2 px-4 py-4 border border-blue-500 rounded-xl">
                         <h2 className="text-2xl font-bold mb-4 text-center">Add New NFT</h2>
                         <form onSubmit={handleSubmit} className="text-left">
+                            <label>EventId : </label>
+                            <input
+                                type="number"
+                                placeholder="EventId"
+                                onChange={(e) => setNft({ ...nft, eventId: parseInt(e.target.value) })}
+                            />
+                            <br />
                             <label>MintPrice : </label>
                             <input
                                 type="number"

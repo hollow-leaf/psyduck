@@ -16,26 +16,6 @@ const nftTemplate: NFT = {
 };
 
 export default function History() {
-    const [nft, setNft] = useState<NFT>(nftTemplate);
-    const [name, setName] = useState<string>('');
-    const handleSubmitName = async (e: React.FormEvent) => {
-        e.preventDefault();
-        let data = { name };
-        console.log(data);
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        let data = { ...nft };
-        for (let key in nft) {
-            if (nft[key as keyof NFT] === undefined || nft[key as keyof NFT] === null || nft[key as keyof NFT] === '' || Number.isNaN(nft[key as keyof NFT])) {
-                alert("Please fill all the fields");
-                return;
-            }
-            // Additional logic for handling file upload and other functionalities
-        }
-        console.log(data);
-    };
 
     return (
         <div className="py-12 px-4">

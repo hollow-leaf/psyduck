@@ -7,7 +7,14 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
   Theme,
+  connectorsForWallets,
 } from "@rainbow-me/rainbowkit";
+import {
+  rainbowWallet,
+  walletConnectWallet,
+  metaMaskWallet,
+  coreWallet,
+} from '@rainbow-me/rainbowkit/wallets';
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { opBNB, opBNBTestnet } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -19,12 +26,19 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [opBNBTestnet],
   [publicProvider()]
 );
+const ProjectId = "966691db73928f3c8a904ea62261b457";
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      coreWallet({ projectId: ProjectId,chains: [opBNBTestnet] }),
+      metaMaskWallet({ projectId: ProjectId,chains: [opBNBTestnet] }),
+      rainbowWallet({ projectId: ProjectId,chains: [opBNBTestnet] }),
+      walletConnectWallet({ projectId: ProjectId,chains: [opBNBTestnet] }),
+    ],
+  },
+]);
 
-const { connectors } = getDefaultWallets({
-  appName: "Psyduck",
-  projectId: "966691db73928f3c8a904ea62261b457",
-  chains,
-});
 
 const wagmiConfig = createConfig({
   autoConnect: true,
