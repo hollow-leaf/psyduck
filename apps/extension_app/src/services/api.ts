@@ -48,3 +48,25 @@ export async function getNftosByAddress(address:string) {
     }
 }
 
+export async function address2eventId(address:string){
+    try {
+
+        let form = new FormData()
+        form.append("address", address)
+
+        const res = await fetch(HOST + '/address2eventId', {
+            method: 'POST',
+            body: form
+          })
+        if(res){
+            const rres = await res.json()
+            return rres.data
+        }else{
+            return -1
+        }
+    }
+    catch (err) {
+        console.log("error", err);
+        return -1
+    }
+}

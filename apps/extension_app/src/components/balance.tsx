@@ -1,20 +1,26 @@
 import { useAccount, useBalance } from "wagmi";
+import { useQuery } from "@tanstack/react-query";
+import { PDBalance } from "../services/contract"
 
 
-export function Balance(){
+export function Balance(props:any){
 
-    const { address } = useAccount()
-
-    const { data, isError, isLoading } = useBalance({
-        address: address,
-      })
+    const { isLoading, error, data } = useQuery({
+        queryKey: ["getBalance"],
+        queryFn: () => 
+            PDBalance(props.address).then(res=>{
+                console.log(res)
+                return res
+            })
+        
+    });
     
     if (isLoading) return <div>Fetching balance…</div>
-    if (isError) return <div>Error fetching balance</div>
+    if (error) return <div>Error fetching balance</div>
     
     return (
         <div>
-            Balance: {data?.formatted} {data?.symbol}
+            Balance: {Number(data)}
         </div>
     )
 }

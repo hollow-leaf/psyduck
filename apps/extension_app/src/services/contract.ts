@@ -1,5 +1,7 @@
 import { writeContract, readContract } from '@wagmi/core';
 import { FactoryABI, ERC20ABI, GlobalABI } from './contractAbi';
+import { useAccount } from "wagmi"
+import { address2eventId } from './api';
 
 const FactoryADDRESS = "0x5360d0Bb8Eb03C7C988b2D3B9162028e287b63A2"
 const ERC20ADDRESS = "0x92b9Ff2903F668B1C715cC8079e2ebC2D39ba4b7"
@@ -12,7 +14,7 @@ export async function eventId2Address(eventId:number){
         address: FactoryADDRESS,
         abi: FactoryABI,
         //TODO: enter right function
-        functionName: 'eventIdToAddr',
+        functionName: 'addrToEventId',
         args: [eventId],
     })
 
@@ -22,6 +24,42 @@ export async function eventId2Address(eventId:number){
         return data
     }
 
+    return ""
+}
+
+export async function addrToEventId(addr:string){
+    const data:any = await readContract({
+        address: FactoryADDRESS,
+        abi: FactoryABI,
+        //TODO: enter right function
+        functionName: 'addrToEventId',
+        args: [addr],
+    })
+
+    console.log(data)
+
+    if(data){
+        return data
+    }
+
+    return ""
+}
+
+export async function PDBalance(address:string){
+    
+    const data:any = await readContract({
+        address: ERC20ADDRESS,
+        abi: ERC20ABI,
+        //TODO: enter right function
+        functionName: 'balanceOf',
+        args: [address],
+    })
+
+    console.log(data)
+
+    if(data){
+        return data
+    }
     return ""
 }
 
@@ -78,4 +116,25 @@ export async function register(userId:string){
     })
 
     return hash
+}
+
+export async function createNewNft(address:string, name:string, supply:number, price:number){
+
+
+    if(address){
+        console.log(address)
+        const eventId = await address2eventId(address)
+        if(eventId>-1){
+            const { hash } = await writeContract({
+                address: FactoryADDRESS,
+                abi: FactoryABI,
+                functionName: 'addNewERC1155',
+                args: [eventId, price, supply, name, ""],
+            })
+        }else{
+            alert("You have to register!")
+        }
+
+    }
+
 }
