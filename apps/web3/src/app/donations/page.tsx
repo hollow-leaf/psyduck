@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Typography } from "@material-tailwind/react";
-import { register } from "@/service/contract";
-
+import { CreateContractForm } from "./createContract";
+import { AddNewNFTForm } from "./addNewNFT";
 type NFT = {
     mintPrice: number,
     maxSupply: number,
@@ -18,28 +18,6 @@ const nftTemplate: NFT = {
 };
 
 export default function Donations() {
-    const [nft, setNft] = useState<NFT>(nftTemplate);
-    const [name, setName] = useState<string>('');
-    const handleSubmitName = async (e: React.FormEvent) => {
-        e.preventDefault();
-        let data = { name };
-        console.log(data);
-        register(data.name)
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        let data = { ...nft };
-        for (let key in nft) {
-            if (nft[key as keyof NFT] === undefined || nft[key as keyof NFT] === null || nft[key as keyof NFT] === '' || Number.isNaN(nft[key as keyof NFT])) {
-                alert("Please fill all the fields");
-                return;
-            }
-            // Additional logic for handling file upload and other functionalities
-        }
-        console.log(data);
-    };
-
     return (
         <div className="py-12 px-4">
             <div className="max-w-6xl mx-auto">
@@ -63,70 +41,13 @@ export default function Donations() {
                     {/* Left Column: Create Contract */}
                     <div className="w-[80%] md:w-1/2 px-4 py-4 border border-blue-500 rounded-xl">
                         <h2 className="text-2xl font-bold mb-4 text-center">Streamer Register</h2>
-                        <form onSubmit={handleSubmitName} className="text-left">
-                            {/* Form elements for creating contract */}
-                            <label>Get Started : </label><br />
-                            <input
-                                type="text"
-                                placeholder="Your Stream Id"
-                                onChange={(e) => setName(e.target.value)}
-                                className="my-4 text-center"
-                            />
-                            <br />
-
-                            <button
-                                type="submit"
-                                className="mt-4 bg-blue-500 text-white border border-blue-700 hover:bg-blue-600 px-4 py-2 rounded"
-                            >
-                                Streamer Register
-                            </button>
-                        </form>
+                        <CreateContractForm />
                     </div>
 
                     {/* Right Column: Add NFT */}
                     <div className="w-[80%] md:w-1/2 px-4 py-4 border border-blue-500 rounded-xl">
                         <h2 className="text-2xl font-bold mb-4 text-center">Add New NFT</h2>
-                        <form onSubmit={handleSubmit} className="text-left">
-                            <label>MintPrice : </label>
-                            <input
-                                type="number"
-                                placeholder="MintPrice"
-                                onChange={(e) => setNft({ ...nft, mintPrice: parseInt(e.target.value) })}
-                            />
-                            <br />
-
-                            <label>MaxSupply : </label>
-                            <input
-                                type="number"
-                                placeholder="MaxSupply"
-                                onChange={(e) => setNft({ ...nft, maxSupply: parseInt(e.target.value) })}
-                                className="my-4"
-                            />
-                            <br />
-
-                            <input
-                                type="file"
-                                onChange={(e) => setNft({ ...nft, metadataURI: 'haha' })}
-                                className="my-4"
-                            />
-                            <br />
-
-                            <label>NFT Name : </label>
-                            <input
-                                type="text"
-                                placeholder="NFT Name"
-                                onChange={(e) => setNft({ ...nft, name: e.target.value })}
-                                className="my-4"
-                            />
-                            <br />
-
-                            <button
-                                type="submit"
-                                className="mt-4 bg-blue-500 text-white border border-blue-700 hover:bg-blue-600 px-4 py-2 rounded"
-                            >
-                                Add New NFT
-                            </button>
-                        </form>
+                        <AddNewNFTForm />
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@
     1. [Factory](https://testnet.snowtrace.io/address/0x44dd4F22Ff2a54056cb37bc2F9f9aFC09A39Afd9)
     2. [Token](https://testnet.snowtrace.io/address/0xE144759591c96e678c08d54b7e551969A86C9c14)
     3. [Globals](https://testnet.snowtrace.io/address/0x1E2DCCDfa8a3fc10669f81f2Ce6b7F425983cfE2)
-  - Avalanche_Subnet (chainId:115405, [RPC URL](https://subnets.avacloud.io/a2bd9cca-2b8a-465e-b0c0-78557e97e9a1)):
+  - Avalanche_Subnet (chainId:1141776, [RPC URL](https://subnets.avacloud.io/a204496f-1767-4226-8cac-ffe7a2224b7f)):
     1. Factory : 0xE144759591c96e678c08d54b7e551969A86C9c14
     2. Token : 0x0eDE01A62360a4D92d7CaaC38d7701e95142EFb5
     3. Global : 0x563B972f0CdE62b8a4dC64Ad7CFde9578465B7e9
@@ -58,6 +58,9 @@ Our solution has the following features and advantages:
 - Use [Chrome Extension](https://developer.chrome.com/docs/extensions) to build web connect plugin that interacts with opBNB blockchain
 - Use [Solidity](https://soliditylang.org/) to create smart contract
 - Use [React.js](https://react.dev/) to build chrome extension frontend
+
+### Extra - Integrate Core wallet , deploy on the Subnet-EVM based Devnet
+https://youtu.be/A2DIcRRhYMM<VIDEO ID>
 
 ### Technical Architecture
 Psyduck Architecture
