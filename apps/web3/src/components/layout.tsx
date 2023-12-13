@@ -4,27 +4,45 @@ import React from "react";
 import { ThemeProvider } from "@material-tailwind/react";
 import '@rainbow-me/rainbowkit/styles.css';
 import {
-  getDefaultWallets,
   RainbowKitProvider,
-  Theme,
+  connectorsForWallets , 
 } from "@rainbow-me/rainbowkit";
+import {
+  rainbowWallet,
+  walletConnectWallet,
+  metaMaskWallet,
+  coreWallet,
+} from '@rainbow-me/rainbowkit/wallets';
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { opBNB, opBNBTestnet } from "wagmi/chains";
+import { opBNBTestnet } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { publicProvider } from "wagmi/providers/public";
 import Navbar from "./navbar";
 import Footer from "./footer";
-
+const projectId = "966691db73928f3c8a904ea62261b457";
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [opBNBTestnet],
   [publicProvider()]
 );
 
-const { connectors } = getDefaultWallets({
-  appName: "Psyduck",
-  projectId: "966691db73928f3c8a904ea62261b457",
-  chains,
-});
+// const { connectors } = getDefaultWallets({
+//   appName: "Psyduck",
+//   projectId: "966691db73928f3c8a904ea62261b457",
+//   chains,
+// });
+
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      coreWallet({ projectId, chains }),
+      rainbowWallet({ projectId, chains }),
+      walletConnectWallet({ projectId, chains }),
+      metaMaskWallet({ projectId,chains }),
+    ],
+  },
+]);
+
 
 const wagmiConfig = createConfig({
   autoConnect: true,
