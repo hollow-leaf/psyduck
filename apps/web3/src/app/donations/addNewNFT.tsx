@@ -6,8 +6,7 @@ import {
     useContractWrite,
     useWaitForTransaction,
 } from 'wagmi'
-import { useDebounce } from '../hooks/useDebounce'
-import { FactoryADDRESS, ERC20ADDRESS, GlobalADDRESS, ERC20ABI, FactoryABI, GlobalABI } from '../service/contractAbi'
+import { FactoryADDRESS, FactoryABI} from '../../service/contractAbi'
 type NFT = {
     eventId: number,
     mintPrice: number,
@@ -25,7 +24,6 @@ const nftTemplate: NFT = {
 };
 export function AddNewNFTForm() {
     const [nft, setNft] = useState<NFT>(nftTemplate);
-    const debouncedTokenId = useDebounce(nft);
 
     const {
         config,
@@ -35,8 +33,8 @@ export function AddNewNFTForm() {
         address: FactoryADDRESS,
         abi: FactoryABI,
         functionName: 'addNewERC1155',
-        args: [debouncedTokenId.eventId, debouncedTokenId.maxSupply, debouncedTokenId.mintPrice, debouncedTokenId.metadataURI, debouncedTokenId.name],
-        enabled: Boolean(debouncedTokenId),
+        args: [nft.eventId, nft.maxSupply, nft.mintPrice, nft.metadataURI, nft.name],
+        enabled: Boolean(nft),
     })
     const { data, error, isError, write } = useContractWrite(config)
 

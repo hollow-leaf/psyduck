@@ -6,11 +6,9 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from 'wagmi'
-import { useDebounce } from '../hooks/useDebounce'
-import { FactoryADDRESS, ERC20ADDRESS, GlobalADDRESS, ERC20ABI, FactoryABI, GlobalABI} from '../service/contractAbi'
+import { GlobalADDRESS, GlobalABI } from '../../service/contractAbi'
 export function CreateContractForm() {
   const [tokenId, setTokenId] = useState('')
-  const debouncedTokenId = useDebounce(tokenId)
 
   const {
     config,
@@ -20,8 +18,8 @@ export function CreateContractForm() {
     address: GlobalADDRESS,
     abi: GlobalABI,
     functionName: 'setValidEventHolder',
-    args: [debouncedTokenId, true],
-    enabled: Boolean(debouncedTokenId),
+    args: [tokenId, true],
+    enabled: Boolean(tokenId),
   })
   const { data, error, isError, write } = useContractWrite(config)
 
@@ -37,7 +35,7 @@ export function CreateContractForm() {
         write?.()
       }}
     >
-      
+
       <label>Get Started : </label>
       <input
         id="tokenId"
@@ -45,13 +43,17 @@ export function CreateContractForm() {
         onChange={(e) => setTokenId(e.target.value)}
         placeholder="Input Name"
         value={tokenId}
-      />
-      <button disabled={!write || isLoading}>
+      /><br/>
+      <button
+        type="submit"
+        className="mt-4 bg-blue-500 text-white border border-blue-700 hover:bg-blue-600 px-4 py-2 rounded"
+        disabled={!write || isLoading}
+      >
         {isLoading ? 'loading...' : 'Create Contract'}
       </button>
       {isSuccess && (
         <div>
-          Successfully minted your NFT!
+          Successfully create your own NFT contract !!
         </div>
       )}
       {(isPrepareError || isError) && (
