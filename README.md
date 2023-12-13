@@ -11,7 +11,19 @@
 
 - WebPage: []()
 - Video: []()
-- Psyduck Contract(Testnet): []()
+- Psyduck Contract(Testnet):
+  - opBNB_testnet:
+    1. [Factory](https://testnet.opbnbscan.com/address/0x5360d0Bb8Eb03C7C988b2D3B9162028e287b63A2)
+    2. [Token](https://testnet.opbnbscan.com/address/0x92b9Ff2903F668B1C715cC8079e2ebC2D39ba4b7)
+    3. [Globals](https://testnet.opbnbscan.com/address/0x18b91197D9FA2b39d6118D0dB5c8f1C049eCe350)
+  - Avalanche_Fuji:
+    1. [Factory](https://testnet.snowtrace.io/address/0x44dd4F22Ff2a54056cb37bc2F9f9aFC09A39Afd9)
+    2. [Token](https://testnet.snowtrace.io/address/0xE144759591c96e678c08d54b7e551969A86C9c14)
+    3. [Globals](https://testnet.snowtrace.io/address/0x1E2DCCDfa8a3fc10669f81f2Ce6b7F425983cfE2)
+  - Avalanche_Subnet (chainId:115405, [RPC URL](https://subnets.avacloud.io/a2bd9cca-2b8a-465e-b0c0-78557e97e9a1))
+    1. Factory : 0xE144759591c96e678c08d54b7e551969A86C9c14
+    2. Token : 0x0eDE01A62360a4D92d7CaaC38d7701e95142EFb5
+    3. Global : 0x563B972f0CdE62b8a4dC64Ad7CFde9578465B7e9
 
 ### Abstract
 
