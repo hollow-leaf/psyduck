@@ -28,6 +28,7 @@ interface IDonateNFTFactory is IDonateNFTFactoryEvent {
     //** normal function */
 
     function setGlobals(address _globals) external;
+    function setAsset(address _aasset) external;
 
     function createEvent(
         address _eventHolder,

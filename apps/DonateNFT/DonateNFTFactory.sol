@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import {DonateNFT} from "./DonateNFT.sol";
 import {IDonateNFTFactory} from "./interfaces/IDonateNFTFactory.sol";
 import {IGlobals} from "./interfaces/IGlobals.sol";
+import {IERC20} from "@openzeppelin/contracts@v4.9.3/token/ERC20/IERC20.sol";
 
 contract DonateNFTFactory is IDonateNFTFactory {
     //** Modifier */
@@ -111,10 +112,16 @@ contract DonateNFTFactory is IDonateNFTFactory {
         globals = IGlobals(_globals);
     }
 
+    function setAsset(address _asset) external onlyGovernor {
+        require(_asset!= address(0) , "DonateNFTFactory: invalid globals");
+        asset = _asset;
+    }
+
     function addNewERC1155(uint256 _eventId, uint256 _mintPrice, uint256 _maxSupply, string memory _name, string memory _metadataURI) public{
         uint256 id = tokens[_eventId].addNewNFT(msg.sender,_mintPrice, _maxSupply,  _name, _metadataURI);
         emit ERC1155AddNewNFT(_eventId, _mintPrice, _maxSupply, _name, id );
     }
+
 
     //** View Functions */
 
