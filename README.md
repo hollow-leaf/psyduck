@@ -59,6 +59,9 @@ Our solution has the following features and advantages:
 - Use [Solidity](https://soliditylang.org/) to create smart contract
 - Use [React.js](https://react.dev/) to build chrome extension frontend
 
+### Extra - Integrate Core wallet , deploy on the Subnet-EVM based Devnet
+https://youtu.be/A2DIcRRhYMM<VIDEO ID>
+
 ### Technical Architecture
 Psyduck Architecture
 ![Psyduck Architecture](https://github.com/hollow-leaf/psyduck/blob/main/apps/extension_app/img/Architecture.jpg?raw=true)
