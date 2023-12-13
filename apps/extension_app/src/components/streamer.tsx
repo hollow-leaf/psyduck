@@ -41,7 +41,6 @@ export function Streamer(props:any){
             return (
                 <section>
                     <h1>{data.id}</h1>
-                    <button onClick={() => register(data.id)}>Register</button>
                     <h1>NFT List</h1>
                     <div className="nftTable">
                         <>
@@ -53,6 +52,7 @@ export function Streamer(props:any){
                         </>
                         
                     </div>
+                    {data.nftList.length==0&&<button onClick={() => register(data.id)}>Register</button>}
                 </section>
             )
         }

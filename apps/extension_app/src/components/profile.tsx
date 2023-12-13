@@ -29,7 +29,7 @@ export function Profile(props:any){
                 <section>
                     <section>
                         <p>Your Address: {address}</p>
-                        <Balance />
+                        <Balance address={address} />
                     </section>
                     <DisconnectButton />
                     <button style={{marginLeft: "25px"}} onClick={() => open({ view: 'Networks' })}>Network</button>
@@ -43,6 +43,7 @@ export function Profile(props:any){
     }
     if(data){
         if(data.length>0){
+            console.log("HAHA")
             return(
                 <>
                     <section>
@@ -67,20 +68,21 @@ export function Profile(props:any){
                 </>
                 
             )
+        }else{
+            return (
+                <>
+                    <section>
+                        <section>
+                            <p>Your Address: {address}</p>
+                            <Balance />
+                        </section>
+                        <DisconnectButton />
+                        <button style={{marginLeft: "25px"}} onClick={() => open({ view: 'Networks' })}>Network</button>
+                        {address&&<button style={{marginLeft: "25px"}} onClick={() => ERC20Faucet(address?.toString(), 1000)}>Faucet</button>}
+                    </section>
+                </> 
+            )
         }
     }
-    return(
-        <>
-            <section>
-                <section>
-                    <p>Your Address: {address}</p>
-                    <Balance />
-                </section>
-                <DisconnectButton />
-                <button style={{marginLeft: "25px"}} onClick={() => open({ view: 'Networks' })}>Network</button>
-                {address&&<button style={{marginLeft: "25px"}} onClick={() => ERC20Faucet(address?.toString(), 1000)}>Faucet</button>}
-            </section>
-        </> 
-    )
 }
 

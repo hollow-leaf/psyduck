@@ -7,6 +7,7 @@ import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 import { WagmiConfig } from 'wagmi'
 import { mainnet, goerli, opBNBTestnet } from 'viem/chains'
 import { Streamer } from './components/streamer';
+import CreateNft from './components/createNft';
 
 const projectId = '966691db73928f3c8a904ea62261b457'
 
@@ -26,7 +27,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 10,
-      cacheTime: 1000 * 60 * 3,
+      cacheTime: 1000 * 10,
     },
   },
 });
@@ -40,6 +41,7 @@ function App() {
           <div className="App">
             <Home />
             <Streamer />
+            <CreateNft />
           </div>
         </Provider>
       </WagmiConfig>
