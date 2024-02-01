@@ -34,3 +34,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# contract
+typechain/
+cache/
+artifacts/
+node_modules/
+address/hardhat/

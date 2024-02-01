@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-import {IERC20} from "@openzeppelin/contracts@v4.9.3/token/ERC20/IERC20.sol";
-import {SafeERC20} from "@openzeppelin/contracts@v4.9.3/token/ERC20/utils/SafeERC20.sol";
-import {ERC1155} from "@openzeppelin/contracts@v4.9.3/token/ERC1155/ERC1155.sol";
-import {Ownable} from "@openzeppelin/contracts@v4.9.3/access/Ownable.sol";
-import {Strings} from "@openzeppelin/contracts@v4.9.3/utils/Strings.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {ERC1155} from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 import {IDonateNFT} from "./interfaces/IDonateNFT.sol";
 
 contract DonateNFT is ERC1155, Ownable, IDonateNFT {
@@ -31,7 +31,7 @@ contract DonateNFT is ERC1155, Ownable, IDonateNFT {
         address _eventHolder,
         address _asset,
         string memory _contractName
-    ) ERC1155('') {
+    ) ERC1155("") Ownable(msg.sender){
         require(_asset != address(0), "DonateNFT: asset is zero address");
         require(_eventHolder != address(0), "DonateNFT: event holder is zero address");
         EVENT_HOLDER = _eventHolder;

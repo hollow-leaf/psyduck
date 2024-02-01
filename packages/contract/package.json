@@ -1,0 +1,32 @@
+{
+  "name": "contract",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "hardhat compile",
+    "deploy:token": "hardhat deploy:token",
+    "deploy:nftFactory": "hardhat deploy:nftFactory",
+    "verify": "hardhat verify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "2.0.2",
+    "@nomiclabs/hardhat-ethers": "2.2.3",
+    "@nomiclabs/hardhat-etherscan": "3.1.7",
+    "dotenv": "16.3.1",
+    "eslint-config-custom": "workspace:*",
+    "ethers": "^5.0.0",
+    "hardhat": "2.19.0",
+    "ts-node": "^10.9.1",
+    "tsconfig": "workspace:*",
+    "typescript": "^4.5.3"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.1"
+  }
+}
