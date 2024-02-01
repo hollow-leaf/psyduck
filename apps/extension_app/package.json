@@ -7,11 +7,6 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/chrome": "^0.0.254",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.11",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
     "@web3modal/react": "^2.7.1",
     "@web3modal/wagmi": "^3.4.0",
     "axios": "^1.6.2",
@@ -27,6 +22,13 @@
     "viem": "^1.19.11",
     "wagmi": "^1.4.10",
     "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.254",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.11",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10"
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
