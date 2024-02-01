@@ -31,7 +31,7 @@
     "@types/react-dom": "^18.0.10"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build:ext": "webpack --config webpack.config.js",
     "watch": "webpack -w --config webpack.config.js"
   },
   "devDependencies": {
