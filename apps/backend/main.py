@@ -1,7 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS
 from blockchain.blockchain import *
-import axios
 
 load_dotenv()
 SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
@@ -10,8 +9,6 @@ app = Flask(__name__)
 app.config.from_object('websiteconfig')
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 CORS(app)
-
-
 
 db.init_app(app)
 
