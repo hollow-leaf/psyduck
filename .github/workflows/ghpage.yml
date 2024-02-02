@@ -5,7 +5,7 @@ on:
     branches:
       - main # The branch the action should deploy from.
     paths:
-      - 'apps/web3/**' # The path to your build output folder.
+      - 'apps/web/**' # The path to your build output folder.
       - 'pnpm-*'
       - '.github/workflows/ghpage.yml'
 
@@ -49,7 +49,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: apps/web3/out
+          path: apps/web/dist
   
   deploy:
     environment:
