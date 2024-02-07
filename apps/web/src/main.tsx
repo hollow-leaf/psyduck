@@ -1,16 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import './index.css';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from 'react-router-dom'
+import App from './App'
+import Launch from './routes/launch'
+import ErrorPage from './routes/error'
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById('root')
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: 'launch',
+    element: <Launch />,
+    errorElement: <ErrorPage />,
+  }
+])
 
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <App />
+      <RouterProvider router={router} />
     </React.StrictMode>
-  );
+  )
 } else {
-  console.error('Root element with id "root" not found');
+  console.error('Root element with id "root" not found')
 }
