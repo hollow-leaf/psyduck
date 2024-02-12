@@ -61,6 +61,21 @@ app.get('/userIdToAddress', async (c) => {
   return c.json(user)
 })
 
+app.get('/lastupdateBlock', async (c) => {
+  const block = await c.env.psyduck.get('lastupdateBlock')
+  return c.json({lastupdateBlock: block})
+})
+
+app.post('/updateBlock', async (c) => {
+  var block
+  const reqData = await c.req.json()
+  block = reqData['block']
+  if(block) {
+    await c.env.psyduck.put('lastupdateBlock', String(block))
+  }
+  return c.json({ ok: "success" })
+})
+
 app.post('/register', async (c) => {
   var user: account = {userId: '', address: ''}
   const reqData = await c.req.json()
