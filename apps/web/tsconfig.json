@@ -12,6 +12,9 @@
     "target": "es5",
     "strict": true,
     "useUnknownInCatchVariables": false,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "types": ["node"],
     "typeRoots": [
       "./custom.d.ts"
     ]

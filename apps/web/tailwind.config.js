@@ -13,6 +13,10 @@ module.exports = {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
       },
+      backgroundImage: {
+        'launch': "url(https://cdn.streamelements.com/static/user/background_default.jpg)",
+        'launch-profile': "url(https://cdn.streamelements.com/static/user/tipping_default.jpg)"
+      },
     },
     screens: {
       xs: "480px",
