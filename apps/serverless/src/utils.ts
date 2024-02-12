@@ -1,11 +1,12 @@
 import {nftCreate, nftOwn} from "./model"
 
 export function addCreateNft(ori:string, newNft: nftCreate): string {
-    return ori.concat(NftCreateToString(newNft))
+    console.log(NftCreateToString(newNft))
+    return ori + (NftCreateToString(newNft))
 }
 
 export function addOwnNft(ori:string, newNft: nftOwn): string {
-    return ori.concat(NftOwnToString(newNft))
+    return ori + (NftOwnToString(newNft))
 }
 
 export function deleteCreateNft(ori:string, nftRemove:nftCreate): string {
@@ -43,7 +44,7 @@ export function StringToNftOwnArray(nfts: string): nftOwn[] {
 export function NftOwnToString(nfto: nftOwn): string {
     var res = "&"
     for (const [key, value] of Object.entries(nfto)) {
-        res.concat(String(`${value}`)+",")
+        res = res + String(`${value}`)+","
       }
     
     return res.slice(0, -1)
@@ -52,7 +53,7 @@ export function NftOwnToString(nfto: nftOwn): string {
 export function NftCreateToString(nftc: nftCreate): string {
     var res = "&"
     for (const [key, value] of Object.entries(nftc)) {
-        res.concat(String(`${value}`)+",")
+        res = res + String(`${value}`)+","
       }
     
     return res.slice(0, -1)

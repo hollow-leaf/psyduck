@@ -17,4 +17,5 @@ export type nftCreate = {
 export type account = {
     userId: string
     address: string
+    eventId: number
 }
