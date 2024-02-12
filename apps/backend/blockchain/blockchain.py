@@ -4,17 +4,18 @@ from eth_utils import event_abi_to_log_topic
 from web3 import Web3
 from web3.middleware import geth_poa_middleware
 from dotenv import load_dotenv
-from db_operate.db_operate import *
 import hexbytes
 import json
+from abi import *
 
 load_dotenv()
 APIKEY = os.getenv("APIKEY")
-web3 = Web3(Web3.HTTPProvider("https://opbnb-testnet.nodereal.io/v1/f8728a3265504b998a2f09c83493d76a"))
-URL = "https://opbnb-testnet.nodereal.io/v1/f8728a3265504b998a2f09c83493d76a"
+web3 = Web3(Web3.HTTPProvider("https://opbnb-testnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3"))
+URL = "https://opbnb-testnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3"
+ServerlessURL = "http://localhost:8787"
 
-f = open('blockchain/factoryABI.json')
-factoryABI = json.load(f)
+f = open('factoryABI.json')
+factoryABI = FactoryABI
 factoryAddr = '0x5360d0Bb8Eb03C7C988b2D3B9162028e287b63A2'
 
 target_contract = web3.eth.contract(address=factoryAddr, abi=factoryABI)  # 建立 contract 操作物件
@@ -28,7 +29,7 @@ def translator(event):
                 args[key] = args[key].hex()  # 如果是 bytes 的話轉成 hex 才可讀
 
 def update():
-    start_block = block2Update()
+    start_block = 0
 
     to_block = web3.eth.block_number
     ERC1155Created_event_t = target_contract.events['ERC1155Created'].create_filter(fromBlock=start_block,toBlock=to_block).get_all_entries()
@@ -50,8 +51,6 @@ def update():
             address = item['args']._owner
             eventId = item['args'].eventId
             userId = item['args'].name
-
-            create_new_creator(address, eventId, 1, userId)
         except:
             print("1err")
     for item in ERC1155AddNewNFT_event_t:
@@ -63,9 +62,6 @@ def update():
             price = item['args']._mintPrice
             name = item['args']._name
             print(eventId, tokenId, maxSupply, price, name)
-
-            create_nft(eventId, tokenId, price, name, maxSupply)
-
         except:
             print("2err")
     for item in ERC1155Minted_event_t:
@@ -76,18 +72,13 @@ def update():
             eventId = item['args']._eventId
 
             print(owner, id, eventId)
-
-            buy_new_nft(eventId, id, owner)
-
         except:
             print("3err")
 
-    blockHaveUpdated(to_block)
+def update_opbnb(start, end):
 
-def update_opbnb():
-
-    preBlock = block2Update()
-    nowBlock = getLastestBlock()
+    preBlock = hex(start)
+    nowBlock = hex(end)
 
     print(preBlock, nowBlock)
 
@@ -111,7 +102,7 @@ def update_opbnb():
     try:
         responses = requests.post(URL, json=payload, headers=headers).json()['result']
     except:
-        blockHaveUpdated(nowBlock)
+        print("errr")
         return
 
     for response in responses:
@@ -140,24 +131,25 @@ def update_opbnb():
                         decoded_logs = contract.events[event["name"]]().processReceipt(receipt)
                         event_name = decoded_logs[0]['event']
                         event_info = decoded_logs[0]['args']
-                        print(event_name, event_info)
                         if (event_name == "ERC1155Created"):
-                            create_new_creator(event_info['_owner'], event_info['eventId'], 1, event_info['name'])
+                            print(event_info['_owner'], event_info['eventId'], 1, event_info['name'])
+                            register(event_info['_owner'], event_info['name'])
                         if (event_name == "ERC1155AddNewNFT"):
                             eventId = event_info['_eventId']
                             tokenId = event_info['id']
                             maxSupply = event_info['_maxSupply']
                             price = event_info['_mintPrice']
                             name = event_info['_name']
-                            create_nft(eventId, tokenId, price, name, maxSupply)
+                            print(eventId, tokenId, price, name, maxSupply)
+                            nftCreate(eventId, tokenId, name, price, maxSupply, eventId)
                         if (event_name == "ERC1155Minted"):
                             owner = event_info['_minter']
                             id = event_info['_tokenId']
                             eventId = event_info['_eventId']
-                            buy_new_nft(eventId, id, owner)
+                            print(eventId, id, owner)
+                            nftBuy(owner, id, "", eventId)
                     except:
                         print()
-    blockHaveUpdated(nowBlock)
 
 
 def getTxByHash(hash):
@@ -204,3 +196,75 @@ def getLastestBlock():
     response = requests.post(URL, json=payload, headers=headers)
 
     return response.json()['result']
+
+def auto_update_opbnb():
+    now_block = int(getLastestBlock(), 16)
+    start_block = int(getLastUpdateBlock())
+    while(start_block < now_block):
+        update_opbnb(start_block, start_block+45000)
+        start_block += 45000
+    LastUpdateBlock(now_block)
+
+def getLastUpdateBlock():
+    payload = {}
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json"
+    }
+    response = requests.get(ServerlessURL + "/lastupdateBlock", json=payload, headers=headers)
+
+    return response.json()['lastupdateBlock']
+
+def LastUpdateBlock(block):
+    payload = {
+        "block": block
+    }
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json"
+    }
+    response = requests.post(ServerlessURL + "/updateBlock", json=payload, headers=headers)
+
+    return response.json()
+
+def register(address, userId):
+    payload = {
+        "address": address,
+        "userId": userId
+    }
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json"
+    }
+    response = requests.post(ServerlessURL + "/register", json=payload, headers=headers)
+
+def nftCreate(creator, nftId, nftName, price, maxSupply, eventId):
+    payload = {
+        "creator": creator,
+        "nftId": nftId,
+        "nftName": nftName,
+        "price": price,
+        "maxSupply": maxSupply,
+        "eventId": eventId
+    }
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json"
+    }
+    response = requests.post(ServerlessURL + "/nftCreate", json=payload, headers=headers)
+
+def nftBuy(owner, nftId, nftName, creator):
+    payload = {
+        "creator": creator,
+        "nftId": nftId,
+        "nftName": nftName,
+        "owner": owner,
+    }
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json"
+    }
+    response = requests.post(ServerlessURL + "/nftBuy", json=payload, headers=headers)
+
+
+auto_update_opbnb()
