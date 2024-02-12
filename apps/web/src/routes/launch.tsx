@@ -1,39 +1,48 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Navbar from './components/Navbar'
-import { TwitchContextService } from '../../src/services/api/twitchContext'
+import { useNavigate  } from 'react-router-dom'
 
 export default function Launch() {
-  const [liveState, setLiveState] = useState<string>('offline')
-  const [accessToken, setAccessToken] = useState<string>('')
-  const TwitchAccessToken = new TwitchContextService()
+  const [inputValue, setInputValue] = useState<string>('')
+  const navigate = useNavigate()
 
-  const fetchData = async () => {
-    const res: string = await TwitchAccessToken.getAccessToken()
-    setAccessToken(res)
-    console.log(accessToken)
+  const handleInputContent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    if (/^[a-zA-Z0-9]*$/.test(value) && value.length <= 20) {
+      setInputValue(value)
+    }else{
+      alert('Please input correct name! (Please switch input method)')
+    }
   }
-  useEffect(()=>{
-    fetchData()
-    .then((response)=>{return response})
-    .catch((error)=>{return error})
-  },[])
+
+  const handleSubmit = () => {
+    if (inputValue.trim() !== '') {
+      navigate(`/donation?value=${inputValue}`)
+    }else{
+      alert('Must input streamer name!')
+    }
+  }
+
   return (
     <div className='md:max-w-[5120px] w-full bg-cover bg-no-repeat bg-fixed bg-launch min-h-screen grid place-items-start relative'>
-      {/* Background cover */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
-      {/* Content */}
-      <div className="mx-auto md:max-w-[650px] w-full md:grid grid-row-5 text-center gap-4 rounded-md relative z-10">
+      <div className='absolute top-0 left-0 w-full h-full bg-black opacity-50'></div>
+      <div className='mx-auto md:max-w-[650px] w-full md:grid grid-row-5 text-center gap-4 rounded-md relative z-10'>
         <Navbar />
-        <div className='bg-slate-200 rounded-md p-24 h-[200px] bg-cover bg-no-repeat bg-launch-profile shadow-xl'>
-          <div className={`avatar ${liveState === 'online' ? 'online' : 'offline'}`}>
-            <div className="w-24 rounded-full">
-              <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
+        <div className='row-span-5'></div>
+        <div className='flex flex-col bg-slate-200 rounded-md p-16 h-[200px] bg-cover bg-no-repeat bg-launch-profile shadow-xl gap-3'>
+          <p className='text-xl text-start text-white'>Input steamer name: </p>
+          <div className='join gap-4 start'>
+            <input
+              type='text'
+              placeholder='Type here'
+              className='input input-bordered input-info w-full max-w-xs'
+              value={inputValue}
+              onChange={handleInputContent}
+            />
+            <button className='btn join-item input-bordered input-info rounded-r-full' onClick={handleSubmit}>
+              Submit
+            </button>
           </div>
-        </div>
-        <div className='row-span-3 md:grid grid-cols-10 gap-4 rounded-md'>
-          <div className='bg-slate-300 col-span-3 md:col-span-5 h-[450px] rounded-md'>01</div>
-          <div className='bg-slate-100 col-span-2 md:col-span-5 pl-2 h-[450px] rounded-md'>02</div>
         </div>
       </div>
     </div>
