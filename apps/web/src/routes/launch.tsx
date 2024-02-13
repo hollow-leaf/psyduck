@@ -1,14 +1,63 @@
-import React from 'react'
-import styles from '../style'
+import React, { useState } from 'react'
+import Navbar from './components/Navbar'
+import { useNavigate } from 'react-router-dom'
+import { TwitchContextService } from '../../src/services/api/twitchContext'
 
 export default function Launch() {
+  const [inputValue, setInputValue] = useState<string>('')
+  const [correctOtherInput, setCorrectOtherInput] = useState<boolean>(true)
+  const navigate = useNavigate()
+
+  const handleInputContent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    if (/^[a-zA-Z0-9]*$/.test(value) && value.length <= 20) {
+      setInputValue(value)
+      setCorrectOtherInput(true)
+    } else {
+      setCorrectOtherInput(false)
+    }
+  }
+
+  const handleSubmit = () => {
+    if (inputValue.trim() !== '') {
+      navigate(`/donation?value=${inputValue}`)
+    } else {
+      alert('Must input streamer name!')
+    }
+  }
+  //Twitch API oauth
+  const TwitchOauth = new TwitchContextService()
+  const oauth_url: string = process.env.API_OAUTH
+  const redirect_uri = process.env.API_REDIRECT_URI
+
   return (
-    <div className={'xl:max-w-[1280px] w-full bg-neutral-content bottom-0 top-0 absolute'}>
-      <div className="navbar bg-base-100 w-">
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+    <div className='md:max-w-[5120px] w-full bg-cover bg-no-repeat bg-fixed bg-launch min-h-screen grid place-items-start relative'>
+      <div className='absolute top-0 left-0 w-full h-full bg-black opacity-50'></div>
+      <div className='mx-auto md:max-w-[650px] w-full md:grid grid-row-5 text-center gap-4 rounded-md relative z-10'>
+        <Navbar />
+        <div className='row-span-5'></div>
+        <div className='flex flex-col bg-slate-200 rounded-md p-16 h-[200px] bg-cover bg-no-repeat bg-launch-profile shadow-xl gap-3'>
+          <p className='text-xl text-start text-white'>Input steamer name: </p>
+          <div className='join gap-4 start'>
+            <input
+              type='text'
+              placeholder='Type here'
+              className='input input-bordered input-info w-full max-w-xs'
+              value={inputValue}
+              onChange={handleInputContent}
+            />
+            <button className='btn join-item input-bordered input-info rounded-r-full' onClick={handleSubmit}>
+              Submit
+            </button>
+          </div>
+          <div className={`${correctOtherInput === true ? "hidden" : "flex items-center"}`}>
+            <svg className="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <p className="text-red-500 font-bold">Warning: Only allow number and string in text box！</p>
+          </div>
+        </div>
       </div>
-      <div className='bg-red-300 mx-auto border-'></div>
-      <div className=''></div>
     </div>
   )
 }
