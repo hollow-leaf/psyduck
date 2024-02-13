@@ -2,10 +2,11 @@ import axios from 'axios'
 
 export class TwitchContextService {
     private apiUrl_channelInfo: string = process.env.API_CHANNELINFO!
-    private apiUrl_ouath: string = process.env.API_OUATH!
+    private apiUrl_oauth: string = process.env.API_OAUTH!
     private client_id: string = process.env.CLIENT_ID!
     private client_secret: string = process.env.CLIENT_SECRET!
-
+    private session_secret: string = process.env.SESSION_SECRET!
+    
     public async getChannelInfo (broadcasterId: string) {
         try {
             const access_token: string = await this.getAccessToken()
@@ -27,9 +28,9 @@ export class TwitchContextService {
 
     public async getAccessToken () {
         try {
-            console.log(this.apiUrl_ouath, this.client_id, this.client_secret)
+            console.log(this.apiUrl_oauth, this.client_id, this.client_secret)
             const response = await axios.post(
-                this.apiUrl_ouath,{
+                this.apiUrl_oauth,{
                     params: {
                         client_id: this.client_id,
                         client_secret: this.client_secret,

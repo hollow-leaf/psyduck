@@ -8,7 +8,9 @@ import {
 import App from './App'
 import Launch from './routes/launch'
 import Donation from './routes/donation'
+import TwitchAuth from './routes/authcallback'
 import ErrorPage from './routes/error'
+import Callback from './routes/callback'
 
 const rootElement = document.getElementById('root')
 
@@ -28,6 +30,16 @@ const router = createBrowserRouter([
     element: <Donation />,
     errorElement: <ErrorPage />,
   },
+  {
+    path: 'auth/callback',
+    element: <Callback />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: 'twitchtest',
+    element: <TwitchAuth />,
+    errorElement: <ErrorPage />,
+  }
 ])
 
 if (rootElement) {

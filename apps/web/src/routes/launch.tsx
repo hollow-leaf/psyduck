@@ -1,27 +1,34 @@
 import React, { useState } from 'react'
 import Navbar from './components/Navbar'
-import { useNavigate  } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { TwitchContextService } from '../../src/services/api/twitchContext'
 
 export default function Launch() {
   const [inputValue, setInputValue] = useState<string>('')
+  const [correctOtherInput, setCorrectOtherInput] = useState<boolean>(true)
   const navigate = useNavigate()
 
   const handleInputContent = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     if (/^[a-zA-Z0-9]*$/.test(value) && value.length <= 20) {
       setInputValue(value)
-    }else{
-      alert('Please input correct name! (Please switch input method)')
+      setCorrectOtherInput(true)
+    } else {
+      setCorrectOtherInput(false)
     }
   }
 
   const handleSubmit = () => {
     if (inputValue.trim() !== '') {
       navigate(`/donation?value=${inputValue}`)
-    }else{
+    } else {
       alert('Must input streamer name!')
     }
   }
+  //Twitch API oauth
+  const TwitchOauth = new TwitchContextService()
+  const oauth_url: string = process.env.API_OAUTH
+  const redirect_uri = process.env.API_REDIRECT_URI
 
   return (
     <div className='md:max-w-[5120px] w-full bg-cover bg-no-repeat bg-fixed bg-launch min-h-screen grid place-items-start relative'>
@@ -42,6 +49,12 @@ export default function Launch() {
             <button className='btn join-item input-bordered input-info rounded-r-full' onClick={handleSubmit}>
               Submit
             </button>
+          </div>
+          <div className={`${correctOtherInput === true ? "hidden" : "flex items-center"}`}>
+            <svg className="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <p className="text-red-500 font-bold">Warning: Only allow number and string in text box！</p>
           </div>
         </div>
       </div>
