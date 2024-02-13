@@ -10,20 +10,33 @@ export default function Donation() {
   const streamerId = searchParams.get("value")
 
   const [tipAmount, setTipAmount] = useState<string>("4.2")
+  const [otherAmount, setOtherAmount] = useState<string>('')
   const [otherClick, setOtherClick] = useState<boolean>(false)
   const [correctOtherInput, setCorrectOtherInput] = useState<boolean>(true)
   const handleOtherAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    if (/^[0-9.0-9]*$/.test(value) && value.length <= 10) {
-      setTipAmount(value)
+    const inputAmount: string = e.target.value
+    setOtherAmount(inputAmount)
+    if (/^[0-9.0-9]*$/.test(inputAmount) && inputAmount.length <= 10 && parseFloat(inputAmount)>=1) {
+      setTipAmount(inputAmount)
       setCorrectOtherInput(true)
     } else {
       setCorrectOtherInput(false)
     }
   }
-  useEffect(() => {
-    setOtherClick(false)
-  }, [tipAmount])
+  const handleKeyEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const keyEvent: string = e.key
+    if(keyEvent == "ArrowUp"){
+      const newvalue: number = (parseFloat(otherAmount) + 1)
+      setTipAmount(newvalue.toString())
+      setOtherAmount(newvalue.toString())
+    }else if(keyEvent == "ArrowDown"){
+      if(parseFloat(otherAmount)>=1){
+        const newvalue: number = (parseFloat(otherAmount) - 1)
+        setTipAmount(newvalue.toString())
+        setOtherAmount(newvalue.toString())
+      }
+    }
+  }
   if (!streamerId) {
     return <Error />
   } else {
@@ -47,19 +60,19 @@ export default function Donation() {
               <fieldset className="grid grid-row-3 gap-4">
                 <label className="font-bold flex">Select amount to tip</label>
                 <fieldset className="grid grid-cols-3 gap-2 pt-4">
-                  <button className={`${tipAmount === '3.33' ? "bg-sky-400 rounded-xl text-center font-bold text-slate-100" : "bg-slate-100 rounded-xl text-center font-bold text-sky-400"}`} type='button' onClick={() => setTipAmount('3.33')}>$3.33</button>
-                  <button className={`${tipAmount === '4.2' ? "bg-sky-400 rounded-xl text-center font-bold text-slate-100" : "bg-slate-100 rounded-xl text-center font-bold text-sky-400"}`} type='button' onClick={() => setTipAmount('4.2')}>$4.20</button>
-                  <button className={`${tipAmount === '6.9' ? "bg-sky-400 rounded-xl text-center font-bold text-slate-100" : "bg-slate-100 rounded-xl text-center font-bold text-sky-400"}`} type='button' onClick={() => setTipAmount('6.9')}>$6.90</button>
-                  <button className={`${tipAmount === '13.37' ? "bg-sky-400 rounded-xl text-center font-bold text-slate-100" : "bg-slate-100 rounded-xl text-center font-bold text-sky-400"}`} type='button' onClick={() => setTipAmount('13.37')}>$13.37</button>
-                  <button className={`${otherClick === true ? "bg-sky-400 rounded-xl text-center font-bold text-slate-100" : "bg-slate-100 rounded-xl text-center font-bold text-sky-400"}`} type="button" onClick={() => { setOtherClick(true) }}>OTHER</button>
+                  <button className={`${tipAmount === '3.33' && otherClick === false ? "bg-sky-400 rounded-xl text-center font-bold text-slate-100" : "bg-slate-100 rounded-xl text-center font-bold text-sky-400"}`} type='button' onClick={() => {setTipAmount('3.33'); setOtherClick(false); setOtherAmount('');}}>$3.33</button>
+                  <button className={`${tipAmount === '4.2' && otherClick === false ? "bg-sky-400 rounded-xl text-center font-bold text-slate-100" : "bg-slate-100 rounded-xl text-center font-bold text-sky-400"}`} type='button' onClick={() => {setTipAmount('4.2'); setOtherClick(false); setOtherAmount('');}}>$4.20</button>
+                  <button className={`${tipAmount === '6.9' && otherClick === false ? "bg-sky-400 rounded-xl text-center font-bold text-slate-100" : "bg-slate-100 rounded-xl text-center font-bold text-sky-400"}`} type='button' onClick={() => {setTipAmount('6.9'); setOtherClick(false); setOtherAmount('');}}>$6.90</button>
+                  <button className={`${tipAmount === '13.37' && otherClick === false ? "bg-sky-400 rounded-xl text-center font-bold text-slate-100" : "bg-slate-100 rounded-xl text-center font-bold text-sky-400"}`} type='button' onClick={() => {setTipAmount('13.37'); setOtherClick(false); setOtherAmount('');}}>$13.37</button>
+                  <button className={`${otherClick === true ? "bg-sky-400 rounded-xl text-center font-bold text-slate-100" : "bg-slate-100 rounded-xl text-center font-bold text-sky-400"}`} type="button" onClick={() => { setOtherClick(true); setCorrectOtherInput(true); }}>OTHER</button>
                 </fieldset>
                 <div className="relative">
-                  <input type="text" placeholder="Input amount" className="input input-bordered input-info w-full max-w-xs" onChange={handleOtherAmount} />
-                  <div className={`${correctOtherInput === true ? "hidden" : "flex items-center"}`}>
+                  <input type="text" placeholder="Input amount" className={`${otherClick === true ? "input input-bordered input-info w-full max-w-xs" : "hidden"}`} value={otherAmount} onChange={handleOtherAmount} onKeyDown={handleKeyEvent}/>
+                  <div className={`${correctOtherInput === true  || otherClick === false ? "hidden" : "flex items-center"}`}>
                     <svg className="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
-                    <p className="text-red-500 font-bold">Warning: Only allow number and float in text box！</p>
+                    <p className="text-red-500 font-bold">Warning: Only allow number, float and minimum tip required is $1.00 in text box！</p>
                   </div>
                 </div>
               </fieldset>
