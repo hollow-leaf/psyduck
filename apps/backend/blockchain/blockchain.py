@@ -1,4 +1,6 @@
 import os
+import time
+
 import requests
 from eth_utils import event_abi_to_log_topic
 from web3 import Web3
@@ -12,7 +14,7 @@ load_dotenv()
 APIKEY = os.getenv("APIKEY")
 web3 = Web3(Web3.HTTPProvider("https://opbnb-testnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3"))
 URL = "https://opbnb-testnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3"
-ServerlessURL = "http://localhost:8787"
+ServerlessURL = "http://psyduck-app.wayneies1206.workers.dev"
 
 f = open('factoryABI.json')
 factoryABI = FactoryABI
@@ -133,7 +135,7 @@ def update_opbnb(start, end):
                         event_info = decoded_logs[0]['args']
                         if (event_name == "ERC1155Created"):
                             print(event_info['_owner'], event_info['eventId'], 1, event_info['name'])
-                            register(event_info['_owner'], event_info['name'])
+                            register(event_info['_owner'], event_info['name'], event_info['eventId'])
                         if (event_name == "ERC1155AddNewNFT"):
                             eventId = event_info['_eventId']
                             tokenId = event_info['id']
@@ -203,6 +205,7 @@ def auto_update_opbnb():
     while(start_block < now_block):
         update_opbnb(start_block, start_block+45000)
         start_block += 45000
+        time.sleep(1)
     LastUpdateBlock(now_block)
 
 def getLastUpdateBlock():
@@ -227,10 +230,11 @@ def LastUpdateBlock(block):
 
     return response.json()
 
-def register(address, userId):
+def register(address, userId, eventId):
     payload = {
         "address": address,
-        "userId": userId
+        "userId": userId,
+        "eventId": eventId
     }
     headers = {
         "accept": "application/json",
