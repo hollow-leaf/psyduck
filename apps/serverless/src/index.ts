@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { StringToNftCreateArray, StringToNftOwnArray, addCreateNft, addOwnNft } from './utils'
 import { nftOwn, nftCreate, account } from './model'
+import { cors } from 'hono/cors'
 
 type Bindings = {
   psyduck: KVNamespace
@@ -8,14 +9,28 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>()
 
+app.use('*', cors({
+  origin: 'chrome-extension://',
+  allowHeaders: ['Content-Type', 'Authorization'],
+  allowMethods: ['POST', 'GET', 'OPTIONS'],
+  exposeHeaders: ['Content-Length'],
+  maxAge: 600,
+  credentials: true,
+}))
+
+app.options('*', (c) => {
+  return c.text('', 204)
+})
+
 app.get('/', async (c) => {
   const res = await c.env.psyduck.list()
   console.log(res)
   return c.text("Hello Hono")
 })
 
-app.get('/nftOwnByAddress', async (c) => {
+app.post('/nftOwnByAddress', async (c) => {
   const reqData = await c.req.json()
+
   var address = reqData['address']
   if( address == null) {
     return c.json({nfts: []})
@@ -28,7 +43,7 @@ app.get('/nftOwnByAddress', async (c) => {
   return c.json({nfts: []})
 })
 
-app.get('/nftCreateByAddress', async (c) => {
+app.post('/nftCreateByAddress', async (c) => {
   const reqData = await c.req.json()
   const address = reqData['address']
   if( address == null) {
@@ -42,7 +57,7 @@ app.get('/nftCreateByAddress', async (c) => {
   return c.json({nfts: []})
 })
 
-app.get('/userIdToAddress', async (c) => {
+app.post('/userIdToAddress', async (c) => {
   var user: account = {userId: '', address: '', eventId: 0}
   const reqData = await c.req.json()
   user.userId = reqData['userId']
@@ -97,6 +112,7 @@ app.post('/nftCreate', async (c) => {
   if(value == null) {
     value = ""
   }
+  nftc.creator = creator
   const nfts = addCreateNft(value, nftc)
   console.log(nfts)
   await c.env.psyduck.put(creator + "-create", nfts)

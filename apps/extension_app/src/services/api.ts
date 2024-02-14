@@ -1,20 +1,25 @@
-import axios from "axios";
+const HOST = "https://psyduck-app.wayneies1206.workers.dev"
 
-const HOST = "http://127.0.0.1:5000"
+const  headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    'Access-Control-Allow-Origin': '*'
+}
 
 export async function getNftcsByUserId(userId:string) {
+    const address = await userId2Address(userId)
     try {
-
-        let form = new FormData()
-        form.append("userId", userId)
-
-        const res = await fetch(HOST + '/nftc', {
+        let body = {
+            "address": address
+        }
+        const res = await fetch(HOST + '/nftCreateByAddress', {
             method: 'POST',
-            body: form
+            headers: headers,
+            body: JSON.stringify(body)
           })
         if(res){
             const rres = await res.json()
-            return rres.data
+            return rres.nfts
         }else{
             return []
         }
@@ -28,16 +33,18 @@ export async function getNftcsByUserId(userId:string) {
 export async function getNftosByAddress(address:string) {
     try {
 
-        let form = new FormData()
-        form.append("address", address)
+        let body = {
+            "address": address
+        }
 
-        const res = await fetch(HOST + '/nfto', {
+        const res = await fetch(HOST + '/nftOwnByAddress', {
             method: 'POST',
-            body: form
+            headers: headers,
+            body: JSON.stringify(body)
           })
         if(res){
             const rres = await res.json()
-            return rres.data
+            return rres.nfts
         }else{
             return []
         }
@@ -68,5 +75,30 @@ export async function address2eventId(address:string){
     catch (err) {
         console.log("error", err);
         return -1
+    }
+}
+
+export async function userId2Address(userId:string){
+    try {
+
+        let body = {
+            "userId": userId
+        }
+
+        const res = await fetch(HOST + '/userIdToAddress', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(body)
+          })
+        if(res){
+            const rres = await res.json()
+            return rres.address
+        }else{
+            return ""
+        }
+    }
+    catch (err) {
+        console.log("error", err);
+        return ""
     }
 }
