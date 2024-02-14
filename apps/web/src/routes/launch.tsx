@@ -10,7 +10,7 @@ export default function Launch() {
 
   const handleInputContent = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    if (/^[a-zA-Z0-9]*$/.test(value) && value.length <= 20) {
+    if (value.length <= 20) {
       setInputValue(value)
       setCorrectOtherInput(true)
     } else {
