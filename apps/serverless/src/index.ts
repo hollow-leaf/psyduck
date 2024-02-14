@@ -10,7 +10,7 @@ type Bindings = {
 const app = new Hono<{ Bindings: Bindings }>()
 
 app.use('*', cors({
-  origin: 'chrome-extension://',
+  origin: '*',
   allowHeaders: ['Content-Type', 'Authorization'],
   allowMethods: ['POST', 'GET', 'OPTIONS'],
   exposeHeaders: ['Content-Length'],
