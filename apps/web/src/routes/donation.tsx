@@ -123,7 +123,7 @@ export default function Donation() {
             {nftToSale.map((item:any) => {
               return (
                 <div className="row-span-3  rounded-sm">
-                  <NftSaleItem eventId={item.eventId} nftId={item.nftId} creator={item.creator} price={item.price}  nftName={item.nftName} maxSupply={item.maxSupply} />
+                  <NftSaleItem eventId={item.eventId} nftId={item.nftId} creator={item.creator} price={item.price}  nftName={item.nftName} maxSupply={item.maxSupply} url={channelInfo?channelInfo.avatar:""} />
                 </div>
               )
             })}

@@ -6,6 +6,7 @@ html
 
 body{
 	background: linear-gradient(to left, #8360c3, #2ebf91);
+	
 }
 
 .App {
@@ -15,8 +16,8 @@ body{
 .container {
     width: 100%;
     padding: 3%;
-	background: linear-gradient(to left, #8360c3, #2ebf91);
 	min-height: 400px;
+	background-image: url(https://cdn.streamelements.com/static/user/background_default.jpg)
 }
 
 

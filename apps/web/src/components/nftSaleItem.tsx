@@ -5,7 +5,7 @@ import React from "react"
 export function NftSaleItem(props:nftCreate){
 
     return (
-        <div >
+        <div>
             <div className="card" style={{"background": "rgba(40, 2, 84, 0.7)"}} onClick={() => {
                 
             }}>
@@ -13,7 +13,7 @@ export function NftSaleItem(props:nftCreate){
                 <h4>Price: {props.price}</h4>
                 <h4>Creator: {formatAddress(props.creator)}</h4>
                 <div className="shine"></div>
-                <div className="background">
+                <div className="background" style={{"backgroundImage": `url(${props.url})`}}>
                     <div className="tiles">
                         <div className="tile tile-1"></div>
                         <div className="tile tile-2"></div>
