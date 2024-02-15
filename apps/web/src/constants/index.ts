@@ -1,21 +1,17 @@
-import { people01, people02, people03, facebook, instagram, linkedin, twitter, airbnb, binance, coinbase, dropbox, send, shield, star  } from '../assets';
+import { people01, people02, people03, people04, people05, github, airbnb, binance, coinbase, dropbox, send, shield, star  } from '../assets';
 
 export const navLinks = [
   {
-    id: 'home',
+    id: 'Home',
     title: 'Home',
   },
   {
-    id: 'features',
-    title: 'Features',
+    id: 'Github',
+    title: 'Github',
   },
   {
-    id: 'product',
-    title: 'Product',
-  },
-  {
-    id: 'clients',
-    title: 'Clients',
+    id: 'Launch App',
+    title: 'Launch App',
   },
 ];
 
@@ -23,23 +19,30 @@ export const features = [
   {
     id: 'feature-1',
     icon: star,
-    title: 'Rewards',
+    title: 'Enhanced Engagement',
     content:
-      'The best credit cards offer some tantalizing combinations of promotions and prizes',
+      'Facilitates meaningful viewer-streamer connections via ERC-1155 token donations.',
   },
   {
     id: 'feature-2',
     icon: shield,
-    title: '100% Secured',
+    title: 'Diverse Revenue',
     content:
-      'We take proactive steps make sure your information and transactions are secure.',
+      'Offers creators new monetization methods.',
   },
   {
     id: 'feature-3',
     icon: send,
-    title: 'Balance Transfer',
+    title: 'Secure Transactions',
     content:
-      'A balance transfer credit card can save you a lot of money in interest charges.',
+      'Ensures transparency and security with blockchain technology.',
+  },
+  {
+    id: 'feature-4',
+    icon: star,
+    title: 'User-Friendly',
+    content:
+      'Easy integration with a simple interface for users.',
   },
 ];
 
@@ -47,26 +50,42 @@ export const feedback = [
   {
     id: 'feedback-1',
     content:
-      'Money is only a tool. It will take you wherever you wish, but it will not replace you as the driver.',
-    name: 'Herman Jensen',
-    title: 'Founder & Leader',
+      '',
+    name: 'Solo Lin',
+    title: 'Cathay Financial Holdings',
     img: people01,
   },
   {
     id: 'feedback-2',
     content:
-      'Money makes your life easier. If you are lucky to have it, you are lucky.',
-    name: 'Steve Mark',
-    title: 'Founder & Leader',
+      '',
+    name: 'Jake Kuo',
+    title: 'Cathay Financial Holdings',
     img: people02,
   },
   {
     id: 'feedback-3',
     content:
       'It is usually people in the money business, finance, and international trade that are really rich.',
-    name: 'Kenn Gallagher',
-    title: 'Founder & Leader',
+    name: 'Johnny Lai',
+    title: 'Cathay Financial Holdings',
     img: people03,
+  },
+  {
+    id: 'feedback-4',
+    content:
+      'It is usually people in the money business, finance, and international trade that are really rich.',
+    name: 'Albert Cheng ',
+    title: 'Cathay Financial Holdings',
+    img: people04,
+  },
+  {
+    id: 'feedback-5',
+    content:
+      'It is usually people in the money business, finance, and international trade that are really rich.',
+    name: 'Sophia  Liang',
+    title: 'Cathay Financial Holdings',
+    img: people05,
   },
 ];
 
@@ -157,23 +176,8 @@ export const footerLinks = [
 export const socialMedia = [
   {
     id: 'social-media-1',
-    icon: instagram,
-    link: 'https://www.instagram.com/',
-  },
-  {
-    id: 'social-media-2',
-    icon: facebook,
-    link: 'https://www.facebook.com/',
-  },
-  {
-    id: 'social-media-3',
-    icon: twitter,
-    link: 'https://www.twitter.com/',
-  },
-  {
-    id: 'social-media-4',
-    icon: linkedin,
-    link: 'https://www.linkedin.com/',
+    icon: github,
+    link: 'https://github.com/hollow-leaf/psyduck',
   },
 ];
 
