@@ -3,6 +3,7 @@ import {featureTypes} from '../models/type/ui.type'
 import { features } from '../constants'
 import styles, { layout } from '../style'
 import Button from './Button'
+import { Link } from 'react-router-dom'
 
 export function FeatureCard(props: featureTypes) {
   return (
@@ -27,19 +28,20 @@ export default function Business() {
     <section id='features' className={layout.section}>
       <div className={layout.sectionInfo}>
         <h2 className={styles.heading2}>
-          You do the business, <br className='sm:block hidden' /> we’ll handle
-          the money.
+          We make live stream donating simple.
         </h2>
-        <p className={`${styles.paragraph} max-w-[470px] mt-5`}>
+        {/* <p className={`${styles.paragraph} max-w-[470px] mt-5`}>
           With the right credit card, you can improve your financial life by
           building credit, earning rewards and saving money. But with hundreds
           of credit cards on the market.
-        </p>
+        </p> */}
 
-        <Button styles={`mt-10`} />
+        <Link to="/launch">
+          <Button styles={`mt-10`} />
+        </Link>
       </div>
 
-      <div className={`${layout.sectionImg} flex-col`}>
+      <div className={`${layout.sectionImg} flex-col items-left`}>
         {features.map((feature, index) => (
           <FeatureCard key={feature.id} {...feature} index={index} />
         ))}

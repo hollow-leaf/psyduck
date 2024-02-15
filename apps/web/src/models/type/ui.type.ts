@@ -49,6 +49,7 @@ export interface stylesTypes {
     heading2: string
     paragraph: string
     flexCenter: string
+    flexLeft: string
     flexStart: string
     paddingX: string
     paddingY: string

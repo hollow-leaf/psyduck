@@ -7,6 +7,7 @@ const styles: stylesTypes = {
   paragraph: 'font-poppins font-normal text-dimWhite text-[18px] leading-[30.8px]',
 
   flexCenter: 'flex justify-center items-center',
+  flexLeft: 'flex justify-center items-left',
   flexStart: 'flex justify-center items-start',
 
   paddingX: 'sm:px-16 px-6',
@@ -22,7 +23,7 @@ export const layout: layoutTypes = {
   sectionReverse: `flex md:flex-row flex-col-reverse ${styles.paddingY}`,
 
   sectionImgReverse: `flex-1 flex ${styles.flexCenter} md:mr-10 mr-0 md:mt-0 mt-10 relative`,
-  sectionImg: `flex-1 flex ${styles.flexCenter} md:ml-10 ml-0 md:mt-0 mt-10 relative`,
+  sectionImg: `flex-1 flex ${styles.flexLeft} md:ml-10 ml-0 md:mt-0 mt-10 relative`,
 
   sectionInfo: `flex-1 ${styles.flexStart} flex-col`,
 }
