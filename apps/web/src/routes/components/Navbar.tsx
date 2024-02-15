@@ -7,7 +7,7 @@ export default function Navbar() {
                 <a className="text-xl text-white" href='/'>Psyduck</a>
             </div>
             <div className="navbar-end">
-                <a className="btn">Connect Wallet</a>
+                <w3m-button />
             </div>
         </div>
     )

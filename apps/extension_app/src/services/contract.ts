@@ -64,7 +64,7 @@ export async function PDBalance(address:string){
 }
 
 
-export async function buyNftByNftId(minter:string, eventId:number, nftId:number, amount:number, price:number){
+export async function buyNftByNftId(eventId:number, nftId:number, amount:number, price:number){
     alert("Approve transaction on your device!")
 
     /* const contractAddr = await eventId2Address(eventId)

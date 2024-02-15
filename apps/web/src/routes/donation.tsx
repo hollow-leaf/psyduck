@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useLayoutEffect } from "react"
-import Error from "./error"
+import React, { useState } from "react"
 import Navbar from "./components/Navbar"
-import { TwitchContextService } from "../../src/services/api/twitchContext"
 import { useLocation } from "react-router-dom"
 import { channelInfo } from "src/models/model"
 import { useQuery } from "react-query";
-import { getChannelinfoById, getNftcsByUserId  } from "src/services/api/api"
+import { getChannelinfoById, getNftcsByUserId, userId2Address } from "src/services/api/api"
 import { NftSaleItem } from "src/components/nftSaleItem"
 import { nftCreate } from "src/models/model"
+import { DoantionButton } from "src/components/donationButton"
 
 export default function Donation() {
   const location = useLocation()
@@ -20,6 +19,7 @@ export default function Donation() {
   const [otherClick, setOtherClick] = useState<boolean>(true)
   const [correctOtherInput, setCorrectOtherInput] = useState<boolean>(true)
   const [nftToSale, setnftToSale] = useState<nftCreate[]>([])
+  const [streamerAddress, setStreamerAddress] = useState<string>('')
 
   const handleOtherAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputAmount: string = e.target.value
@@ -59,6 +59,11 @@ export default function Donation() {
         getNftcsByUserId(streamerId).then((res:any) => {
           if(res){
             setnftToSale(res)
+          }
+        })
+        userId2Address(streamerId).then((res:any) => {
+          if(res){
+            setStreamerAddress(res)
           }
         })
       }
@@ -106,14 +111,14 @@ export default function Donation() {
               </fieldset>
             </form>
             <form className="bg-white col-span-2 md:col-span-5 h-[300px] rounded-xl p-5">
-              <fieldset className="grid grid-rows-5">
+              <fieldset className="grid" style={{"gridTemplateRows": "repeat(4, 40%);"}}>
                 <div className="flex items-center">
                   <label className="font-bold flex text-gray-400">Your tip</label>
                   <label className="font-bold pl-40" style={{"paddingLeft": "5rem"}}>{tipAmount}PsyCoin</label>
                 </div>
                 <div className="divider"></div>
                 <label className="font-bold text-black">Tip {streamerId}</label>
-                <button className="btn btn-wide rounded-3xl">Psyduck</button>
+                <DoantionButton to={streamerAddress} value={tipAmount} />
               </fieldset>
             </form>
           </div>
@@ -122,8 +127,8 @@ export default function Donation() {
             <div className="nftTable">
             {nftToSale.map((item:any) => {
               return (
-                <div className="row-span-3  rounded-sm">
-                  <NftSaleItem eventId={item.eventId} nftId={item.nftId} creator={item.creator} price={item.price}  nftName={item.nftName} maxSupply={item.maxSupply} />
+                <div className="row-span-3  rounded-sm" key={item.nfdId+item.nftName}>
+                  <NftSaleItem eventId={item.eventId} nftId={item.nftId} creator={item.creator} price={item.price}  nftName={item.nftName} maxSupply={item.maxSupply} url={channelInfo?channelInfo.avatar:""} />
                 </div>
               )
             })}

@@ -32,6 +32,7 @@ export type nftCreate = {
     price: number
     maxSupply: number
     eventId: number
+    url: string
 }
 
 export type account = {
