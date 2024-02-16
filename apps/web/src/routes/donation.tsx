@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import Navbar from "./components/Navbar"
 import { useLocation } from "react-router-dom"
 import { channelInfo } from "src/models/model"
-import { useQuery } from "react-query";
+import { useQuery } from "react-query"
 import { getChannelinfoById, getNftcsByUserId, userId2Address } from "src/services/api/api"
 import { NftSaleItem } from "src/components/nftSaleItem"
 import { nftCreate } from "src/models/model"
@@ -14,8 +14,8 @@ export default function Donation() {
   const streamerId = searchParams.get("value")
 
   const [channelInfo, setchannelInfo] = useState<channelInfo>()
-  const [tipAmount, setTipAmount] = useState<string>("4.2")
-  const [otherAmount, setOtherAmount] = useState<string>('')
+  const [tipAmount, setTipAmount] = useState<string>("1")
+  const [otherAmount, setOtherAmount] = useState<string>("1")
   const [otherClick, setOtherClick] = useState<boolean>(true)
   const [correctOtherInput, setCorrectOtherInput] = useState<boolean>(true)
   const [nftToSale, setnftToSale] = useState<nftCreate[]>([])
@@ -24,7 +24,7 @@ export default function Donation() {
   const handleOtherAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputAmount: string = e.target.value
     setOtherAmount(inputAmount)
-    if (/^[0-9.0-9]*$/.test(inputAmount) && inputAmount.length <= 10 && parseFloat(inputAmount)>=1) {
+    if (/^[0-9.0-9]*$/.test(inputAmount) && inputAmount.length <= 10 && parseFloat(inputAmount) >= 1) {
       setTipAmount(inputAmount)
       setCorrectOtherInput(true)
     } else {
@@ -34,15 +34,23 @@ export default function Donation() {
 
   const handleKeyEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const keyEvent: string = e.key
-    if(keyEvent == "ArrowUp"){
-      const newvalue: number = (parseFloat(otherAmount) + 1)
+    if (keyEvent === "ArrowUp") {
+      let newvalue: number
+      if (otherAmount === "") {
+        newvalue = 1
+      } else {
+        newvalue = parseFloat(otherAmount) + 1
+      }
       setTipAmount(newvalue.toString())
       setOtherAmount(newvalue.toString())
-    }else if(keyEvent == "ArrowDown"){
-      if(parseFloat(otherAmount)>=1){
-        const newvalue: number = (parseFloat(otherAmount) - 1)
+    } else if (keyEvent === "ArrowDown") {
+      if (parseFloat(otherAmount) >= 1) {
+        const newvalue: number = parseFloat(otherAmount) - 1
         setTipAmount(newvalue.toString())
         setOtherAmount(newvalue.toString())
+      }
+      if (otherAmount === "") {
+        setOtherAmount("0")
       }
     }
   }
@@ -50,25 +58,25 @@ export default function Donation() {
   const { isLoading, error, data } = useQuery({
     queryKey: ["getChannelinfoById"],
     queryFn: () => {
-      if(streamerId){
-        getChannelinfoById(streamerId).then((res:any) => {
-          if(res!=null){
+      if (streamerId) {
+        getChannelinfoById(streamerId).then((res: any) => {
+          if (res != null) {
             setchannelInfo(res)
           }
         })
-        getNftcsByUserId(streamerId).then((res:any) => {
-          if(res){
+        getNftcsByUserId(streamerId).then((res: any) => {
+          if (res) {
             setnftToSale(res)
           }
         })
-        userId2Address(streamerId).then((res:any) => {
-          if(res){
+        userId2Address(streamerId).then((res: any) => {
+          if (res) {
             setStreamerAddress(res)
           }
         })
       }
     }
-  });
+  })
 
 
   if (isLoading) {
@@ -82,7 +90,7 @@ export default function Donation() {
           <div className="bg-slate-200 rounded-xl p-4 h-[200px] bg-cover bg-no-repeat bg-launch-profile shadow-xl relative">
             <div className="avatar absolute pl-4 bottom-0 left-0 gap-4 flex items-center">
               <div className="w-24 rounded-full">
-              {channelInfo?.avatar&&<img src={channelInfo.avatar} />}
+                {channelInfo?.avatar && <img src={channelInfo.avatar} />}
               </div>
               <div className="bg-white rounded-xl h-8 w-28 text-center pt-1 pl-2">
                 <p className="text-black font-bold">{streamerId}</p>
@@ -94,12 +102,12 @@ export default function Donation() {
               <fieldset className="grid grid-row-3 gap-4">
                 <label className="font-bold flex">Amount to tip</label>
                 <div className="relative">
-                  <input type="text" placeholder="Input amount" className={`${otherClick === true ? "input input-bordered input-info w-full max-w-xs" : "hidden"}`} value={otherAmount} onChange={handleOtherAmount} onKeyDown={handleKeyEvent}/>
-                  <div className={`${correctOtherInput === true  || otherClick === false ? "hidden" : "flex items-center"}`}>
+                  <input type="text" placeholder="Input amount" className={`${otherClick === true ? "input input-bordered input-info w-full max-w-xs" : "hidden"}`} value={otherAmount} onChange={handleOtherAmount} onKeyDown={handleKeyEvent} />
+                  <div className={`${correctOtherInput === true || otherClick === false ? "hidden" : "flex items-center"}`}>
                     <svg className="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
-                    <p className="text-red-500 font-bold" style={{"fontSize": "10px", "marginTop": "10px"}}>Warning: Only allow number, float and minimum tip required is $1.00 in text box！</p>
+                    <p className="text-red-500 font-bold" style={{ "fontSize": "10px", "marginTop": "10px" }}>Warning: Only allow number, float and minimum tip required is $1.00 in text box！</p>
                   </div>
                 </div>
               </fieldset>
@@ -111,10 +119,10 @@ export default function Donation() {
               </fieldset>
             </form>
             <form className="bg-white col-span-2 md:col-span-5 h-[300px] rounded-xl p-5">
-              <fieldset className="grid" style={{"gridTemplateRows": "repeat(4, 40%);"}}>
+              <fieldset className="grid" style={{ "gridTemplateRows": "repeat(4, 40%)" }}>
                 <div className="flex items-center">
                   <label className="font-bold flex text-gray-400">Your tip</label>
-                  <label className="font-bold pl-40" style={{"paddingLeft": "5rem"}}>{tipAmount}PsyCoin</label>
+                  <label className="font-bold pl-40" style={{ "paddingLeft": "5rem" }}>$ {tipAmount} PsyCoin</label>
                 </div>
                 <div className="divider"></div>
                 <label className="font-bold text-black">Tip {streamerId}</label>
@@ -123,15 +131,15 @@ export default function Donation() {
             </form>
           </div>
           <div className="bg-slate-200 rounded-xl p-4 bg-cover bg-no-repeat bg-launch-profile shadow-xl relative grid grid-row-3 gap-4">
-            <label className="font-bold flex" style={{"color": "white"}}>NFT created by {streamerId}</label>
+            <label className="font-bold flex" style={{ "color": "white" }}>NFT created by {streamerId}</label>
             <div className="nftTable">
-            {nftToSale.map((item:any) => {
-              return (
-                <div className="row-span-3  rounded-sm" key={item.nfdId+item.nftName}>
-                  <NftSaleItem eventId={item.eventId} nftId={item.nftId} creator={item.creator} price={item.price}  nftName={item.nftName} maxSupply={item.maxSupply} url={channelInfo?channelInfo.avatar:""} />
-                </div>
-              )
-            })}
+              {nftToSale.map((item: any) => {
+                return (
+                  <div className="row-span-3  rounded-sm" key={item.nfdId + item.nftName}>
+                    <NftSaleItem eventId={item.eventId} nftId={item.nftId} creator={item.creator} price={item.price} nftName={item.nftName} maxSupply={item.maxSupply} url={channelInfo ? channelInfo.avatar : ""} />
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>
