@@ -21,6 +21,7 @@ contract PoolFactory is IPoolFactory, Ownable {
     function withdraw(address fundAsset_) external onlyOwner {
         uint256 balance = IERC20(fundAsset_).balanceOf(address(this));
         IERC20(fundAsset_).transfer(msg.sender, balance);
+        emit ProtocolWithdrawn(msg.sender, fundAsset_, balance);
     }
 
     /// @dev Sets the protocol fee rate
@@ -49,6 +50,11 @@ contract PoolFactory is IPoolFactory, Ownable {
         uint256 id = Pool(nameToAddress[_name]).addNewNFT(msg.sender,_mintPrice,  _name, _metadataURI);
         emit ERC1155AddNewNFT(_eventId, _mintPrice, _name, _metadataURI, id);
     }
+
+    // function setIssuer(string memory _name, address _newIssuer) external override{
+    //     Pool(nameToAddress[_name]).setIssuer(msg.sender, _newIssuer);
+    //     emit IssuerChanged(msg.sender, _newIssuer);
+    // }
 
     /*//////////////////////////////////////////////////////////////////////////
                         EXTERNAL NON-CONSTANT FUNCTIONS

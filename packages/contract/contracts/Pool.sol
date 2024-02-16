@@ -94,7 +94,7 @@ contract Pool is ERC1155, IPool {
         );
 
         _mint(to_, id_, amount_, "");
-        emit Mint(to_, id_, amount_);
+        // emit Mint(to_, id_, amount_);
 
         userDepositAmounts[msg.sender] += transferAmount;
         nfts[id_].totalSupplys += amount_;
@@ -133,7 +133,7 @@ contract Pool is ERC1155, IPool {
         );
 
         _mintBatch(to_, ids_, amounts_, "");
-        emit MintBatch(to_, ids_, amounts_);
+        // emit MintBatch(to_, ids_, amounts_);
 
         userDepositAmounts[msg.sender] += totalTransferAmount;
         totalDeposit += totalTransferAmount;
@@ -144,7 +144,6 @@ contract Pool is ERC1155, IPool {
     /// @dev withdraw the fund from the pool if the pool is closed and the target is reached.
     /// @notice this function can only be called by the issuer.
     function issuerWithdraw() external override onlyIssuer {
-
         uint256 protocolFeeRate = _poolFactory.protocolFeeRate();
         uint256 withdrawAmount = fundAsset.balanceOf(address(this));
 
@@ -161,15 +160,14 @@ contract Pool is ERC1155, IPool {
         emit IssuerWithdrawal(issuer, withdrawAmount);
     }
 
-    /// @dev set the issuer of the pool.
-    /// @param newIssuer_ the new issuer of the pool.
-    /// @notice this function can only be called by the issuer.
-    function setIssuer(address _oldIssuer, address newIssuer_) external onlyPoolFactory {
-        require(_oldIssuer == issuer, "not issuer");
-        require(newIssuer_ != address(0), "issuer is 0x00");
-        issuer = newIssuer_;
-        emit IssuerChanged(issuer, newIssuer_);
-    }
+    // /// @dev set the issuer of the pool.
+    // /// @param newIssuer_ the new issuer of the pool.
+    // /// @notice this function can only be called by the issuer.
+    // function setIssuer(address _oldIssuer, address newIssuer_) external onlyPoolFactory {
+    //     require(_oldIssuer == issuer, "not issuer");
+    //     require(newIssuer_ != address(0), "issuer is 0x00");
+    //     issuer = newIssuer_;
+    // }
 
     /*//////////////////////////////////////////////////////////////////////////
                         EXTERNAL CONSTANT FUNCTIONS
