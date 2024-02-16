@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Navbar from './components/Navbar'
 import { useNavigate } from 'react-router-dom'
-import { TwitchContextService } from '../../src/services/api/twitchContext'
 
 export default function Launch() {
   const [inputValue, setInputValue] = useState<string>('')
@@ -16,8 +15,15 @@ export default function Launch() {
     } else {
       setCorrectOtherInput(false)
     }
+  
   }
 
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const keyword = e.key
+    if (keyword=="Enter"){
+      handleSubmit()
+    }
+  }
   const handleSubmit = () => {
     if (inputValue.trim() !== '') {
       navigate(`/donation?value=${inputValue}`)
@@ -25,10 +31,6 @@ export default function Launch() {
       alert('Must input streamer name!')
     }
   }
-  //Twitch API oauth
-  const TwitchOauth = new TwitchContextService()
-  const oauth_url: string = process.env.API_OAUTH
-  const redirect_uri = process.env.API_REDIRECT_URI
 
   return (
     <div className='md:max-w-[5120px] w-full bg-cover bg-no-repeat bg-fixed bg-launch min-h-screen grid place-items-start relative'>
@@ -45,6 +47,7 @@ export default function Launch() {
               className='input input-bordered input-info w-full max-w-xs'
               value={inputValue}
               onChange={handleInputContent}
+              onKeyDown={handleEnter}
             />
             <button className='btn join-item input-bordered input-info rounded-r-full' onClick={handleSubmit}>
               Submit
