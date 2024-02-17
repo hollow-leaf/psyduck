@@ -1,6 +1,6 @@
 import { task } from "hardhat/config"
 import { readFileSync, writeFileSync } from "../helpers/pathHelper"
-
+const walletAddress = process.env.WALLET_ADDRESS || ""
 task("deploy:contract", "Deploy contract")
   .addParam("contract")
   .setAction(async ({ contract }, hre) => {
@@ -61,63 +61,63 @@ task("deploy:token", "Deploy Token")
   },
   )
 
-  task("deploy:nftFactory", "Deploy NFT factory")
+task("deploy:nftFactory", "Deploy NFT factory")
   .addFlag("verify", "Validate contract after deploy")
   .setAction(async ({ verify }, hre) => {
     await hre.run("compile")
     const [signer]: any = await hre.ethers.getSigners()
     const feeData = await hre.ethers.provider.getFeeData()
 
-    const globalContractFactory = await hre.ethers.getContractFactory("contracts/Globals.sol:Globals", )
-    const globalDeployContract: any = await globalContractFactory.connect(signer).deploy({
-      maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
-      maxFeePerGas: feeData.maxFeePerGas,
-      // gasLimit: 6000000, // optional: for some weird infra network
-    })
-    console.log(`Globals.sol deployed to ${globalDeployContract.address}`)
-    await globalDeployContract.deployed()
+    // const globalContractFactory = await hre.ethers.getContractFactory("contracts/Globals.sol:Globals", )
+    // const globalDeployContract: any = await globalContractFactory.connect(signer).deploy({
+    //   maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
+    //   maxFeePerGas: feeData.maxFeePerGas,
+    //   // gasLimit: 6000000, // optional: for some weird infra network
+    // })
+    // console.log(`Globals.sol deployed to ${globalDeployContract.address}`)
+    // await globalDeployContract.deployed()
 
-    const tokenAddress = JSON.parse(readFileSync(
-      `scripts/address/${hre.network.name}/`,
-      "DonateToken.json"
-    ))
-    const nftContractFactory = await hre.ethers.getContractFactory("contracts/DonateNFTFactory.sol:DonateNFTFactory", )
+    // const tokenAddress = JSON.parse(readFileSync(
+    //   `scripts/address/${hre.network.name}/`,
+    //   "DonateToken.json"
+    // ))
+    // const nftContractFactory = await hre.ethers.getContractFactory("contracts/PoolFactory.sol:PoolFactory", )
+    const nftContractFactory = await hre.ethers.getContractFactory("contracts/PoolFactory.sol:PoolFactory", )
     const nftDeployContract: any = await nftContractFactory.connect(signer).deploy(
-      globalDeployContract.address,
-      tokenAddress.main, 
+      //my wallet address
+      walletAddress,
       {
         maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
         maxFeePerGas: feeData.maxFeePerGas,
         // gasLimit: 6000000, // optional: for some weird infra network
     })
-    console.log(`DonateNFTFactory.sol deployed to ${nftDeployContract.address}`)
+    console.log(`PoolFactory.sol deployed to ${nftDeployContract.address}`)
 
     const address = {
-      globals: globalDeployContract.address,
       main: nftDeployContract.address,
     }
     const addressData = JSON.stringify(address)
-    writeFileSync(`scripts/address/${hre.network.name}/`, "DonateNFTFactory.json", addressData)
+    writeFileSync(`scripts/address/${hre.network.name}/`, "PoolFactory.json", addressData)
 
     await nftDeployContract.deployed()
 
     if (verify) {
-      console.log("verifying global contract...")
-      await globalDeployContract.deployTransaction.wait(3)
-      try {
-        await hre.run("verify:verify", {
-          address: globalDeployContract.address,
-          contract: "contracts/Globals.sol:Globals",
-        })
-      } catch (e) {
-        console.log(e)
-      }
+      // console.log("verifying global contract...")
+      // await globalDeployContract.deployTransaction.wait(3)
+      // try {
+      //   await hre.run("verify:verify", {
+      //     address: globalDeployContract.address,
+      //     contract: "contracts/Globals.sol:Globals",
+      //   })
+      // } catch (e) {
+      //   console.log(e)
+      // }
       console.log("verifying nft contract...")
       await nftDeployContract.deployTransaction.wait(3)
       try {
         await hre.run("verify:verify", {
           address: nftDeployContract.address,
-          constructorArguments: [100000000000000],
+          constructorArguments: [walletAddress],
           contract: "contracts/DonateToken.sol:DonateToken",
         })
       } catch (e) {
