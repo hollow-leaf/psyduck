@@ -67,20 +67,6 @@ task("deploy:nftFactory", "Deploy NFT factory")
     const [signer]: any = await hre.ethers.getSigners()
     const feeData = await hre.ethers.provider.getFeeData()
 
-    // const globalContractFactory = await hre.ethers.getContractFactory("contracts/Globals.sol:Globals", )
-    // const globalDeployContract: any = await globalContractFactory.connect(signer).deploy({
-    //   maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
-    //   maxFeePerGas: feeData.maxFeePerGas,
-    //   // gasLimit: 6000000, // optional: for some weird infra network
-    // })
-    // console.log(`Globals.sol deployed to ${globalDeployContract.address}`)
-    // await globalDeployContract.deployed()
-
-    // const tokenAddress = JSON.parse(readFileSync(
-    //   `scripts/address/${hre.network.name}/`,
-    //   "DonateToken.json"
-    // ))
-    // const nftContractFactory = await hre.ethers.getContractFactory("contracts/PoolFactory.sol:PoolFactory", )
     const nftContractFactory = await hre.ethers.getContractFactory("contracts/PoolFactory.sol:PoolFactory", )
     const nftDeployContract: any = await nftContractFactory.connect(signer).deploy(
       //my wallet address
@@ -100,22 +86,12 @@ task("deploy:nftFactory", "Deploy NFT factory")
     await nftDeployContract.deployed()
 
     if (verify) {
-      // console.log("verifying global contract...")
-      // await globalDeployContract.deployTransaction.wait(3)
-      // try {
-      //   await hre.run("verify:verify", {
-      //     address: globalDeployContract.address,
-      //     contract: "contracts/Globals.sol:Globals",
-      //   })
-      // } catch (e) {
-      //   console.log(e)
-      // }
       console.log("verifying nft contract...")
       await nftDeployContract.deployTransaction.wait(3)
       try {
         await hre.run("verify:verify", {
           address: nftDeployContract.address,
-          contract: "contracts/DonateToken.sol:DonateToken",
+          contract: "contracts/PoolFactory.sol:PoolFactory",
         })
       } catch (e) {
         console.log(e)

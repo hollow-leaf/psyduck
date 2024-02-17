@@ -89,7 +89,6 @@ const config: HardhatUserConfig = {
       },
     ],
     settings: {
-      viaIR: true,
       metadata: {
         // Not including the metadata hash
         // https://github.com/paulrberg/hardhat-template/issues/31
@@ -101,9 +100,7 @@ const config: HardhatUserConfig = {
         enabled: true,
         runs: 200,
         details: {
-          yulDetails: {
-            optimizerSteps: "u",
-          },
+          yulDetails: false,
         },
       },
     },
