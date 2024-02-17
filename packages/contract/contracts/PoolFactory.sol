@@ -46,9 +46,9 @@ contract PoolFactory is IPoolFactory, Ownable {
         emit ERC1155BatchMinted(msg.sender, _name,_amounts, _tokenIds);
     }
 
-    function addNewERC1155(uint256 _eventId, uint256 _mintPrice, string memory _name, string memory _metadataURI) external override{
-        uint256 id = Pool(nameToAddress[_name]).addNewNFT(msg.sender,_mintPrice,  _name, _metadataURI);
-        emit ERC1155AddNewNFT(_eventId, _mintPrice, _name, _metadataURI, id);
+    function addNewERC1155(string memory _ERC1155name, uint256 _mintPrice, string memory _name, string memory _metadataURI) external override{
+        uint256 id = Pool(nameToAddress[_ERC1155name]).addNewNFT(msg.sender,_mintPrice,  _name, _metadataURI);
+        emit ERC1155AddNewNFT(_ERC1155name, _mintPrice, _name, _metadataURI, id);
     }
 
     // function setIssuer(string memory _name, address _newIssuer) external override{
@@ -62,13 +62,13 @@ contract PoolFactory is IPoolFactory, Ownable {
 
     /// @dev Creates a new pool with the provided configurations
     /// @param _fundAsset Address of the fund asset
-    /// @param _issuer Address of the issuer
+    /// @param name Name of the pool
     /// @return pool_ Address of the created pool
-    function createPool(address _fundAsset, address _issuer, string memory name) external override returns (address pool_) {
+    function createPool(address _fundAsset, string memory name) external override returns (address pool_) {
         require(nameToAddress[name] == address(0), "pool already exists");
-        Pool pool = new Pool(address(this), _fundAsset, _issuer);
+        Pool pool = new Pool(address(this), _fundAsset, msg.sender);
         nameToAddress[name] = address(pool);
-        emit PoolCreated(msg.sender, address(pool), name);
+        emit PoolCreated(msg.sender, address(pool), name, _fundAsset);
         return (address(pool));
     }
 }
