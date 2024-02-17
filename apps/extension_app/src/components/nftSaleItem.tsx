@@ -12,7 +12,7 @@ export function NftSaleItem(props:NftType){
             <div className="card" onClick={() => {
                 if(isConnected){
                     if(address){
-                        buyNftByNftId(address, props.eventId, props.nftId, 1, props.price)
+                        buyNftByNftId(props.eventId, props.nftId, 1, props.price)
                     }
                 }
             }}>
