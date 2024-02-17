@@ -1,6 +1,5 @@
 import { task } from "hardhat/config"
 import { readFileSync, writeFileSync } from "../helpers/pathHelper"
-const walletAddress = process.env.WALLET_ADDRESS || ""
 task("deploy:contract", "Deploy contract")
   .addParam("contract")
   .setAction(async ({ contract }, hre) => {
@@ -85,7 +84,6 @@ task("deploy:nftFactory", "Deploy NFT factory")
     const nftContractFactory = await hre.ethers.getContractFactory("contracts/PoolFactory.sol:PoolFactory", )
     const nftDeployContract: any = await nftContractFactory.connect(signer).deploy(
       //my wallet address
-      walletAddress,
       {
         maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
         maxFeePerGas: feeData.maxFeePerGas,
@@ -117,7 +115,6 @@ task("deploy:nftFactory", "Deploy NFT factory")
       try {
         await hre.run("verify:verify", {
           address: nftDeployContract.address,
-          constructorArguments: [walletAddress],
           contract: "contracts/DonateToken.sol:DonateToken",
         })
       } catch (e) {

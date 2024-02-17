@@ -14,7 +14,7 @@ contract PoolFactory is IPoolFactory, Ownable {
 
     mapping (string => address) nameToAddress;
 
-    constructor(address initialOwner) Ownable(initialOwner){ }
+    constructor() Ownable(msg.sender){ }
 
     /// @dev Withdraws the entire balance of the specified fund asset to the owner
     /// @param fundAsset_ Address of the fund asset

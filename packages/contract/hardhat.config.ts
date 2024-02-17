@@ -71,12 +71,6 @@ const config: HardhatUserConfig = {
     },
     goerli: getChainConfig("goerli"),
     sepolia: getChainConfig("sepolia"),
-    opbnb: {
-      url: "https://opbnb-testnet-rpc.bnbchain.org/", 
-      chainId: 5611, // Replace with the correct chainId for the "opbnb" network
-      accounts: [`0x${pk}`],
-      gasPrice: 20000000000,
-    },
     mainnet: getChainConfig("mainnet"),
     quorum: getChainConfig("quorum"),
     opbnb: getChainConfig("opbnb"),
@@ -105,7 +99,7 @@ const config: HardhatUserConfig = {
       // https://hardhat.org/hardhat-network/#solidity-optimizer-support
       optimizer: {
         enabled: true,
-        runs: 800,
+        runs: 200,
         details: {
           yulDetails: {
             optimizerSteps: "u",
@@ -119,6 +113,8 @@ const config: HardhatUserConfig = {
       goerli: process.env.ETHERSCAN_API_KEY || "",
       sepolia: process.env.ETHERSCAN_API_KEY || "",
       mainnet: process.env.ETHERSCAN_API_KEY || "",
+      opbnb: process.env.BSCSCAN_API_KEY || "",
+      "opbnb-testnet": process.env.BSCSCAN_API_KEY || "",
       quorum: "NO_API_KEY",
     },
     // https://docs.bscscan.com/v/opbnb-testnet/
@@ -128,6 +124,20 @@ const config: HardhatUserConfig = {
       urls: {
         apiURL: `${process.env.BLOCKSCOUT_URL}/api`,
         browserURL: process.env.BLOCKSCOUT_URL as string,
+      },
+    },{
+      network: "opbnb",
+      chainId: chainIds.opbnb,
+      urls: {
+        apiURL: "https://api-opbnb.bscscan.com/api",
+        browserURL: "https://opbnb.bscscan.com",
+      },
+    },{
+      network: "opbnb-testnet",
+      chainId: chainIds["opbnb-testnet"],
+      urls: {
+        apiURL: "https://api-opbnb-testnet.bscscan.com/api",
+        browserURL: "https://opbnb-testnet.bscscan.com/",
       },
     }],
   },
