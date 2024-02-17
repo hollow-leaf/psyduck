@@ -85,20 +85,20 @@ export default function Donation() {
     return (
       <div className="md:max-w-[5120px] w-full bg-cover bg-no-repeat bg-fixed bg-launch min-h-screen grid place-items-start relative">
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
-        <div className="mx-auto md:max-w-[650px] w-full md:grid grid-row-5 rounded-xl relative z-10 gap-3">
+        <div className="mx-auto md:max-w-[650px] w-full md:grid grid-row-5 rounded-xl relative z-10 gap-3" style={{"padding": "10px"}}>
           <Navbar />
-          <div className="bg-slate-200 rounded-xl p-4 h-[200px] bg-cover bg-no-repeat bg-launch-profile shadow-xl relative">
+          <div className="bg-slate-200 rounded-xl p-4 h-[200px] bg-cover bg-no-repeat bg-launch-profile shadow-xl relative" style={{"marginBottom": "10px"}}>
             <div className="avatar absolute pl-4 bottom-0 left-0 gap-4 flex items-center">
               <div className="w-24 rounded-full">
                 {channelInfo?.avatar && <img src={channelInfo.avatar} />}
               </div>
-              <div className="bg-white rounded-xl h-8 w-28 text-center pt-1 pl-2">
-                <p className="text-black font-bold">{streamerId}</p>
+              <div className="bg-white rounded-xl h-8 w-28 text-center pt-1 pl-2" style={{"width": `${streamerId?String(streamerId?.length*12):""}px`}}>
+                <p className="text-black font-bold" >{streamerId}</p>
               </div>
             </div>
           </div>
-          <div className="row-span-3 md:grid grid-cols-10 gap-4 rounded-sm">
-            <form className="bg-white col-span-3 md:col-span-5 h-[300px] rounded-xl p-5 grid-row-7">
+          <div className="row-span-3 md:grid grid-cols-10 gap-4 rounded-sm" style={{"marginBottom": "10px"}}>
+            <form className="bg-white col-span-3 md:col-span-5 h-[300px] rounded-xl p-5 grid-row-7" style={{"marginBottom": "10px"}}>
               <fieldset className="grid grid-row-3 gap-4">
                 <label className="font-bold flex">Amount to tip</label>
                 <div className="relative">
@@ -119,7 +119,7 @@ export default function Donation() {
               </fieldset>
             </form>
             <form className="bg-white col-span-2 md:col-span-5 h-[300px] rounded-xl p-5">
-              <fieldset className="grid" style={{ "gridTemplateRows": "repeat(4, 40%)" }}>
+              <fieldset className="grid" style={{ "gridTemplateRows": "repeat(0, 40%)" }}>
                 <div className="flex items-center">
                   <label className="font-bold flex text-gray-400">Your tip</label>
                   <label className="font-bold pl-40" style={{ "paddingLeft": "5rem" }}>$ {tipAmount} PsyCoin</label>
