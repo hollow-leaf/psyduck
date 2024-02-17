@@ -1,6 +1,7 @@
 import React from "react";
 import { GlobalABI, GlobalADDRESS } from "src/services/contractAbi";
 import { useAccount, useContractWrite } from "wagmi";
+import Loading from "./loading";
 
 export function RegisterButton({userId}) {
     const { address, isConnecting, isDisconnected } = useAccount()
@@ -29,11 +30,12 @@ export function RegisterButton({userId}) {
                         }
                     }
                     }
-                    style={{"borderRadius": "30px"}}
+                    style={{"borderRadius": "30px", "minWidth": "0px"}}
                     >Register</button>}
                 </div>
+                
                 <div>
-                {isLoading && <label className="font-bold text-black">Check wallet</label>}
+                {isLoading && <Loading />}
                 {isSuccess && <p className="font-bold text-black">Transaction: {JSON.stringify(data)}</p>}
                 </div>
             </div>

@@ -69,7 +69,7 @@ export default function Launch() {
               onChange={handleInputContent}
               onKeyDown={handleEnter}
             />
-            <button className='btn join-item input-bordered input-info rounded' onClick={handleSubmit} style={{"borderRadius": "30px"}}>
+            <button className='btn join-item input-bordered input-info rounded' onClick={handleSubmit} style={{"borderRadius": "30px", "minWidth": "0px"}}>
               Submit
             </button>
           </div>

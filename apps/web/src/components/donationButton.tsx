@@ -2,6 +2,7 @@ import React from "react";
 import { ERC20ABI, ERC20ADDRESS } from "src/services/contractAbi";
 import { useContractWrite, useAccount } from 'wagmi'
 import { formatAddress } from "src/utils/stingify";
+import Loading from "./loading";
 
 
 export function DoantionButton({to, value}) {
@@ -12,7 +13,6 @@ export function DoantionButton({to, value}) {
         abi: ERC20ABI,
         functionName: 'transfer',
       })
-    
     
     if(!isDisconnected){
         return (
@@ -34,7 +34,7 @@ export function DoantionButton({to, value}) {
                     >Donate</button>}
                 </div>
                 <div>
-                {isLoading && <label className="font-bold text-black">Check wallet</label>}
+                {isLoading && <Loading />}
                 {isSuccess && 
                 <>
                     <p className="font-bold text-black">Transaction:</p>
@@ -42,6 +42,7 @@ export function DoantionButton({to, value}) {
                     <p className="font-bold text-black">{formatAddress(JSON.stringify(data).split(":")[1].split("\"")[1])}</p>
                 </>
                 }
+                {data?<p>Successful</p>:<></>}
                 </div>
             </div>
             

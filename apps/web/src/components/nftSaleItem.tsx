@@ -3,6 +3,7 @@ import { nftCreate } from "../models/model"
 import { formatAddress } from "../utils/stingify";
 import React from "react"
 import { FactoryABI, FactoryADDRESS } from "src/services/contractAbi";
+import Loading from "./loading";
 
 export function NftSaleItem(props:nftCreate){
     const { address, isConnecting, isDisconnected } = useAccount()
@@ -15,6 +16,7 @@ export function NftSaleItem(props:nftCreate){
       })
     return (
         <div>
+            {isLoading && <Loading />}
             <div className="card" style={{"background": "rgba(40, 2, 84, 0.7)"}} onClick={() => {
                 if(isDisconnected){
                     alert("You have to connect wallet")
