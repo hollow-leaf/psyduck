@@ -1,15 +1,23 @@
 import React from "react";
-import { GlobalABI, GlobalADDRESS } from "src/services/contractAbi";
+import { FactoryABI, FactoryADDRESS, ERC20ADDRESS } from "src/services/contractAbi";
 import { useAccount, useContractWrite } from "wagmi";
 import Loading from "./loading";
+import { formatAddress } from "src/utils/stingify";
 
 export function RegisterButton({userId}) {
     const { address, isConnecting, isDisconnected } = useAccount()
 
     const { data, isLoading, isSuccess, write } = useContractWrite({
-        address: GlobalADDRESS,
-        abi: GlobalABI,
-        functionName: 'setValidEventHolder',
+        address: FactoryADDRESS,
+        abi: FactoryABI,
+        functionName: 'createPool',
+        onSuccess(data) {
+            alert('Successful! \n'+ "transaction hash: " +JSON.stringify(data).split(":")[1].split("\"")[1])
+        },
+        onError(error) {
+            console.log(error)
+            alert('Error: ' + "ID already register!")
+        },
     })
 
     if(!isDisconnected){
@@ -23,7 +31,7 @@ export function RegisterButton({userId}) {
                     onClick={() => {
                         if (userId.trim() !== '') {
                             write({
-                                args: [userId, true],
+                                args: [ERC20ADDRESS, userId],
                             })
                         } else {
                             alert('Must input streamer id!')
@@ -36,8 +44,8 @@ export function RegisterButton({userId}) {
                 
                 <div>
                 {isLoading && <Loading />}
-                {isSuccess && <p className="font-bold text-black">Transaction: {JSON.stringify(data)}</p>}
                 </div>
+
             </div>
             
         )

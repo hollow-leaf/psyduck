@@ -11,8 +11,11 @@ export function NftSaleItem(props:nftCreate){
     const { data, isLoading, isSuccess, write } = useContractWrite({
         address: FactoryADDRESS,
         abi: FactoryABI,
-        functionName: 'mintEventDonateNFT',
-        args: [props.eventId, props.nftId, 1]
+        functionName: 'mintDonateNFT',
+        args: [props.creatorId, props.nftId, 1],
+        onSuccess(data) {
+            alert('Successful! \n'+ "transaction hash: " +JSON.stringify(data).split(":")[1].split("\"")[1])
+        },
       })
     return (
         <div>
@@ -26,7 +29,7 @@ export function NftSaleItem(props:nftCreate){
             }}>
                 <h4>ID: {props.nftId}</h4>
                 <h4>Price: {props.price}</h4>
-                <h4>Creator: {formatAddress(props.creator)}</h4>
+                <h4>Creator: {props.creatorId}</h4>
                 <div className="shine"></div>
                 <div className="background" style={{"backgroundImage": `url(${props.url})`}}>
                     <div className="tiles">

@@ -12,6 +12,10 @@ export function DoantionButton({to, value}) {
         address: ERC20ADDRESS,
         abi: ERC20ABI,
         functionName: 'transfer',
+        onError(error) {
+            console.log(error)
+            alert('Error:' + error.message.split("Error:")[1].split("Contract Call:")[0])
+        },
       })
     
     if(!isDisconnected){

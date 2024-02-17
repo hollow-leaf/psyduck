@@ -61,12 +61,22 @@ export function NftCreateToString(nftc: nftCreate): string {
 
 export function StringToNftOwn(nfto: string): nftOwn {
     const value = nfto.split(",")
-    const res:nftOwn = {owner:value[0], nftId:Number(value[1]), nftName:value[2], creator: value[3]}
+    const res:nftOwn = {owner:value[0], nftId:Number(value[1]), nftName:value[2], creatorAddr: value[3], creatorId: value[4]}
     return res
 }
 
 export function StringToNftCreate(nfto: string): nftCreate {
     const value = nfto.split(",")
-    const res:nftCreate = {creator:value[0], nftId:Number(value[1]), nftName:value[2], price: Number(value[3]), maxSupply: Number(value[4]), eventId: Number(value[5])}
+    const res:nftCreate = {nftId:Number(value[0]), nftName:value[1], price: Number(value[2]), maxSupply: Number(value[3]), creatorId: (value[4]), url: (value[5]), poolContractAddr: (value[6])}
     return res
+}
+
+export function getNftInfoByNftID(nftId: number, nfts: string): nftCreate {
+    const nftArray = StringToNftCreateArray(nfts)
+    nftArray.map((nft) => {
+        if(nft.nftId == nftId) {
+            return nft
+        }
+    })
+    return {nftId: -1, nftName: "", price:-1, maxSupply: -1, creatorId: "", url: "", poolContractAddr: ""}
 }

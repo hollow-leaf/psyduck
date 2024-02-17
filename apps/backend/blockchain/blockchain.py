@@ -18,7 +18,7 @@ ServerlessURL = "http://psyduck-app.wayneies1206.workers.dev"
 
 f = open('factoryABI.json')
 factoryABI = FactoryABI
-factoryAddr = '0x5360d0Bb8Eb03C7C988b2D3B9162028e287b63A2'
+factoryAddr = '0x17ECE4DFFB8bA0382dbe65B7BF123eA5a69243Ab'
 
 target_contract = web3.eth.contract(address=factoryAddr, abi=factoryABI)  # 建立 contract 操作物件
 
@@ -133,23 +133,24 @@ def update_opbnb(start, end):
                         decoded_logs = contract.events[event["name"]]().processReceipt(receipt)
                         event_name = decoded_logs[0]['event']
                         event_info = decoded_logs[0]['args']
-                        if (event_name == "ERC1155Created"):
-                            print(event_info['_owner'], event_info['eventId'], 1, event_info['name'])
-                            register(event_info['_owner'], event_info['name'], event_info['eventId'])
+                        if (event_name == "PoolCreated"):
+                            print(event_info['issuer_'], event_info['pool_'], event_info['name_'], event_info['fundAsset_'])
+                            register(event_info['issuer_'], event_info['name_'], event_info['pool_'])
                         if (event_name == "ERC1155AddNewNFT"):
-                            eventId = event_info['_eventId']
-                            tokenId = event_info['id']
-                            maxSupply = event_info['_maxSupply']
-                            price = event_info['_mintPrice']
-                            name = event_info['_name']
-                            print(eventId, tokenId, price, name, maxSupply)
-                            nftCreate(eventId, tokenId, name, price, maxSupply, eventId)
+                            ERC1155name_ = event_info['ERC1155name_']
+                            tokenId = event_info['tokenId_']
+                            price = event_info['mintPrice_']
+                            name = event_info['name_']
+                            URI = event_info['metadataURI_']
+                            print(ERC1155name_, tokenId, price, name)
+                            nftCreate(ERC1155name_, tokenId, name, price, URI)
                         if (event_name == "ERC1155Minted"):
-                            owner = event_info['_minter']
-                            id = event_info['_tokenId']
-                            eventId = event_info['_eventId']
-                            print(eventId, id, owner)
-                            nftBuy(owner, id, "", eventId)
+                            owner = event_info['to_']
+                            id = event_info['tokenId_']
+                            amount_ = event_info['amount_']
+                            ERC1155name_ = event_info['ERC1155name_']
+                            print(ERC1155name_, id, owner)
+                            nftBuy(owner, id, amount_, ERC1155name_)
                     except:
                         print()
 
@@ -230,11 +231,11 @@ def LastUpdateBlock(block):
 
     return response.json()
 
-def register(address, userId, eventId):
+def register(address, userId, poolContractAddr):
     payload = {
         "address": address,
         "userId": userId,
-        "eventId": eventId
+        "poolContractAddr": poolContractAddr
     }
     headers = {
         "accept": "application/json",
@@ -242,14 +243,15 @@ def register(address, userId, eventId):
     }
     response = requests.post(ServerlessURL + "/register", json=payload, headers=headers)
 
-def nftCreate(creator, nftId, nftName, price, maxSupply, eventId):
+def nftCreate(ERC1155name_, tokenId, name, price, URI):
     payload = {
-        "creator": creator,
-        "nftId": nftId,
-        "nftName": nftName,
+        "nftId": tokenId,
+        "nftName": name,
         "price": price,
-        "maxSupply": maxSupply,
-        "eventId": eventId
+        "maxSupply": 10000,
+        "creatorId": ERC1155name_,
+        "url": URI,
+        "poolContractAddr": ""
     }
     headers = {
         "accept": "application/json",
@@ -257,12 +259,13 @@ def nftCreate(creator, nftId, nftName, price, maxSupply, eventId):
     }
     response = requests.post(ServerlessURL + "/nftCreate", json=payload, headers=headers)
 
-def nftBuy(owner, nftId, nftName, creator):
+def nftBuy(owner, id, amount_, ERC1155name_):
     payload = {
-        "creator": creator,
-        "nftId": nftId,
-        "nftName": nftName,
         "owner": owner,
+        "nftId": id,
+        "nftName": "",
+        "creatorAddr": "",
+        "creatorId": ERC1155name_
     }
     headers = {
         "accept": "application/json",
