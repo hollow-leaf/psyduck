@@ -89,7 +89,6 @@ const config: HardhatUserConfig = {
       },
     ],
     settings: {
-      viaIR: true,
       metadata: {
         // Not including the metadata hash
         // https://github.com/paulrberg/hardhat-template/issues/31
@@ -99,11 +98,9 @@ const config: HardhatUserConfig = {
       // https://hardhat.org/hardhat-network/#solidity-optimizer-support
       optimizer: {
         enabled: true,
-        runs: 800,
+        runs: 200,
         details: {
-          yulDetails: {
-            optimizerSteps: "u",
-          },
+          yulDetails: false,
         },
       },
     },
