@@ -43,7 +43,7 @@ contract PoolFactory is IPoolFactory, Ownable {
 
     function mintBatchDonateNFT(string memory _name, uint256[] memory _tokenIds, uint256[] memory _amounts) external override{
         Pool(nameToAddress[_name]).mintBatch(msg.sender, _tokenIds, _amounts);
-        emit ERC1155BatchMinted(msg.sender, _name, _amounts);
+        emit ERC1155BatchMinted(msg.sender, _name,_amounts, _tokenIds);
     }
 
     function addNewERC1155(uint256 _eventId, uint256 _mintPrice, string memory _name, string memory _metadataURI) external override{
@@ -68,7 +68,7 @@ contract PoolFactory is IPoolFactory, Ownable {
         require(nameToAddress[name] == address(0), "pool already exists");
         Pool pool = new Pool(address(this), _fundAsset, _issuer);
         nameToAddress[name] = address(pool);
-        emit PoolCreated(msg.sender, address(pool));
+        emit PoolCreated(msg.sender, address(pool), name);
         return (address(pool));
     }
 }
