@@ -2,7 +2,7 @@ import { HardhatUserConfig } from "hardhat/config"
 import { NetworkUserConfig } from "hardhat/types"
 // hardhat plugin
 import "@nomiclabs/hardhat-ethers"
-import "@nomiclabs/hardhat-etherscan"
+// import "@nomicfoundation/hardhat-verify"
 import "@nomicfoundation/hardhat-toolbox"
 
 import { config as dotenvConfig } from "dotenv"
@@ -21,6 +21,8 @@ const chainIds = {
   hardhat: 31337,
   mainnet: 1,
   quorum: 570,
+  opbnb: 204,
+  "opbnb-testnet": 5611,
 }
 
 // Ensure that we have all the environment variables we need.
@@ -40,6 +42,12 @@ function getChainConfig (chain: keyof typeof chainIds): NetworkUserConfig {
     case "quorum":
       jsonRpcUrl = process.env.NETWORK_URL || ""
       break
+    case "opbnb":
+      jsonRpcUrl = "https://opbnb-mainnet-rpc.bnbchain.org"
+      break
+    case "opbnb-testnet":
+      jsonRpcUrl = "https://opbnb-testnet-rpc.bnbchain.org"
+      break
     default:
       jsonRpcUrl = `https://${chain}.infura.io/v3/${infuraApiKey}`
   }
@@ -55,7 +63,7 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       // TODO: SHOULD BE REMOVED! 
-      allowUnlimitedContractSize: true,
+      allowUnlimitedContractSize: false,
       chainId: chainIds.hardhat,
     },
     local: {
@@ -65,6 +73,8 @@ const config: HardhatUserConfig = {
     sepolia: getChainConfig("sepolia"),
     mainnet: getChainConfig("mainnet"),
     quorum: getChainConfig("quorum"),
+    opbnb: getChainConfig("opbnb"),
+    "opbnb-testnet": getChainConfig("opbnb-testnet"),
   },
   paths: {
     artifacts: "./artifacts",
@@ -79,6 +89,7 @@ const config: HardhatUserConfig = {
       },
     ],
     settings: {
+      viaIR: true,
       metadata: {
         // Not including the metadata hash
         // https://github.com/paulrberg/hardhat-template/issues/31
@@ -89,7 +100,11 @@ const config: HardhatUserConfig = {
       optimizer: {
         enabled: true,
         runs: 800,
-        details: { yul: false }
+        details: {
+          yulDetails: {
+            optimizerSteps: "u",
+          },
+        },
       },
     },
   },
@@ -98,14 +113,31 @@ const config: HardhatUserConfig = {
       goerli: process.env.ETHERSCAN_API_KEY || "",
       sepolia: process.env.ETHERSCAN_API_KEY || "",
       mainnet: process.env.ETHERSCAN_API_KEY || "",
+      opbnb: process.env.BSCSCAN_API_KEY || "",
+      "opbnb-testnet": process.env.BSCSCAN_API_KEY || "",
       quorum: "NO_API_KEY",
     },
+    // https://docs.bscscan.com/v/opbnb-testnet/
     customChains: [{
       network: "quorum",
       chainId: chainIds.quorum,
       urls: {
         apiURL: `${process.env.BLOCKSCOUT_URL}/api`,
         browserURL: process.env.BLOCKSCOUT_URL as string,
+      },
+    },{
+      network: "opbnb",
+      chainId: chainIds.opbnb,
+      urls: {
+        apiURL: "https://api-opbnb.bscscan.com/api",
+        browserURL: "https://opbnb.bscscan.com",
+      },
+    },{
+      network: "opbnb-testnet",
+      chainId: chainIds["opbnb-testnet"],
+      urls: {
+        apiURL: "https://api-opbnb-testnet.bscscan.com/api",
+        browserURL: "https://opbnb-testnet.bscscan.com/",
       },
     }],
   },

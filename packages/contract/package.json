@@ -16,8 +16,9 @@
   "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "2.0.2",
+    "@nomicfoundation/hardhat-verify": "^2.0.4",
     "@nomiclabs/hardhat-ethers": "2.2.3",
-    "@nomiclabs/hardhat-etherscan": "3.1.7",
+    "@types/node": "^20.11.19",
     "dotenv": "16.3.1",
     "eslint-config-custom": "workspace:*",
     "ethers": "^5.0.0",
