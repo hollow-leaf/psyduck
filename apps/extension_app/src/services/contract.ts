@@ -1,48 +1,41 @@
 import { writeContract, readContract } from '@wagmi/core';
 import { FactoryABI, ERC20ABI, GlobalABI } from './contractAbi';
 import { useAccount } from "wagmi"
-import { address2eventId } from './api';
 
 const FactoryADDRESS = "0x563B972f0CdE62b8a4dC64Ad7CFde9578465B7e9"
 const ERC20ADDRESS = "0x0eDE01A62360a4D92d7CaaC38d7701e95142EFb5"
 const GlobalADDRESS = "0x18b91197D9FA2b39d6118D0dB5c8f1C049eCe350"
 
+const HOST = "https://psyduck-app.wayneies1206.workers.dev"
 
-export async function eventId2Address(eventId:number){
-    
-    const data:any = await readContract({
-        address: FactoryADDRESS,
-        abi: FactoryABI,
-        //TODO: enter right function
-        functionName: 'addrToEventId',
-        args: [eventId],
-    })
-
-    console.log(data)
-
-    if(data){
-        return data
-    }
-
-    return ""
+const  headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
 }
 
-export async function addrToEventId(addr:string){
-    const data:any = await readContract({
-        address: FactoryADDRESS,
-        abi: FactoryABI,
-        //TODO: enter right function
-        functionName: 'addrToEventId',
-        args: [addr],
-    })
+export async function userId2Address(userId:string){
+    try {
 
-    console.log(data)
+        let body = {
+            "userId": userId
+        }
 
-    if(data){
-        return data
+        const res = await fetch(HOST + '/userIdToAddress', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(body)
+          })
+        if(res){
+            const rres = await res.json()
+            return {"address":rres.address, "poolContractAddr": rres.poolContractAddr}
+        }else{
+            return ""
+        }
     }
-
-    return ""
+    catch (err) {
+        console.log("error", err);
+        return ""
+    }
 }
 
 export async function PDBalance(address:string){
@@ -64,18 +57,16 @@ export async function PDBalance(address:string){
 }
 
 
-export async function buyNftByNftId(eventId:number, nftId:number, amount:number, price:number){
+export async function buyNftByNftId(creator:string, nftId:number, amount:number, price:number, poolContractAddr:string){
     alert("Approve transaction on your device!")
 
-    /* const contractAddr = await eventId2Address(eventId)
-
-    await ERC20Approve(contractAddr, amount*price) */
+    await ERC20Approve(poolContractAddr, amount*price)
 
     const { hash } = await writeContract({
         address: FactoryADDRESS,
         abi: FactoryABI,
-        functionName: 'mintEventDonateNFT',
-        args: [eventId, nftId, amount],
+        functionName: 'mintDonateNFT',
+        args: [creator, nftId, amount],
     })
 
     console.log("Transaction Submit")
@@ -118,12 +109,9 @@ export async function register(userId:string){
     return hash
 }
 
-export async function createNewNft(address:string, name:string, supply:number, price:number){
-
-
+/* export async function createNewNft(address:string, name:string, supply:number, price:number){
     if(address){
         console.log(address)
-        const eventId = await address2eventId(address)
         if(eventId>-1){
             const { hash } = await writeContract({
                 address: FactoryADDRESS,
@@ -134,7 +122,5 @@ export async function createNewNft(address:string, name:string, supply:number, p
         }else{
             alert("You have to register!")
         }
-
     }
-
-}
+} */

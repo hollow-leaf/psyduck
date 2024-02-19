@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { store } from "./store";
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 import { WagmiConfig } from 'wagmi'
-import { mainnet, goerli, opBNBTestnet } from 'viem/chains'
+import { mainnet, goerli, opBNBTestnet, opBNB } from 'viem/chains'
 import { Streamer } from './components/streamer';
 import CreateNft from './components/createNft';
 
@@ -18,7 +18,7 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
-const chains = [mainnet, goerli, opBNBTestnet]
+const chains = [opBNB]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
 
 createWeb3Modal({ wagmiConfig, projectId, chains })
@@ -41,7 +41,6 @@ function App() {
           <div className="App">
             <Home />
             <Streamer />
-            <CreateNft />
           </div>
         </Provider>
       </WagmiConfig>

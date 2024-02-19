@@ -1,41 +1,41 @@
+import { useState } from "react";
 import { buyNftByNftId } from "../services/contract";
 import { NftType } from "../type";
 import { formatAddress } from "../utils/stingify";
 import { useAccount } from "wagmi"
+import { useQuery } from "@tanstack/react-query";
+import { getChannelinfoById } from "../services/api";
 
 
 export function NftSaleItem(props:NftType){
     const { address, isConnected } = useAccount()
+
+    const [imgUrl, setImgUrl] = useState<string>("")
+
+    const { isLoading, error, data } = useQuery({
+        queryKey: ["getChannelinfoById"],
+        queryFn: () => {
+            getChannelinfoById(props.creator).then(res => {
+                if(res?.avatar)setImgUrl(res?.avatar)
+            })
+        }        
+    });
 
     return (
         <div>
             <div className="card" onClick={() => {
                 if(isConnected){
                     if(address){
-                        buyNftByNftId(props.eventId, props.nftId, 1, props.price)
+                        buyNftByNftId(props.creator, props.nftId, 1, props.price, props.poolContractAddr)
                     }
                 }
             }}>
-                <span className="icon">
-                    <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                    <path
-                    d="M14.5 3.5C14.5 3.5 14.5 5.5 12 5.5C9.5 5.5 9.5 3.5 9.5 3.5H7.5L4.20711 6.79289C3.81658 7.18342 3.81658 7.81658 4.20711 8.20711L6.5 10.5V20.5H17.5V10.5L19.7929 8.20711C20.1834 7.81658 20.1834 7.18342 19.7929 6.79289L16.5 3.5H14.5Z"
-                    />
-                    </svg>
-                </span>
                 <h4>ID: {props.nftId}</h4>
                 <h4>Price: {props.price}</h4>
+                <h4>Name: {props.name}</h4>
                 <h4>Creator: {formatAddress(props.creator)}</h4>
                 <div className="shine"></div>
-                <div className="background">
+                <div className="background" style={{"backgroundImage": `url(${imgUrl})`}}>
                     <div className="tiles">
                         <div className="tile tile-1"></div>
                         <div className="tile tile-2"></div>

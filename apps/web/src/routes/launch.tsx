@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Navbar from './components/Navbar'
 import { useNavigate } from 'react-router-dom'
 import { RegisterButton } from 'src/components/RegisterButton'
+import { userId2Address } from 'src/services/api/api'
 
 export default function Launch() {
   const [inputValue, setInputValue] = useState<string>('')
@@ -36,9 +37,17 @@ export default function Launch() {
       handleSubmit()
     }
   }
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (inputValue.trim() !== '') {
-      navigate(`/donation?value=${inputValue}`)
+      await userId2Address(inputValue).then((res: any) => {
+        if (res) {
+          if(res['poolContractAddr']) {
+            navigate(`/donation?value=${inputValue}`)
+          } else {
+            alert('Streamer has not registered!')
+          }
+        }
+      })
     } else {
       alert('Must input streamer name!')
     }
@@ -58,6 +67,7 @@ export default function Launch() {
       <div className='mx-auto md:max-w-[650px] w-full md:grid grid-row-5 text-center gap-4 rounded-md relative z-10' style={{"padding": "10px"}}>
         <Navbar />
         <div className='row-span-5'></div>
+        <label className="font-bold flex" style={{ "color": "white" }}>Search for streamer</label>
         <div className='flex flex-col bg-slate-200 rounded-md p-16 h-[200px] bg-cover bg-no-repeat bg-launch-profile shadow-xl gap-3' style={{"marginBottom": "10px"}}>
           <p className='text-xl text-start text-white'>Input steamer name: </p>
           <div className='join gap-4 start'>
@@ -80,7 +90,7 @@ export default function Launch() {
             <p className="text-red-500 font-bold">Warning: Only allow number and string in text box！</p>
           </div>
         </div>
-        
+        <label className="font-bold flex" style={{ "color": "white" }}>Streamer register</label>
         <div className='flex flex-col bg-slate-200 rounded-md p-16 h-[200px] bg-cover bg-no-repeat bg-launch-profile shadow-xl gap-3'>
           <p className='text-xl text-start text-white'>Input your streamer id: </p>
           <div className='join gap-4 start'>

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Loading from "./loading";
 import { StreamerType } from "../type"
-import { getNftcsByUserId } from "../services/api";
+import { getNftcsByUserId, userId2Address } from "../services/api";
 import { NftSaleItem } from "./nftSaleItem";
 import { register } from "../services/contract";
 
@@ -16,13 +16,13 @@ export function Streamer(props:any){
             }
             
             res.nftList = await getNftcsByUserId(res.id).then(rres=>{
-                var nfts: { nftId: any; creator: any; price: any; url: string; name: any; supply: any; eventId:any;}[] = []
+                var nfts: { nftId: any; creator: any; price: any; url: string; name: any; supply: any; poolContractAddr:string;}[] = []
                 console.log(rres)
 
                 res.address = rres[0].creator
                 rres.map((item:any)=>{
                     console.log(item)
-                    nfts.push({eventId: item.eventId, nftId: item.nftID, creator: item.creator, price: item.price , url:"", name: item.name, supply: item.Supply})
+                    nfts.push({poolContractAddr: item.poolContractAddr, nftId: item.nftId, creator: item.creatorId, price: item.price , url:"", name: item.nftName, supply: item.Supply})
                 })
                 
                 return nfts
@@ -46,13 +46,12 @@ export function Streamer(props:any){
                         <>
                             {data.nftList.map((item:any)=>{
                                 return (
-                                    <NftSaleItem eventId={item.eventId} nftId={item.nftId} creator={item.creator} price={item.price} url={item.url} name={item.name} supply={item.supply} />
+                                    <NftSaleItem poolContractAddr={data.poolContractAddr} nftId={item.nftId} creator={item.creator} price={item.price} url={item.url} name={item.name} supply={item.supply} />
                                 )
                             })}
                         </>
                         
                     </div>
-                    {data.nftList.length==0&&<button onClick={() => register(data.id)}>Register</button>}
                 </section>
             )
         }
@@ -68,13 +67,17 @@ async function streamer():Promise<StreamerType>{
     var streamer:StreamerType = {
         id: "",
         address: "",
-        nftList: []
+        nftList: [],
+        poolContractAddr: ""
     }
     if(!tabs[0].url){
         return streamer
     }
     
     streamer.id = url2StreamerId(tabs[0].url)
+
+    const rres:any = await userId2Address(streamer.id)
+    streamer.poolContractAddr = rres.poolContractAddr
 
     return streamer
 }

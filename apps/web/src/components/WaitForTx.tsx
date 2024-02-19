@@ -1,5 +1,6 @@
 import React from "react";
 import { useWaitForTransaction } from "wagmi";
+import Loading from "./loading";
 
 export function WaitForTX({hash, write}) {
     console.log(hash)
@@ -13,6 +14,6 @@ export function WaitForTX({hash, write}) {
     )
 
     return (
-        <></>
+        <>{isLoading&&<Loading />}</>
     )
 }

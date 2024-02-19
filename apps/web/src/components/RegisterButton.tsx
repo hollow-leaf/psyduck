@@ -52,7 +52,7 @@ export function RegisterButton({userId}) {
     }else{
         return (
             <div>
-                <p>You have to connect wallet!</p>
+                <p style={{"color": "white"}}>You have to connect wallet!</p>
             </div>
         )
     }
