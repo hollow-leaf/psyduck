@@ -90,13 +90,13 @@ contract Pool is ERC1155, IPool {
         uint256 transferAmount = nfts[id_].mintPrice * amount_;
 
         require(
-            fundAsset.transferFrom(msg.sender, address(this), transferAmount), "transfer fund failed"
+            fundAsset.transferFrom(to_, address(this), transferAmount), "transfer fund failed"
         );
 
         _mint(to_, id_, amount_, "");
         // emit Mint(to_, id_, amount_);
 
-        userDepositAmounts[msg.sender] += transferAmount;
+        userDepositAmounts[to_] += transferAmount;
         nfts[id_].totalSupplys += amount_;
         totalDeposit += transferAmount;
 
@@ -128,14 +128,14 @@ contract Pool is ERC1155, IPool {
         }
 
         require(
-            fundAsset.transferFrom(msg.sender, address(this), totalTransferAmount),
+            fundAsset.transferFrom(to_, address(this), totalTransferAmount),
             "transfer fund failed"
         );
 
         _mintBatch(to_, ids_, amounts_, "");
         // emit MintBatch(to_, ids_, amounts_);
 
-        userDepositAmounts[msg.sender] += totalTransferAmount;
+        userDepositAmounts[to_] += totalTransferAmount;
         totalDeposit += totalTransferAmount;
 
         return true;

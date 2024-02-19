@@ -7,7 +7,7 @@ interface IPoolFactory is IPoolFactoryEvent {
     /*//////////////////////////////////////////////////////////////////////////
                         EXTERNAL NON-CONSTANT FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
-    function createPool(address fundAsset, address _issuer, string memory _name) external returns (address pool_);
+    function createPool(address fundAsset, string memory _name) external returns (address pool_);
 
     function setProtocolFeeRate(uint256 protocolFeeRate_) external;
 
@@ -15,7 +15,7 @@ interface IPoolFactory is IPoolFactoryEvent {
 
     function mintBatchDonateNFT(string memory _name, uint256[] memory _tokenIds, uint256[] memory _amounts) external;
 
-    function addNewERC1155(uint256 _eventId, uint256 _mintPrice, string memory _name, string memory _metadataURI) external;
+    function addNewERC1155(string memory _ERC1155name, uint256 _mintPrice, string memory _name, string memory _metadataURI) external;
 
     // function setIssuer(string memory _name, address _newIssuer) external;
 
