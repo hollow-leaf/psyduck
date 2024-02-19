@@ -43,7 +43,6 @@ export function Profile(props:any){
     }
     if(data){
         if(data.length>0){
-            console.log("HAHA")
             return(
                 <>
                     <section>
@@ -53,14 +52,13 @@ export function Profile(props:any){
                         </section>
                         <DisconnectButton />
                         <button style={{marginLeft: "25px"}} onClick={() => open({ view: 'Networks' })}>Network</button>
-                        {address&&<button style={{marginLeft: "25px"}} onClick={() => ERC20Faucet(address?.toString(), 1000)}>Faucet</button>}
                     </section>
                     <section>
                         <h1>My NFT Collection</h1>
                         <div className="nftTable">
                         {data.map((item:any)=>{
                             return (
-                                <NftItem eventId={0} nftId={item.nftId} creator={item.creator} price={0} url={""} name={item.name} supply={0} />
+                                <NftItem poolContractAddr={item.poolContractAddr} nftId={item.nftId} creator={item.creatorId} price={0} url={""} name={item.nftName} supply={0} />
                             )
                         })}
                         </div>
@@ -78,7 +76,6 @@ export function Profile(props:any){
                         </section>
                         <DisconnectButton />
                         <button style={{marginLeft: "25px"}} onClick={() => open({ view: 'Networks' })}>Network</button>
-                        {address&&<button style={{marginLeft: "25px"}} onClick={() => ERC20Faucet(address?.toString(), 1000)}>Faucet</button>}
                     </section>
                 </> 
             )

@@ -1,4 +1,3 @@
-import { createNewNft } from "../services/contract";
 import { useAccount } from "wagmi"
 
 export default function CreateNft(){
@@ -34,6 +33,6 @@ async function createHandler(address:string){
     var supply = (document.getElementById("supply") as HTMLInputElement)?.value;
     console.log(name, price, supply)
     if(name&&price&&supply){
-        await createNewNft(address, name, Number(supply), Number(price))
+        //await createNewNft(address, name, Number(supply), Number(price))
     }
 }
