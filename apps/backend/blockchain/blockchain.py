@@ -12,13 +12,13 @@ from abi import *
 
 load_dotenv()
 APIKEY = os.getenv("APIKEY")
-web3 = Web3(Web3.HTTPProvider("https://opbnb-testnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3"))
-URL = "https://opbnb-testnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3"
+web3 = Web3(Web3.HTTPProvider("https://opbnb-mainnet.nodereal.io/v1/e9a36765eb8a40b9bd12e680a1fd2bc5"))
+URL = "https://opbnb-mainnet.nodereal.io/v1/e9a36765eb8a40b9bd12e680a1fd2bc5"
 ServerlessURL = "http://psyduck-app.wayneies1206.workers.dev"
 
 f = open('factoryABI.json')
 factoryABI = FactoryABI
-factoryAddr = '0x36199273a2bEaD1dCfcFee5702A3bD87031eF108'
+factoryAddr = '0x563B972f0CdE62b8a4dC64Ad7CFde9578465B7e9'
 
 target_contract = web3.eth.contract(address=factoryAddr, abi=factoryABI)  # 建立 contract 操作物件
 
@@ -114,7 +114,7 @@ def update_opbnb(start, end):
         logs = receipt["logs"]
 
         for log in logs:
-            contract = web3.eth.contract("0x36199273a2bEaD1dCfcFee5702A3bD87031eF108", abi=factoryABI)
+            contract = web3.eth.contract("0x563B972f0CdE62b8a4dC64Ad7CFde9578465B7e9", abi=factoryABI)
             top0 = hexbytes.HexBytes(log["topics"][0])
             print(top0)
             receipt_event_signature_hex = Web3.toHex(top0)

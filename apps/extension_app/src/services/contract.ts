@@ -3,8 +3,8 @@ import { FactoryABI, ERC20ABI, GlobalABI } from './contractAbi';
 import { useAccount } from "wagmi"
 import { address2eventId } from './api';
 
-const FactoryADDRESS = "0x5360d0Bb8Eb03C7C988b2D3B9162028e287b63A2"
-const ERC20ADDRESS = "0x92b9Ff2903F668B1C715cC8079e2ebC2D39ba4b7"
+const FactoryADDRESS = "0x563B972f0CdE62b8a4dC64Ad7CFde9578465B7e9"
+const ERC20ADDRESS = "0x0eDE01A62360a4D92d7CaaC38d7701e95142EFb5"
 const GlobalADDRESS = "0x18b91197D9FA2b39d6118D0dB5c8f1C049eCe350"
 
 

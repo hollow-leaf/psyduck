@@ -14,7 +14,7 @@ import Callback from './routes/callback'
 import { QueryClient, QueryClientProvider } from "react-query";
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 import { WagmiConfig, configureChains, createConfig } from 'wagmi'
-import { goerli, opBNBTestnet, mainnet } from 'viem/chains'
+import { goerli, opBNBTestnet, mainnet, opBNB } from 'viem/chains'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
@@ -33,7 +33,7 @@ const metadata = {
 }
 
 const { chains, publicClient } = configureChains(
-  [mainnet, opBNBTestnet],
+  [mainnet, opBNBTestnet, opBNB],
   [walletConnectProvider({ projectId }), publicProvider()],
   
 )
