@@ -7,6 +7,7 @@ import { getChannelinfoById, getNftcsByUserId, userId2Address } from "src/servic
 import { NftSaleItem } from "src/components/nftSaleItem"
 import { nftCreate } from "src/models/model"
 import { DoantionButton } from "src/components/donationButton"
+import { CreateNft } from "src/components/CreateNft"
 
 export default function Donation() {
   const location = useLocation()
@@ -20,6 +21,7 @@ export default function Donation() {
   const [correctOtherInput, setCorrectOtherInput] = useState<boolean>(true)
   const [nftToSale, setnftToSale] = useState<nftCreate[]>([])
   const [streamerAddress, setStreamerAddress] = useState<string>('')
+  const [streamerPoolAddress, setStreamerPoolAddress] = useState<string>('')
 
   const handleOtherAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputAmount: string = e.target.value
@@ -71,7 +73,9 @@ export default function Donation() {
         })
         userId2Address(streamerId).then((res: any) => {
           if (res) {
-            setStreamerAddress(res)
+            console.log(res)
+            setStreamerAddress(res['address'])
+            setStreamerPoolAddress(res['poolContractAddr'])
           }
         })
       }
@@ -102,7 +106,7 @@ export default function Donation() {
               <fieldset className="grid grid-row-3 gap-4">
                 <label className="font-bold flex">Amount to tip</label>
                 <div className="relative">
-                  <input type="text" placeholder="Input amount" className={`${otherClick === true ? "input input-bordered input-info w-full max-w-xs" : "hidden"}`} value={otherAmount} onChange={handleOtherAmount} onKeyDown={handleKeyEvent} />
+                  <input type="text" placeholder="Input amount" className={`${otherClick === true ? "input input-bordered input-info w-full max-w-xs" : "hidden"}`} value={otherAmount} onChange={handleOtherAmount} onKeyDown={handleKeyEvent} style={{"borderColor": "rgba(32,28,59,0.8)"}}/>
                   <div className={`${correctOtherInput === true || otherClick === false ? "hidden" : "flex items-center"}`}>
                     <svg className="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -114,7 +118,7 @@ export default function Donation() {
               <fieldset>
                 <label className="font-bold flex pt-4">Send a message with your tip</label>
                 <div className="pt-4">
-                  <input type="text" placeholder={`Message for ${streamerId}`} className="input input-bordered input-info w-full max-w-xs" />
+                  <input type="text" placeholder={`Message for ${streamerId}`} className="input input-bordered input-info w-full max-w-xs" style={{"borderColor": "rgba(32,28,59,0.8)"}}/>
                 </div>
               </fieldset>
             </form>
@@ -125,7 +129,7 @@ export default function Donation() {
                   <label className="font-bold pl-40" style={{ "paddingLeft": "5rem" }}>$ {tipAmount} PsyCoin</label>
                 </div>
                 <div className="divider"></div>
-                <label className="font-bold text-black">Tip {streamerId}</label>
+                <label className="font-bold text-black" style={{"marginBottom": "10px"}}>Tip {streamerId}</label>
                 <DoantionButton to={streamerAddress} value={tipAmount} />
               </fieldset>
             </form>
@@ -136,12 +140,13 @@ export default function Donation() {
               {nftToSale.map((item: any) => {
                 return (
                   <div className="row-span-3  rounded-sm" key={item.nfdId + item.nftName}>
-                    <NftSaleItem poolContractAddr={item.poolContractAddr} creatorId={item.creatorId} nftId={item.nftId} price={item.price} nftName={item.nftName} maxSupply={item.maxSupply} url={channelInfo ? channelInfo.avatar : ""} />
+                    <NftSaleItem poolContractAddr={streamerPoolAddress} creatorId={item.creatorId} nftId={item.nftId} price={item.price} nftName={item.nftName} maxSupply={item.maxSupply} url={channelInfo ? channelInfo.avatar : ""} />
                   </div>
                 )
               })}
             </div>
           </div>
+          {<CreateNft userId={streamerId} />}
         </div>
       </div>
     )

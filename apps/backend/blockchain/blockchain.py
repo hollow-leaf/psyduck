@@ -18,7 +18,7 @@ ServerlessURL = "http://psyduck-app.wayneies1206.workers.dev"
 
 f = open('factoryABI.json')
 factoryABI = FactoryABI
-factoryAddr = '0x17ECE4DFFB8bA0382dbe65B7BF123eA5a69243Ab'
+factoryAddr = '0x36199273a2bEaD1dCfcFee5702A3bD87031eF108'
 
 target_contract = web3.eth.contract(address=factoryAddr, abi=factoryABI)  # 建立 contract 操作物件
 
@@ -110,11 +110,13 @@ def update_opbnb(start, end):
     for response in responses:
 
         receipt = getTxReceiptByHash(response['transactionHash'])
+        print(receipt)
         logs = receipt["logs"]
 
         for log in logs:
-            contract = web3.eth.contract("0x739a7eF123E3b716605099cbC9A79fcE695E504f", abi=factoryABI)
+            contract = web3.eth.contract("0x36199273a2bEaD1dCfcFee5702A3bD87031eF108", abi=factoryABI)
             top0 = hexbytes.HexBytes(log["topics"][0])
+            print(top0)
             receipt_event_signature_hex = Web3.toHex(top0)
             abi_events = [abi for abi in contract.abi if abi["type"] == "event"]
 
@@ -133,6 +135,7 @@ def update_opbnb(start, end):
                         decoded_logs = contract.events[event["name"]]().processReceipt(receipt)
                         event_name = decoded_logs[0]['event']
                         event_info = decoded_logs[0]['args']
+                        print(event_name)
                         if (event_name == "PoolCreated"):
                             print(event_info['issuer_'], event_info['pool_'], event_info['name_'], event_info['fundAsset_'])
                             register(event_info['issuer_'], event_info['name_'], event_info['pool_'])

@@ -32,7 +32,7 @@ export async function getNftcsByUserId(userId:string) {
     const address = await userId2Address(userId)
     try {
         let body = {
-            "address": address
+            "creatorId": userId
         }
         const res = await fetch(HOST + '/nftCreateByAddress', {
             method: 'POST',
@@ -66,7 +66,7 @@ export async function userId2Address(userId:string){
           })
         if(res){
             const rres = await res.json()
-            return rres.address
+            return {"address":rres.address, "poolContractAddr": rres.poolContractAddr}
         }else{
             return ""
         }

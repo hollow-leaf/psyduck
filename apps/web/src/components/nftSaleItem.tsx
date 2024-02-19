@@ -2,11 +2,21 @@ import { useAccount, useContractWrite } from "wagmi";
 import { nftCreate } from "../models/model"
 import { formatAddress } from "../utils/stingify";
 import React from "react"
-import { FactoryABI, FactoryADDRESS } from "src/services/contractAbi";
+import { FactoryABI, FactoryADDRESS, ERC20ABI, ERC20ADDRESS } from "src/services/contractAbi";
 import Loading from "./loading";
 
 export function NftSaleItem(props:nftCreate){
     const { address, isConnecting, isDisconnected } = useAccount()
+
+    const { data:dataApprove, isLoading:isLoadingApprove, isSuccess:isSuccessApprove, write:writeApprove } = useContractWrite({
+        address: ERC20ADDRESS,
+        abi: ERC20ABI,
+        functionName: 'approve',
+        args: [props.poolContractAddr, props.price],
+        onSuccess(data) {
+            write()
+        },
+    })
 
     const { data, isLoading, isSuccess, write } = useContractWrite({
         address: FactoryADDRESS,
@@ -16,7 +26,8 @@ export function NftSaleItem(props:nftCreate){
         onSuccess(data) {
             alert('Successful! \n'+ "transaction hash: " +JSON.stringify(data).split(":")[1].split("\"")[1])
         },
-      })
+    })
+
     return (
         <div>
             {isLoading && <Loading />}
@@ -24,7 +35,7 @@ export function NftSaleItem(props:nftCreate){
                 if(isDisconnected){
                     alert("You have to connect wallet")
                 }else{
-                    write()
+                    writeApprove()
                 }
             }}>
                 <h4>ID: {props.nftId}</h4>
