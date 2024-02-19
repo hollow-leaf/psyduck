@@ -73,7 +73,7 @@ task("deploy:nftFactory", "Deploy NFT factory")
       {
         maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
         maxFeePerGas: feeData.maxFeePerGas,
-        // gasLimit: 6000000, // optional: for some weird infra network
+        gasLimit: 6000000, // optional: for some weird infra network
     })
     console.log(`PoolFactory.sol deployed to ${nftDeployContract.address}`)
 

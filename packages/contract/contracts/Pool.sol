@@ -3,8 +3,6 @@ pragma solidity ^0.8.0;
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { ERC1155 } from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
-import { UD60x18, ud } from "@prb/math/src/UD60x18.sol";
 
 import { IPoolFactory } from "./interfaces/IPoolFactory.sol";
 import { IPool } from "./interfaces/IPool.sol";

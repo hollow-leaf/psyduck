@@ -17,8 +17,6 @@ interface IPoolFactory is IPoolFactoryEvent {
 
     function addNewERC1155(string memory _ERC1155name, uint256 _mintPrice, string memory _name, string memory _metadataURI) external;
 
-    // function setIssuer(string memory _name, address _newIssuer) external;
-
     /*//////////////////////////////////////////////////////////////////////////
                         EXTERNAL CONSTANT FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
