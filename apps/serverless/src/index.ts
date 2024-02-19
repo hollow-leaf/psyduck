@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { StringToNftCreateArray, StringToNftOwnArray, addCreateNft, addOwnNft } from './utils'
+import { StringToNftCreateArray, StringToNftOwnArray, addCreateNft, addOwnNft, getNftInfoByNftID } from './utils'
 import { nftOwn, nftCreate, account } from './model'
 import { cors } from 'hono/cors'
 
@@ -45,12 +45,12 @@ app.post('/nftOwnByAddress', async (c) => {
 
 app.post('/nftCreateByAddress', async (c) => {
   const reqData = await c.req.json()
-  const address = reqData['address']
-  if( address == null) {
+  const creatorId = reqData['creatorId']
+  if( creatorId == null) {
     return c.json({nfts: []})
   }
   //string
-  const value = await c.env.psyduck.get(address+"-create")
+  const value = await c.env.psyduck.get(creatorId+"-create")
   if(value != null) {
     return c.json({nfts: StringToNftCreateArray(value)})
   }
@@ -58,7 +58,7 @@ app.post('/nftCreateByAddress', async (c) => {
 })
 
 app.post('/userIdToAddress', async (c) => {
-  var user: account = {userId: '', address: '', eventId: 0}
+  var user: account = {userId: '', address: '', poolContractAddr: ""}
   const reqData = await c.req.json()
   user.userId = reqData['userId']
   if(user.userId != '') {
@@ -66,7 +66,7 @@ app.post('/userIdToAddress', async (c) => {
     if(res != null) {
       const rres = res.split(':')
       user.address = rres[0]
-      user.eventId = Number(rres[1])
+      user.poolContractAddr = rres[1]
     }
   }
   return c.json(user)
@@ -88,14 +88,13 @@ app.post('/updateBlock', async (c) => {
 })
 
 app.post('/register', async (c) => {
-  var user: account = {userId: '', address: '', eventId: 0}
+  var user: account = {userId: '', address: '', poolContractAddr: ""}
   const reqData = await c.req.json()
   user.address = reqData['address']
   user.userId = reqData['userId']
-  user.eventId = reqData['eventId']
+  user.poolContractAddr = reqData['poolContractAddr']
   if(user.address) {
-    await c.env.psyduck.put(user.userId, user.address + ":" + user.eventId)
-    await c.env.psyduck.put("eventId:" + user.eventId, user.address)
+    await c.env.psyduck.put(user.userId, user.address + ":" + user.poolContractAddr)
   }
   return c.json({ ok: "success" })
 })
@@ -103,19 +102,16 @@ app.post('/register', async (c) => {
 app.post('/nftCreate', async (c) => {
   const nftc:nftCreate = await c.req.json()
   //string
-  if(nftc.creator==null) {
+  if(nftc.creatorId==null) {
     return c.json({ ok: "failed" })
   }
-  const creator = await c.env.psyduck.get("eventId:" + nftc.eventId)
-  if(creator == null) return
-  let value = await c.env.psyduck.get(creator + "-create")
+  let value = await c.env.psyduck.get(nftc.creatorId + "-create")
   if(value == null) {
     value = ""
   }
-  nftc.creator = creator
   const nfts = addCreateNft(value, nftc)
   console.log(nfts)
-  await c.env.psyduck.put(creator + "-create", nfts)
+  await c.env.psyduck.put(nftc.creatorId + "-create", nfts)
   return c.json({ ok: "success" })
 })
 
@@ -129,6 +125,11 @@ app.post('/nftBuy', async (c) => {
   if(value == null) {
     value = ""
   }
+  const creatorNftsString = await c.env.psyduck.get(nfto.creatorId+"-create")
+  if(creatorNftsString == null) return
+  const nftDetail = getNftInfoByNftID(nfto.nftId, creatorNftsString)
+  nfto.nftName = nftDetail.nftName
+  
   const nfts = addOwnNft(value, nfto)
   await c.env.psyduck.put(nfto.owner+"-own", nfts)
   return c.json({ ok: "success" })

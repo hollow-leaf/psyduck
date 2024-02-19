@@ -2,29 +2,45 @@ import { useAccount, useContractWrite } from "wagmi";
 import { nftCreate } from "../models/model"
 import { formatAddress } from "../utils/stingify";
 import React from "react"
-import { FactoryABI, FactoryADDRESS } from "src/services/contractAbi";
+import { FactoryABI, FactoryADDRESS, ERC20ABI, ERC20ADDRESS } from "src/services/contractAbi";
+import Loading from "./loading";
 
 export function NftSaleItem(props:nftCreate){
     const { address, isConnecting, isDisconnected } = useAccount()
 
+    const { data:dataApprove, isLoading:isLoadingApprove, isSuccess:isSuccessApprove, write:writeApprove } = useContractWrite({
+        address: ERC20ADDRESS,
+        abi: ERC20ABI,
+        functionName: 'approve',
+        args: [props.poolContractAddr, props.price],
+        onSuccess(data) {
+            write()
+        },
+    })
+
     const { data, isLoading, isSuccess, write } = useContractWrite({
         address: FactoryADDRESS,
         abi: FactoryABI,
-        functionName: 'mintEventDonateNFT',
-        args: [props.eventId, props.nftId, 1]
-      })
+        functionName: 'mintDonateNFT',
+        args: [props.creatorId, props.nftId, 1],
+        onSuccess(data) {
+            alert('Successful! \n'+ "transaction hash: " +JSON.stringify(data).split(":")[1].split("\"")[1])
+        },
+    })
+
     return (
         <div>
+            {isLoading && <Loading />}
             <div className="card" style={{"background": "rgba(40, 2, 84, 0.7)"}} onClick={() => {
                 if(isDisconnected){
                     alert("You have to connect wallet")
                 }else{
-                    write()
+                    writeApprove()
                 }
             }}>
                 <h4>ID: {props.nftId}</h4>
                 <h4>Price: {props.price}</h4>
-                <h4>Creator: {formatAddress(props.creator)}</h4>
+                <h4>Creator: {props.creatorId}</h4>
                 <div className="shine"></div>
                 <div className="background" style={{"backgroundImage": `url(${props.url})`}}>
                     <div className="tiles">

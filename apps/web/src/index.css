@@ -581,3 +581,14 @@ body {
 	opacity: 0;
 	font-family: inherit;
 }
+
+@media screen and (max-width: 500px) {
+	.nftTable {
+		display: grid;
+		grid-template-columns: repeat(2, 45%);
+		position: relative;
+		z-index: 1;
+		justify-content: space-around;
+	  row-gap: 10px;
+	}
+}

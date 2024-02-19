@@ -2,20 +2,22 @@ export type nftOwn = {
     owner: string
     nftId: number
     nftName: string
-    creator: string
+    creatorAddr: string
+    creatorId: string
 }
 
 export type nftCreate = {
-    creator: string
     nftId: number
     nftName: string
     price: number
     maxSupply: number
-    eventId: number
+    creatorId: string
+    url: string
+    poolContractAddr: string
 }
 
 export type account = {
     userId: string
     address: string
-    eventId: number
+    poolContractAddr: string
 }
