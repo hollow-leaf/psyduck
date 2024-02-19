@@ -34,13 +34,16 @@ body{
     display:flex;
     align-items: center;
 }
-
+#create{
+	font-size: x-large;
+}
 a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
 	font-size: 100%;
 	font: inherit;
+	font: bold;
 	vertical-align: initial
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -63,6 +66,10 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0
 }
+#name {
+	border-radius: 30px;
+}
+
 .nice-form-group {
 	--nf-input-size: 1rem;
 	--nf-input-font-size: calc(var(--nf-input-size)*0.875);
@@ -101,6 +108,7 @@ table {
 	margin-top: calc(var(--nf-input-size)*1.5);
 	line-height: 1;
 	white-space: nowrap;
+	border-radius: 30px;
 	--switch-orb-size: var(--nf-input-size);
 	--switch-orb-offset: calc(var(--nf-input-border-width)*2);
 	--switch-width: calc(var(--nf-input-size)*2.5);
