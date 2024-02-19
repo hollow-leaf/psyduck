@@ -8,11 +8,13 @@ import { NftSaleItem } from "src/components/nftSaleItem"
 import { nftCreate } from "src/models/model"
 import { DoantionButton } from "src/components/donationButton"
 import { CreateNft } from "src/components/CreateNft"
+import { useAccount } from "wagmi"
 
 export default function Donation() {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const streamerId = searchParams.get("value")
+  const { address, isConnecting, isDisconnected } = useAccount()
 
   const [channelInfo, setchannelInfo] = useState<channelInfo>()
   const [tipAmount, setTipAmount] = useState<string>("1")
@@ -146,7 +148,7 @@ export default function Donation() {
               })}
             </div>
           </div>
-          {<CreateNft userId={streamerId} />}
+          {!isDisconnected&&address==streamerAddress&&<CreateNft userId={streamerId} />}
         </div>
       </div>
     )
