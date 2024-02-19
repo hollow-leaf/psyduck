@@ -1,9 +1,10 @@
-import { useAccount, useContractWrite } from "wagmi";
+import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { nftCreate } from "../models/model"
 import { formatAddress } from "../utils/stingify";
 import React from "react"
 import { FactoryABI, FactoryADDRESS, ERC20ABI, ERC20ADDRESS } from "src/services/contractAbi";
 import Loading from "./loading";
+import { WaitForTX } from "./WaitForTx";
 
 export function NftSaleItem(props:nftCreate){
     const { address, isConnecting, isDisconnected } = useAccount()
@@ -13,10 +14,10 @@ export function NftSaleItem(props:nftCreate){
         abi: ERC20ABI,
         functionName: 'approve',
         args: [props.poolContractAddr, props.price],
-        onSuccess(data) {
-            write()
-        },
     })
+
+    
+    
 
     const { data, isLoading, isSuccess, write } = useContractWrite({
         address: FactoryADDRESS,
@@ -64,6 +65,7 @@ export function NftSaleItem(props:nftCreate){
                 </div>
                 <h1 className="hoverAppear">Click to buy!</h1>
             </div>
+            {isSuccessApprove&&<WaitForTX hash={JSON.stringify(dataApprove).split(":")[1].split("0x")[1].split("\"")[0]} write={write}/>}
         </div>
     )
 }
