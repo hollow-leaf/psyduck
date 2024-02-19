@@ -1,5 +1,5 @@
 import { useAccount } from "wagmi"
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query"
 import { Balance } from "./balance"
 import { DisconnectButton } from "./connect"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
@@ -53,7 +53,7 @@ export function Profile(props:any){
                         </section>
                         <DisconnectButton />
                         <button style={{marginLeft: "25px"}} onClick={() => open({ view: 'Networks' })}>Network</button>
-                        {address&&<button style={{marginLeft: "25px"}} onClick={() => ERC20Faucet(address?.toString(), 1000)}>Faucet</button>}
+                        {address&&<button style={{marginLeft: "25px"}} onClick={() => ERC20Faucet(address?.toString(), 1000)}>Psycoin</button>}
                     </section>
                     <section>
                         <h1>My NFT Collection</h1>
@@ -78,7 +78,7 @@ export function Profile(props:any){
                         </section>
                         <DisconnectButton />
                         <button style={{marginLeft: "25px"}} onClick={() => open({ view: 'Networks' })}>Network</button>
-                        {address&&<button style={{marginLeft: "25px"}} onClick={() => ERC20Faucet(address?.toString(), 1000)}>Faucet</button>}
+                        {address&&<button style={{marginLeft: "25px"}} onClick={() => ERC20Faucet(address?.toString(), 1000)}>Psycoin</button>}
                     </section>
                 </> 
             )

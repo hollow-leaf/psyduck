@@ -1,5 +1,4 @@
-import { useAccount, useBalance } from "wagmi";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query"
 import { PDBalance } from "../services/contract"
 
 
@@ -20,7 +19,7 @@ export function Balance(props:any){
     
     return (
         <div>
-            Balance: {Number(data)}
+            Psycoin: {Number(data)}
         </div>
     )
 }

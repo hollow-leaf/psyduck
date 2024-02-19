@@ -8,18 +8,18 @@ export default function CreateNft(){
 
     return (
         <section>
-            <h6>Create NFT</h6>
+            <h6 id="create">Create NFT</h6>
             <div className="nice-form-group">
                 <label>Name</label>
                 <input id="name" type="text" placeholder=""  />
             </div>
             <div className="nice-form-group">
                 <label>Price</label>
-                <input id="price" type="number" placeholder=""  />
+                <input id="name" type="number" placeholder=""  />
             </div>
             <div className="nice-form-group">
                 <label>Supply</label>
-                <input id="supply" type="number" placeholder=""  />
+                <input id="name" type="number" placeholder=""  />
             </div>
             <div className="nice-form-group">
                 <button id="createbutton" className="button-13" role="button" onClick={()=>{if(address){createHandler(address)}}}>Create</button>
