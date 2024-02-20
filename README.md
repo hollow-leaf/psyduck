@@ -49,7 +49,7 @@ Our solution has the following features and advantages:
 
 ### Technical Architecture
 Psyduck Architecture
-![Psyduck Architecture](https://github.com/hollow-leaf/psyduck/blob/update/README/apps/extension_app/img/Psyduck_architeture.png?raw=true)
+![Psyduck Architecture](https://github.com/hollow-leaf/psyduck/blob/main/apps/extension_app/img/Psyduck_architeture.png?raw=true)
 
 Psyduck workflow
 ```mermaid
