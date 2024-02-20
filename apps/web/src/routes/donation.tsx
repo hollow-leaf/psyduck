@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import Navbar from "./components/Navbar"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { channelInfo } from "src/models/model"
 import { useQuery } from "react-query"
 import { getChannelinfoById, getNftcsByUserId, userId2Address } from "src/services/api/api"
@@ -11,6 +11,7 @@ import { CreateNft } from "src/components/CreateNft"
 import { useAccount } from "wagmi"
 
 export default function Donation() {
+  const navigate = useNavigate()
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const streamerId = searchParams.get("value")
@@ -78,6 +79,10 @@ export default function Donation() {
             console.log(res)
             setStreamerAddress(res['address'])
             setStreamerPoolAddress(res['poolContractAddr'])
+            if(res['poolContractAddr']=="") {
+              alert('Streamer has not registered!')
+              navigate(`/launch`)
+            }
           }
         })
       }
