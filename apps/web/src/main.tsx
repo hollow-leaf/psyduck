@@ -33,7 +33,7 @@ const metadata = {
 }
 
 const { chains, publicClient } = configureChains(
-  [mainnet, opBNBTestnet, opBNB],
+  [opBNB],
   [walletConnectProvider({ projectId }), publicProvider()],
   
 )
