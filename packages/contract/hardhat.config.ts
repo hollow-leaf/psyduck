@@ -100,7 +100,9 @@ const config: HardhatUserConfig = {
         enabled: true,
         runs: 200,
         details: {
-          yulDetails: false,
+          yulDetails: {
+            optimizerSteps: "u",
+          },
         },
       },
     },
