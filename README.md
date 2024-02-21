@@ -9,7 +9,7 @@
 
 ### Demo Page
 
-- Video: []()
+- Video: [Psyduck demo](https://youtu.be/aFThCDy1UNg?si=9SaA8jX0pGBX45nK)
 - Psyduck Contract:
   - opBNB:
     1. [PoolFactory](https://opbnb.bscscan.com/address/0x563B972f0CdE62b8a4dC64Ad7CFde9578465B7e9#code)
@@ -113,7 +113,7 @@ pnpm run dev
 
 ### Contributors
 
-- Chrome Extension + Serverless: [Solo Lin](https://github.com/LinXJ1204)
-- CI/CD + Frontend + Documentation: [Jake Kuo](https://github.com/crypto0627)
-- Smart Contract: [Albert Cheng](https://github.com/cheng-chun-yuan)
-- Frontend + PowerPoint: [Sophia Liang](https://github.com/Showyuan)
+- FullStack developer: [Solo Lin](https://github.com/LinXJ1204)
+- Frontend engineer: [Jake Kuo](https://github.com/crypto0627)
+- Smart Contract developer: [Albert Cheng](https://github.com/cheng-chun-yuan)
+- Frontend engineer: [Sophia Liang](https://github.com/Showyuan)
